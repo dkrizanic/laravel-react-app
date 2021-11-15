@@ -20,4 +20,13 @@ class UserController extends Controller
             'message' => 'User added!'
         ]);
     }
+
+    public function login(Request $request){
+        
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'User logged in!'
+        ]);
+    }
 }

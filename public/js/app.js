@@ -2286,7 +2286,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function Login() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
-      username = _useState2[0],
+      email = _useState2[0],
       setUsername = _useState2[1];
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
@@ -2294,18 +2294,31 @@ function Login() {
       password = _useState4[0],
       setPassword = _useState4[1];
 
-  var login = function login() {};
+  var login = function login() {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('api/login', {
+      email: email,
+      password: password
+    }).then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data.message);
+      } else {
+        console.log("error");
+      }
+
+      window.location.href = '/';
+    });
+  };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "wrapper fadeInDown",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       id: "formContent",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-        type: "text",
-        id: "username",
+        type: "email",
+        id: "email",
         className: "fadeIn first",
         name: "login",
-        placeholder: "username",
+        placeholder: "email",
         required: true,
         onChange: function onChange(event) {
           setUsername(event.target.value);
@@ -2368,7 +2381,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 function Register() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
@@ -2407,7 +2419,7 @@ function Register() {
           console.log("error");
         }
 
-        window.location.href = '/';
+        window.location.href = '/login';
       });
     }
   };

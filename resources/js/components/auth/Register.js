@@ -2,8 +2,6 @@
 import './auth.css';
 import React, { useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
-
 
 function Register() {
 
@@ -27,7 +25,7 @@ function Register() {
                     }else{
                         console.log("error");
                     }
-                    window.location.href = '/';
+                    window.location.href = '/login';
                 })
             }
           
