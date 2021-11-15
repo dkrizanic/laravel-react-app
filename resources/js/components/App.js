@@ -1,4 +1,4 @@
-
+import './app.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -16,14 +16,14 @@ function App() {
           <Router>
           <div className="page-header">
             <nav className="navbar navbar-expand-lg navbar-light">
-                <ul className="navbar-nav mr-auto">
+                <ul className="navbar-nav mr-auto marg-left">
                     <li className="nav-item active">
                     <Link to="/" className="nav-link">Home</Link>
 
                     </li>
                 </ul>
-                    <Link to="/login" className="btn btn-success button" >Login</Link>
-                    <Link to="/register" className="btn btn-success ">Register</Link>
+                    <Link to="/login" className="btn btn-success" >Login</Link>
+                    <Link to="/register" className="btn btn-success marg-left marg-right">Register</Link>
 
             </nav>
           </div>

@@ -9,12 +9,18 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const login = () => {
+
+    }
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
-                <input type="email" id="email" className="fadeIn first" name="login" placeholder="email"></input>
-                <input type="password" id="password" className="fadeIn second" name="login" placeholder="password"></input>
-                <input type="submit" className="fadeIn third" value="Log In"></input>
+                <input type="text" id="username" className="fadeIn first" name="login" placeholder="username" required onChange={(event) => {
+                setUsername(event.target.value);}}></input>
+                <input type="password" id="password" className="fadeIn second" name="login" placeholder="password" required onChange={(event) => {
+                setPassword(event.target.value);}}></input>
+                <input type="submit" className="fadeIn third" value="Login" onClick={login}></input>
             </div>
         </div>
     );
