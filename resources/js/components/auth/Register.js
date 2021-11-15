@@ -10,12 +10,13 @@ function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [password2, setPassword2] = useState("");
 
     const register = () => {
-        if(validate(email) === false){
+        if(validateEmail(email) === false || validatePassword(password, password2) === false){
             console.log("wrong data inside input fields");
         }
-        if(validate(email) === true){
+        if(validateEmail(email) === true && validatePassword(password, password2) === true){
             axios.post('api/createUser', {
                 username: username,
                 email: email,
@@ -32,14 +33,21 @@ function Register() {
           
         };
     
-    const validate = (input) => {
-        if (!input.includes("@"))
-        {
+    const validateEmail = (input) => {
+        if (!input.includes("@")){
             return false;
         }else{
             return true;
         }
     }    
+
+    const validatePassword = (password, password2) => {
+        if (password === password2){
+            return true;
+        }else{
+            return false;
+        }
+    } 
 
     return (
         <div className="wrapper fadeInDown">
@@ -50,7 +58,9 @@ function Register() {
                 setEmail(event.target.value);}}></input>
                 <input type="password" id="password" className="fadeIn third" name="login" placeholder="password" required onChange={(event) => {
                 setPassword(event.target.value);}}></input>
-                <input type="submit" className="fadeIn fourth" value="Register" onClick={register}></input>
+                <input type="password" id="password2" className="fadeIn fourth" name="login" placeholder="repeted password" required onChange={(event) => {
+                setPassword2(event.target.value);}}></input>
+                <input type="submit" className="fadeIn fifth" value="Register" onClick={register}></input>
             </div>
         </div>
     );
