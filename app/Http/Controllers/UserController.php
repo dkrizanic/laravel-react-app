@@ -9,24 +9,58 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function store(Request $request){
-        $user = new User;
-        $user->name = $request->input("username");
-        $user->email = $request->input("email");
-        $user->password = Hash::make($request->input("password"));
-        $user->save();
+        $user_db = User::where("email",  $request->email)->first();
+        if($user_db){
+            return response()->json([
+                'status' => 403,
+                'message' => 'User already exists!',
+            ]);
+        }else{
+            $user = new User;
+            $user->name = $request->username;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'User added!'
-        ]);
+            $token = $user->createToken('secret_token')->plainTextToken;
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'User added!',
+                'token' => $token
+            ]);
+        }
     }
 
     public function login(Request $request){
-        
+        $user = User::where("email",  $request->email)->first(); 
+        if(!$user){
+            return response()->json([
+                'status' => 401,
+                'message' => "User doesn't exist"
+            ]);
+        }else{
+            if(!Hash::check($request->password, $user->password)){
+                return response()->json([
+                    'status' => 401,
+                    'message' => "Wrong password"
+                ]);
 
+            }else{
+                $token = $user->createToken('secret_token')->plainTextToken;
+                return response()->json([
+                    'status' => 200,
+                    'message' => "User logged in",
+                    'token' => $token
+                ]);
+            }
+        }
+    }
+
+    public function logout(Request $request){                   //in making/
+        $request->user()->currentAccessToken()->delete(); 
         return response()->json([
-            'status' => 200,
-            'message' => 'User logged in!'
+            'message' => "User logged out",
         ]);
     }
 }

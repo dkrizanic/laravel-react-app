@@ -2158,6 +2158,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var logout = function logout() {
+  axios.post('api/logout').then(function (response) {
+    console.log(response.data.message);
+  });
+  window.location.href = '/';
+};
+
 function App() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
     className: "App",
@@ -2184,6 +2191,10 @@ function App() {
             to: "/register",
             className: "btn btn-success marg-left marg-right",
             children: "Register"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            className: "btn btn-danger ",
+            onClick: logout,
+            children: "Logout"
           })]
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Switch, {
@@ -2203,7 +2214,7 @@ function App() {
   });
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App); // DOM element
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
 
 if (document.getElementById('app')) {
   react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(App, {}), document.getElementById('app'));
@@ -2287,7 +2298,7 @@ function Login() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
       email = _useState2[0],
-      setUsername = _useState2[1];
+      setEmail = _useState2[1];
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -2295,17 +2306,16 @@ function Login() {
       setPassword = _useState4[1];
 
   var login = function login() {
-    axios__WEBPACK_IMPORTED_MODULE_2___default().post('api/login', {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('api/loginUser', {
       email: email,
       password: password
     }).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
+        window.location.href = '/';
       } else {
-        console.log("error");
+        console.log(response.data.message);
       }
-
-      window.location.href = '/';
     });
   };
 
@@ -2321,7 +2331,7 @@ function Login() {
         placeholder: "email",
         required: true,
         onChange: function onChange(event) {
-          setUsername(event.target.value);
+          setEmail(event.target.value);
         }
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
         type: "password",
@@ -2415,11 +2425,10 @@ function Register() {
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
+          window.location.href = '/';
         } else {
-          console.log("error");
+          console.log(response.data.message);
         }
-
-        window.location.href = '/login';
       });
     }
   };

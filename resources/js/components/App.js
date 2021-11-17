@@ -7,7 +7,13 @@ import Login from './auth/Login';
 import Register from './auth/Register';
 import Home from './Home';
 
-
+const logout = () =>{
+  axios.post('api/logout')
+  .then((response) =>{
+    console.log(response.data.message);
+  });
+  window.location.href = '/';
+}
 
 
 function App() {
@@ -24,6 +30,9 @@ function App() {
                 </ul>
                     <Link to="/login" className="btn btn-success" >Login</Link>
                     <Link to="/register" className="btn btn-success marg-left marg-right">Register</Link>
+                    <button className="btn btn-danger " onClick={logout} >
+                      Logout
+                    </button>
 
             </nav>
           </div>
@@ -40,8 +49,6 @@ function App() {
 export default App;
 
 
-
-// DOM element
 if (document.getElementById('app')) {
     ReactDOM.render(<App />, document.getElementById('app'));
 }

@@ -22,13 +22,12 @@ function Register() {
                 }).then((response) => {
                     if(response.data.status === 200){
                         console.log(response.data.message);
+                        window.location.href = '/';
                     }else{
-                        console.log("error");
+                        console.log(response.data.message);
                     }
-                    window.location.href = '/login';
                 })
             }
-          
         };
     
     const validateEmail = (input) => {
