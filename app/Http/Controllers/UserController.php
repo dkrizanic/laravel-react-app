@@ -22,7 +22,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            $token = $user->createToken('secret_token')->plainTextToken;
+            $token = $user->createToken('accessToken')->plainTextToken;
 
             return response()->json([
                 'status' => 200,
@@ -47,7 +47,7 @@ class UserController extends Controller
                 ]);
 
             }else{
-                $token = $user->createToken('secret_token')->plainTextToken;
+                $token = $user->createToken('accessToken')->plainTextToken;
                 return response()->json([
                     'status' => 200,
                     'message' => "User logged in",
@@ -57,8 +57,8 @@ class UserController extends Controller
         }
     }
 
-    public function logout(Request $request){                   //in making/
-        $request->user()->currentAccessToken()->delete(); 
+    public function logout(Request $request){          
+        $request->user()->currentAccessToken()->delete();
         return response()->json([
             'message' => "User logged out",
         ]);

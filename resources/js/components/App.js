@@ -1,15 +1,27 @@
 import './app.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Login from './auth/Login';
 import Register from './auth/Register';
 import Home from './Home';
 
+axios.interceptors.request.use(function (config){
+  const token = localStorage.getItem('accessToken');
+  config.headers.Authorization = token ? `Bearer ${token}` : '';
+  return config;
+});
+
+
+
+
 const logout = () =>{
-  axios.post('api/logout')
+  axios.post('api/logout', {
+    accessToken: localStorage.getItem('accessToken'),
+  })
   .then((response) =>{
+    localStorage.removeItem("accessToken");
     console.log(response.data.message);
   });
   window.location.href = '/';
