@@ -1,7 +1,12 @@
 .marg-left{
-    margin-left: 2%;
+    margin-left: 1%;
 }
 
 .marg-right{
     margin-right: 2%;
+}
+
+.marg-welcome{
+    margin-right: 2%;
+    margin-top: 0.5%;
 }

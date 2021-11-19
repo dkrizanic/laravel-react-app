@@ -27,6 +27,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'User added!',
+                'username' => $request->username,
                 'token' => $token
             ]);
         }
@@ -51,7 +52,8 @@ class UserController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => "User logged in",
-                    'token' => $token
+                    'token' => $token,
+                    'username' => $user->name
                 ]);
             }
         }

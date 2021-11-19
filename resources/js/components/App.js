@@ -1,5 +1,5 @@
 import './app.css';
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
@@ -15,20 +15,29 @@ axios.interceptors.request.use(function (config){
 
 
 
-
-const logout = () =>{
-  axios.post('api/logout', {
-    accessToken: localStorage.getItem('accessToken'),
-  })
-  .then((response) =>{
-    localStorage.removeItem("accessToken");
-    console.log(response.data.message);
-  });
-  window.location.href = '/';
-}
-
-
 function App() {
+
+  const [authState, setAuthState] = useState(false);
+
+  useEffect(()=>{
+    if(!localStorage.getItem('accessToken')){
+      setAuthState(false);
+    }else{
+      setAuthState(true);
+    }
+    
+  });
+
+  const logout = () =>{
+    axios.post('api/logout')
+    .then((response) =>{
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("username");
+      console.log(response.data.message);
+    });
+    window.location.href = '/';
+  }
+  
   return (
       <div className="App">
           <Router>
@@ -40,11 +49,24 @@ function App() {
 
                     </li>
                 </ul>
-                    <Link to="/login" className="btn btn-success" >Login</Link>
-                    <Link to="/register" className="btn btn-success marg-left marg-right">Register</Link>
-                    <button className="btn btn-danger " onClick={logout} >
-                      Logout
-                    </button>
+                    
+                  {!authState ? (
+                    <>
+                      <Link to="/login" className="btn btn-info" >Login</Link>
+                      <Link to="/register" className="btn btn-info marg-left marg-right">Register</Link>
+                    </>
+                  ) : (
+                    <>
+                      <div className="marg-welcome">
+                          <h3>{localStorage.getItem('username')}</h3>
+                        </div>
+                      <div className="marg-right">
+                        <button className="btn btn-danger" onClick={logout} >
+                          Logout
+                        </button>
+                      </div>
+                    </>
+                )}
 
             </nav>
           </div>
