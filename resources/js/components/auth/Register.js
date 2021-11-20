@@ -6,6 +6,7 @@ import axios from "axios";
 function Register() {
 
     const [username, setUsername] = useState("");
+    const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
@@ -17,6 +18,7 @@ function Register() {
         if(validateEmail(email) === true && validatePassword(password, password2) === true){
             axios.post('api/createUser', {
                 username: username,
+                surname: surname,
                 email: email,
                 password: password
                 }).then((response) => {
@@ -53,6 +55,8 @@ function Register() {
             <div id="formContent">
                 <input type="text" id="username" className="fadeIn first" name="login" placeholder="username" required onChange={(event) => {
                 setUsername(event.target.value);}}></input>
+                <input type="text" id="surname" className="fadeIn first" name="login" placeholder="surname" required onChange={(event) => {
+                setSurname(event.target.value);}}></input>
                 <input type="email" id="email" className="fadeIn second" name="login" placeholder="email" required onChange={(event) => {
                 setEmail(event.target.value);}}></input>
                 <input type="password" id="password" className="fadeIn third" name="login" placeholder="password" required onChange={(event) => {

@@ -6,13 +6,13 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Login from './auth/Login';
 import Register from './auth/Register';
 import Home from './Home';
+import CreateProject from './project/CreateProject';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
   config.headers.Authorization = token ? `Bearer ${token}` : '';
   return config;
 });
-
 
 
 function App() {
@@ -29,11 +29,10 @@ function App() {
   });
 
   const logout = () =>{
-    axios.post('api/logout')
-    .then((response) =>{
+    axios.post('api/logout').then((response) =>{
+      console.log(response.data.message);
       localStorage.removeItem("accessToken");
       localStorage.removeItem("username");
-      console.log(response.data.message);
     });
     window.location.href = '/';
   }
@@ -46,7 +45,6 @@ function App() {
                 <ul className="navbar-nav mr-auto marg-left">
                     <li className="nav-item active">
                     <Link to="/" className="nav-link">Home</Link>
-
                     </li>
                 </ul>
                     
@@ -74,6 +72,7 @@ function App() {
               <Route path='/' exact component={Home} />
               <Route path='/register' component={Register} />
               <Route path='/login' component={Login} />
+              <Route path='/createProject' component={CreateProject} />
             </Switch>
           </Router>
       </div>
