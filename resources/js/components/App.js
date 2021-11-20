@@ -29,12 +29,17 @@ function App() {
   });
 
   const logout = () =>{
-    axios.post('api/logout').then((response) =>{
-      console.log(response.data.message);
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("username");
+    axios.post('api/logout')
+    .then((response) =>{
+      if(response.data.status === 200){
+        console.log(response.data.message);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("username");
+        window.location.href = '/';
+      }
+      
     });
-    window.location.href = '/';
+    
   }
   
   return (

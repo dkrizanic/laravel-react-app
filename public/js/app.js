@@ -2199,11 +2199,13 @@ function App() {
 
   var logout = function logout() {
     axios__WEBPACK_IMPORTED_MODULE_3___default().post('api/logout').then(function (response) {
-      console.log(response.data.message);
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("username");
+      if (response.data.status === 200) {
+        console.log(response.data.message);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("username");
+        window.location.href = '/';
+      }
     });
-    window.location.href = '/';
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
