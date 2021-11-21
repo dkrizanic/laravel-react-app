@@ -1,30 +1,47 @@
 import './app.css';
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 
 function Home() {
+
+    const [listOfProjects, setListOfProjects] = useState([]);
+
+
+    useEffect(()=>{
+      axios.get("/api/projectList")
+      .then((response) =>{
+        if(response.data.status === 200){
+          setListOfProjects(response.data.project_list);
+          console.log(response.data.project_list);
+          console.log("++++++++++++");
+          console.log(listOfProjects);
+        }else{
+          console.log(response.data.message);
+        }
+      })
+      
+      
+    }, []);
+
     return (
-        <div>
-            <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <h2>Make new amazing project :) <Link to="/createProject" className="btn btn-info marg-left" >  +  </Link></h2>
-                    </div>
-                </div>
+      <div className="data">
+        {listOfProjects.map((value, key) => {
+            return (
+            <div className="jumbotron jumbotron-fluid con-size" key={key}>
+              <div className="jumbotron jumbotron-fluid con-size">
+              <div className="container">
+                <h1 className="display-12">{value.project_name}</h1>
+                <p className="lead"> test </p>
+              </div>
+
+              <Link to="/createProject" className="btn btn-info marg-left" >  +  </Link>
             </div>
-        </div>
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <h2>project </h2>
-                    </div>
-                </div>
+
+              
             </div>
-        </div>
-        </div>
-        
+            );
+        })}
+      </div>
     );
 }
 

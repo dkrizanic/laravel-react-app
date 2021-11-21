@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('project_name');
-            
+            $table->unsignedBigInteger('user_id')->index()->onDelete('cascade');
             $table->date('start_date');
             $table->date('finish_date');
         });

@@ -22,11 +22,10 @@ Route::post('/loginUser', [UserController::class, 'login']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/projectList', [ProjectController::class, 'projectList']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/createProject', [ProjectController::class, 'store']);
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 

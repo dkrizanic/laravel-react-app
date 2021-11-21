@@ -10,3 +10,14 @@
     margin-right: 2%;
     margin-top: 0.5%;
 }
+.data{
+    text-align: center;
+    vertical-align: middle;
+    list-style-type: none;
+}
+
+.con-size{
+    margin-left: 10%;
+    margin-right: 10%;
+
+}
