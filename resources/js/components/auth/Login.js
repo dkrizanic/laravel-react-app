@@ -8,6 +8,7 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
     const login = () => {
         axios.post('api/loginUser', {
@@ -20,7 +21,7 @@ function Login() {
                 console.log(response.data.message);
                 window.location.href = '/';
             }else{
-                console.log(response.data.message);
+                setMessage(response.data.message)
             }
             
         });
@@ -34,7 +35,8 @@ function Login() {
                 setEmail(event.target.value);}}></input>
                 <input type="password" id="password" className="fadeIn second" name="login" placeholder="password" required onChange={(event) => {
                 setPassword(event.target.value);}}></input>
-                <input type="submit" className="fadeIn third" value="Login" onClick={login}></input>
+                <button className="fadeIn third btn btn-info" onClick={login}>Login</button>  
+                <h3>{message}</h3>
             </div>
         </div>
     );

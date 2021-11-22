@@ -10,10 +10,11 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
+    const [message, setMessage] = useState("");
 
     const register = () => {
         if(validateEmail(email) === false || validatePassword(password, password2) === false){
-            console.log("wrong data inside input fields");
+            setMessage("Wrong data inside input fields");
         }
         if(validateEmail(email) === true && validatePassword(password, password2) === true){
             axios.post('api/createUser', {
@@ -28,7 +29,7 @@ function Register() {
                         console.log(response.data.message);
                         window.location.href = '/';
                     }else{
-                        console.log(response.data.message);
+                        setMessage(response.data.message);
                     }
                 })
             }
@@ -63,7 +64,8 @@ function Register() {
                 setPassword(event.target.value);}}></input>
                 <input type="password" id="password2" className="fadeIn fourth" name="login" placeholder="repeted password" required onChange={(event) => {
                 setPassword2(event.target.value);}}></input>
-                <input type="submit" className="fadeIn fifth" value="Register" onClick={register}></input>
+                <button className="fadeIn fifth btn btn-info" onClick={register}>Register</button>  
+                <h3>{message}</h3>
             </div>
         </div>
     );

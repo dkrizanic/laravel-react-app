@@ -67,4 +67,70 @@ class UserController extends Controller
             'message' => "User logged out",
         ]);
     }
+
+    public function userProfile(Request $request){          
+        $user = User::where("id",  $request->user()->id)->first(); 
+        $username = $user->name;
+        $email = $user->email;
+        $surname = $user->surname;
+
+        if($user){
+            return response()->json([ 
+                'status' => 200,
+                'username' => $username,
+                'email' => $email,
+                'surname' => $surname,
+                'message' => 'User data'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'UserProfile Error'
+            ]);
+        }
+    }
+
+    public function updateProfile(Request $request){          
+        $user = User::where("id",  $request->user()->id)->first(); 
+
+        if($user){
+            return response()->json([ 
+                'status' => 200,
+                'message' => 'User updated'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'User data not updated'
+            ]);
+        }
+    }
+
+    public function changePassword(Request $request){          
+        $user = User::where("id",  $request->user()->id)->first(); 
+
+        if($user){
+            return response()->json([ 
+                'status' => 200,
+                'message' => 'User updated'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'User data not updated'
+            ]);
+        }
+    }
+
+    public function destroy(Request $request){          
+        $user = User::where("id",  $request->user()->id)->first(); 
+
+        if($user){
+            return response()->json([ 
+                'status' => 200,
+                'message' => 'User updated'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'User data not updated'
+            ]);
+        }
+    }
 }

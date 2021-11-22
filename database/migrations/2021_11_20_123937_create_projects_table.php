@@ -20,6 +20,8 @@ class CreateProjectsTable extends Migration
             $table->unsignedBigInteger('user_id')->index()->onDelete('cascade');
             $table->date('start_date');
             $table->date('finish_date');
+            $table->boolean('status');
+
         });
     }
 

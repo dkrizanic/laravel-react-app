@@ -25,6 +25,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/projectList', [ProjectController::class, 'projectList']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/createProject', [ProjectController::class, 'store']);
+    Route::get('/userProfile', [UserController::class, 'userProfile']);
+    Route::post('/updateProfile', [UserController::class, 'updateProfile']);
+    Route::post('/changePassword', [UserController::class, 'changePassword']);
+    Route::post('/deleteUser', [UserController::class, 'destroy']);
 });
 
 

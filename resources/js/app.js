@@ -20,3 +20,6 @@ require('./components/Home');
 require('./components/auth/Register');
 require('./components/auth/Login');
 require('./components/project/CreateProject');
+require('./components/user/UserProfile');
+require('./components/user/ChangePassword');
+require('./components/task/TaskList');

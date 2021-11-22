@@ -14,9 +14,10 @@ class ProjectController extends Controller
     public function store(Request $request){
         $project = new Project;
         $project->user_id = $request->user()->id;
-        $project->project_name = $request->name;
+        $project->project_name = $request->project_name;
         $project->start_date = $request->start_date;
         $project->finish_date = $request->finish_date;
+        $project->status = 1;
         $project->save();
 
         return response()->json([

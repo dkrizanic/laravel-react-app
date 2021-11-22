@@ -7,6 +7,9 @@ import Login from './auth/Login';
 import Register from './auth/Register';
 import Home from './Home';
 import CreateProject from './project/CreateProject';
+import UserProfile from './user/UserProfile';
+import ChangePassword from './user/ChangePassword';
+import TaskList from './task/TaskList';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
@@ -37,9 +40,7 @@ function App() {
         localStorage.removeItem("username");
         window.location.href = '/';
       }
-      
     });
-    
   }
   
   return (
@@ -61,7 +62,8 @@ function App() {
                   ) : (
                     <>
                       <div className="marg-welcome">
-                          <h3>{localStorage.getItem('username')}</h3>
+                          <Link to="/userProfile" className="username">{localStorage.getItem('username')}</Link>
+                          
                         </div>
                       <div className="marg-right">
                         <button className="btn btn-danger" onClick={logout} >
@@ -78,6 +80,9 @@ function App() {
               <Route path='/register' component={Register} />
               <Route path='/login' component={Login} />
               <Route path='/createProject' component={CreateProject} />
+              <Route path='/userProfile' component={UserProfile} />
+              <Route path='/changePassword' component={ChangePassword} />
+              <Route path='/taskList' component={TaskList} />
             </Switch>
           </Router>
       </div>
