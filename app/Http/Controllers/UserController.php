@@ -89,18 +89,26 @@ class UserController extends Controller
         }
     }
 
-    public function updateProfile(Request $request){          
-        $user = User::where("id",  $request->user()->id)
-            ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email]); 
+    public function updateProfile(Request $request){      
+        $user_check = User::where("email",  $request->email)->first(); 
+        
+        if(!$user_check){
+            $user = User::where("id",  $request->user()->id)
+                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email]); 
 
-        if($user){
-            return response()->json([ 
-                'status' => 200,
-                'message' => $request->username
-            ]);
+            if($user){
+                return response()->json([ 
+                    'status' => 200,
+                    'message' => $request->username
+                ]);
+            }else{
+                return response()->json([ 
+                    'message' => 'User data not updated'
+                ]);
+            }
         }else{
             return response()->json([ 
-                'message' => 'User data not updated'
+                'message' => 'Email in use!'
             ]);
         }
     }
@@ -134,5 +142,27 @@ class UserController extends Controller
             'status' => 200,
             'message' => 'User deleted'
         ]);
+    }
+
+    public function addWorker(Request $request){
+        $user_db = User::where("email",  $request->email)->first();
+        if($user_db){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Worker already exists!',
+            ]);
+        }else{
+            $user = new User;
+            $user->name = $request->username;
+            $user->surname = $request->surname;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Worker added!',
+            ]);
+        }
     }
 }

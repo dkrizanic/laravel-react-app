@@ -10,6 +10,7 @@ import CreateProject from './project/CreateProject';
 import UserProfile from './user/UserProfile';
 import ChangePassword from './user/ChangePassword';
 import TaskList from './task/TaskList';
+import AddWorkers from './user/AddWorkers';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
@@ -50,8 +51,11 @@ function App() {
             <nav className="navbar navbar-expand-lg navbar-light">
                 <ul className="navbar-nav mr-auto marg-left">
                     <li className="nav-item active">
-                    <Link to="/" className="nav-link">Home</Link>
+                    <Link to="/" className="nav-link"><strong>Home</strong></Link>
                     </li>
+                    <div className="people-icon">
+                      <Link to="/addWorker" className="nav-link"><i className="fas fa-user-plus"></i></Link>
+                    </div>
                 </ul>
                     
                   {!authState ? (
@@ -62,9 +66,8 @@ function App() {
                   ) : (
                     <>
                       <div className="marg-welcome">
-                          <Link to="/userProfile" className="username">{localStorage.getItem('username')}</Link>
-                          
-                        </div>
+                        <Link to="/userProfile" className="username">{localStorage.getItem('username')}</Link>
+                      </div>
                       <div className="marg-right">
                         <button className="btn btn-danger" onClick={logout} >
                           Logout
@@ -83,6 +86,7 @@ function App() {
               <Route path='/userProfile' component={UserProfile} />
               <Route path='/changePassword' component={ChangePassword} />
               <Route path='/taskList' component={TaskList} />
+              <Route path='/addWorker' component={AddWorkers} />
             </Switch>
           </Router>
       </div>

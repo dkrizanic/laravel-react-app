@@ -22,4 +22,5 @@ require('./components/auth/Login');
 require('./components/project/CreateProject');
 require('./components/user/UserProfile');
 require('./components/user/ChangePassword');
+require('./components/user/AddWorkers');
 require('./components/task/TaskList');
