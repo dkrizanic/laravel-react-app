@@ -9,23 +9,28 @@ function CreateProject() {
     const [project_name, setName] = useState("");
     const [start_date, setStartDate] = useState("");
     const [finish_date, setFinishDate] = useState("");
+    const [message, setMessage] = useState("");
 
     const newProject = () => {
-        axios.post('api/createProject', {
-            project_name: project_name,
-            start_date: start_date,
-            finish_date: finish_date
-        }).then((response) => {
-            if(response.data.status === 200){
-                console.log(response.data.message);
-                window.location.href = '/';
-            }else{
-                console.log("create project failed");
-            }
-            
-        });
-        
+        if(project_name === '' || start_date === '' || finish_date === ''){
+            setMessage("Insert valid data");
+        }else{
+            axios.post('api/createProject', {
+                project_name: project_name,
+                start_date: start_date,
+                finish_date: finish_date
+            }).then((response) => {
+                if(response.data.status === 200){
+                    console.log(response.data.message);
+                    window.location.href = '/';
+                }else{
+                    console.log("create project failed");
+                }
+                
+            });
+        }
     }
+
 
     return (
         <div className="wrapper fadeInDown">
@@ -36,7 +41,10 @@ function CreateProject() {
                 setStartDate(event.target.value);}}></input>
                 <input type="date" id="date2" className="fadeIn third" placeholder="finish_date" title="finish date" required onChange={(event) => {
                 setFinishDate(event.target.value);}}></input>
-                <input type="submit" className="fadeIn fourth" value="Add" onClick={newProject}></input>
+                <div>
+                    <button className="fadeIn fourth btn btn-info" onClick={newProject}> Add </button>  
+                    <h3>{message}</h3>
+                </div>
             </div>
         </div>
     );

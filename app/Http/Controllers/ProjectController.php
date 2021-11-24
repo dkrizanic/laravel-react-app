@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
-use App\Models\User;
 
-
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ProjectController extends Controller
 {
@@ -28,7 +25,7 @@ class ProjectController extends Controller
 
     public function projectList(Request $request){
         $project_list = Project::all()->where("user_id",  $request->user()->id); 
-        if($project_list ){
+        if($project_list){
             return response()->json([ 
                 'project_list' => $project_list,
                 'status' => 200,

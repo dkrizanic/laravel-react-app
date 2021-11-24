@@ -10,9 +10,10 @@ function ChangePassword() {
     const [message, setMessage] = useState("");
 
     const updatePassword = () =>{
-        if(validatePassword === true){
+        if(validatePassword(password, password2) === true){
             axios.post('api/changePassword',{
-                password2: password2
+                old_password: old_password,
+                new_password: password2
             })
             .then((response) =>{
               if(response.data.status === 200){
@@ -28,7 +29,7 @@ function ChangePassword() {
         }
       }
 
-    const validatePassword = (password, password2) => {
+      const validatePassword = (password, password2) => {
         if (password === password2){
             return true;
         }else{

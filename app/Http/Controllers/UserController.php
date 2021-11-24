@@ -90,12 +90,13 @@ class UserController extends Controller
     }
 
     public function updateProfile(Request $request){          
-        $user = User::where("id",  $request->user()->id)->first(); 
+        $user = User::where("id",  $request->user()->id)
+            ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email]); 
 
         if($user){
             return response()->json([ 
                 'status' => 200,
-                'message' => 'User updated'
+                'message' => $request->username
             ]);
         }else{
             return response()->json([ 
@@ -106,12 +107,19 @@ class UserController extends Controller
 
     public function changePassword(Request $request){          
         $user = User::where("id",  $request->user()->id)->first(); 
-
+        $new_password_hash = Hash::make($request->new_password);
         if($user){
-            return response()->json([ 
-                'status' => 200,
-                'message' => 'User updated'
-            ]);
+            if(Hash::check($request->old_password, $user->password)){
+                $user->update(['password' => $new_password_hash]); 
+                return response()->json([ 
+                    'status' => 200,
+                    'message' => 'Password updated'
+                ]);
+            }else{
+                return response()->json([ 
+                    'message' => 'Wrong password'
+                ]);
+            }
         }else{
             return response()->json([ 
                 'message' => 'User data not updated'
@@ -119,18 +127,12 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(Request $request){          
-        $user = User::where("id",  $request->user()->id)->first(); 
-
-        if($user){
-            return response()->json([ 
-                'status' => 200,
-                'message' => 'User updated'
-            ]);
-        }else{
-            return response()->json([ 
-                'message' => 'User data not updated'
-            ]);
-        }
+    public function destroy(Request $request){     
+        User::truncate();     
+        User::where("id",  $request->user()->id)->first()->delete(); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'User deleted'
+        ]);
     }
 }

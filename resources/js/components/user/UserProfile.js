@@ -1,6 +1,7 @@
 import './user.css';
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function UserProfile() {
 
@@ -9,6 +10,8 @@ function UserProfile() {
     const [email, setEmail] = useState("");
 
     const updateProfile = () =>{
+        localStorage.removeItem("username");
+        localStorage.setItem("username", username);
         axios.post('api/updateProfile',{
             username: username,
             surname: surname,
@@ -26,7 +29,15 @@ function UserProfile() {
     }
 
     const deleteUser = () =>{
-        console.log("deleted profile")
+        axios.post('api/deleteUser')
+        .then((response) => {
+            if(response.data.status === 200){
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("username");
+                console.log(response.data.message);
+                window.location.href = '/';
+            }
+        })
     }
 
     useEffect(()=>{
@@ -36,11 +47,12 @@ function UserProfile() {
             setUsername(response.data.username);
             setSurname(response.data.surname);
             setEmail(response.data.email);
+            console.log(response.data.message);
         }else{
             console.log(response.data.message);
         }
       })
-    });
+    }, []);
 
     return (
         <div className="wrapper fadeInDown">
