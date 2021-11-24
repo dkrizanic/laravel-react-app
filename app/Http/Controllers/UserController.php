@@ -127,9 +127,9 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(Request $request){     
-        User::truncate();     
+    public function destroy(Request $request){      
         User::where("id",  $request->user()->id)->first()->delete(); 
+        $request->user()->currentAccessToken()->delete();
         return response()->json([ 
             'status' => 200,
             'message' => 'User deleted'
