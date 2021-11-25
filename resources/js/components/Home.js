@@ -32,6 +32,8 @@ function Home() {
                 <div className="container">
                   <h1 className="display-12"><Link to="/taskList" > {value.project_name} </Link></h1>
                   <p className="lead"> {value.start_date} : {value.finish_date} </p>
+                  
+                  <Link to="/projectSettings">  <i className="fas fa-cog"></i>  </Link>
                 </div>
               </div>
             );

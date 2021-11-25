@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Group extends Model
 {
     protected $fillable = [
-        'project_name',
-        'start_date',
-        'finish_date',
-        'status'
+        'group_name',
+
     ];
 
     

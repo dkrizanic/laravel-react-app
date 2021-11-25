@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\GroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/changePassword', [UserController::class, 'changePassword']);
     Route::post('/deleteUser', [UserController::class, 'destroy']);
     Route::post('/addWorker', [UserController::class, 'addWorker']);
+    Route::post('/createGroup', [GroupController::class, 'createGroup']);
 });
 
 

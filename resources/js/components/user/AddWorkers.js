@@ -2,6 +2,7 @@
 import '../app.css';
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 function AddWorkers() {
 
@@ -49,6 +50,10 @@ function AddWorkers() {
         }
     } 
 
+    const makeGroup = () => {
+        
+    }
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
@@ -65,6 +70,9 @@ function AddWorkers() {
                 <div>
                     <button className="fadeIn fifth btn btn-info" onClick={add}> Add </button>  
                     <h3>{message}</h3>
+                </div>
+                <div>
+                <Link to="/groups" className="btn btn-primary fadeIn fifth" >  Groups  </Link>
                 </div>
             </div>
         </div>

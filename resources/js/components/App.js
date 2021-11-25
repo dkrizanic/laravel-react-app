@@ -11,6 +11,8 @@ import UserProfile from './user/UserProfile';
 import ChangePassword from './user/ChangePassword';
 import TaskList from './task/TaskList';
 import AddWorkers from './user/AddWorkers';
+import ProjectSettings from './project/ProjectSettings';
+import Groups from './user/Groups';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
@@ -87,6 +89,9 @@ function App() {
               <Route path='/changePassword' component={ChangePassword} />
               <Route path='/taskList' component={TaskList} />
               <Route path='/addWorker' component={AddWorkers} />
+              <Route path='/projectSettings' component={ProjectSettings} />
+              <Route path='/groups' component={Groups} />
+              
             </Switch>
           </Router>
       </div>
