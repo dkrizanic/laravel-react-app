@@ -1,6 +1,6 @@
 
 import React, { useState} from "react";
-
+import axios from "axios";
 
 function ChangePassword() {
 
@@ -29,7 +29,7 @@ function ChangePassword() {
         }
       }
 
-      const validatePassword = (password, password2) => {
+      const validatePassword = (password:String, password2:String) => {
         if (password === password2){
             return true;
         }else{

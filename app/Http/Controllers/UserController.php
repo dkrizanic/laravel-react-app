@@ -92,23 +92,32 @@ class UserController extends Controller
     public function updateProfile(Request $request){      
         $user_check = User::where("email",  $request->email)->first(); 
         
-        if(!$user_check){
-            $user = User::where("id",  $request->user()->id)
+        if($user_check){
+            if($user_check->id == $request->user()->id){
+                $user = User::where("id",  $request->user()->id)
                 ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email]); 
 
-            if($user){
-                return response()->json([ 
-                    'status' => 200,
-                    'message' => $request->username
-                ]);
+                if($user){
+                    return response()->json([ 
+                        'status' => 200,
+                        'message' => $request->username
+                    ]);
+                }else{
+                    return response()->json([ 
+                        'message' => 'User data not updated'
+                    ]);
+                }
             }else{
                 return response()->json([ 
-                    'message' => 'User data not updated'
+                    'message' => 'Email in use!'
                 ]);
             }
         }else{
+            $user = User::where("id",  $request->user()->id)
+                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email]); 
             return response()->json([ 
-                'message' => 'Email in use!'
+                'status' => 200,
+                'message' => $request->username
             ]);
         }
     }

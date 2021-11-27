@@ -35,7 +35,7 @@ function Register() {
             }
         };
     
-    const validateEmail = (input) => {
+    const validateEmail = (input:String) => {
         if (!input.includes("@")){
             return false;
         }else{
@@ -43,7 +43,7 @@ function Register() {
         }
     }    
 
-    const validatePassword = (password, password2) => {
+    const validatePassword = (password:String, password2:String) => {
         if (password === password2){
             return true;
         }else{
