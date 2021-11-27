@@ -2063,52 +2063,6 @@ module.exports = {
 "use strict";
 
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function get() {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-  }
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -2121,7 +2075,7 @@ Object.defineProperty(exports, "__esModule", ({
 
 __webpack_require__(/*! ./app.css */ "./resources/js/components/app.css");
 
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var react_dom_1 = __importDefault(__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"));
 
@@ -2149,6 +2103,8 @@ var ProjectSettings_1 = __importDefault(__webpack_require__(/*! ./project/Projec
 
 var Groups_1 = __importDefault(__webpack_require__(/*! ./user/Groups */ "./resources/js/components/user/Groups.tsx"));
 
+var Navbar_1 = __importDefault(__webpack_require__(/*! ./Navbar */ "./resources/js/components/Navbar.tsx"));
+
 axios_1["default"].interceptors.request.use(function (config) {
   var token = localStorage.getItem('accessToken');
   config.headers.Authorization = token ? "Bearer ".concat(token) : '';
@@ -2156,67 +2112,7 @@ axios_1["default"].interceptors.request.use(function (config) {
 });
 
 function App() {
-  var _ref = (0, react_1.useState)(false),
-      _ref2 = _slicedToArray(_ref, 2),
-      authState = _ref2[0],
-      setAuthState = _ref2[1];
-
-  (0, react_1.useEffect)(function () {
-    if (!localStorage.getItem('accessToken')) {
-      setAuthState(false);
-    } else {
-      setAuthState(true);
-    }
-  });
-
-  var logout = function logout() {
-    axios_1["default"].post('api/logout').then(function (response) {
-      if (response.data.status === 200) {
-        console.log(response.data.message);
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("username");
-        window.location.href = '/';
-      }
-    });
-  };
-
-  return react_1["default"].createElement("div", {
-    className: "App"
-  }, react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement("div", {
-    className: "page-header"
-  }, react_1["default"].createElement("nav", {
-    className: "navbar navbar-expand-lg navbar-light"
-  }, react_1["default"].createElement("ul", {
-    className: "navbar-nav mr-auto marg-left"
-  }, react_1["default"].createElement("li", {
-    className: "nav-item active"
-  }, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/",
-    className: "nav-link"
-  }, react_1["default"].createElement("strong", null, "Home"))), react_1["default"].createElement("div", {
-    className: "people-icon"
-  }, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/addWorker",
-    className: "nav-link"
-  }, react_1["default"].createElement("i", {
-    className: "fas fa-user-plus"
-  })))), !authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/login",
-    className: "btn btn-info"
-  }, "Login"), react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/register",
-    className: "btn btn-info marg-left marg-right"
-  }, "Register")) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
-    className: "marg-welcome"
-  }, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/userProfile",
-    className: "username"
-  }, localStorage.getItem('username'))), react_1["default"].createElement("div", {
-    className: "marg-right"
-  }, react_1["default"].createElement("button", {
-    className: "btn btn-danger",
-    onClick: logout
-  }, "Logout"))))), react_1["default"].createElement(react_router_dom_1.Switch, null, react_1["default"].createElement(react_router_dom_1.Route, {
+  return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(Navbar_1["default"], null), react_1["default"].createElement(react_router_dom_1.Switch, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/',
     exact: true,
     component: Home_1["default"]
@@ -2247,7 +2143,7 @@ function App() {
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/groups',
     component: Groups_1["default"]
-  }))));
+  })));
 }
 
 exports["default"] = App;
@@ -2380,6 +2276,147 @@ function Home() {
 }
 
 exports["default"] = Home;
+
+/***/ }),
+
+/***/ "./resources/js/components/Navbar.tsx":
+/*!********************************************!*\
+  !*** ./resources/js/components/Navbar.tsx ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+__webpack_require__(/*! ./app.css */ "./resources/js/components/app.css");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+function Navbar() {
+  var _ref = (0, react_1.useState)(false),
+      _ref2 = _slicedToArray(_ref, 2),
+      authState = _ref2[0],
+      setAuthState = _ref2[1];
+
+  (0, react_1.useEffect)(function () {
+    if (!localStorage.getItem('accessToken')) {
+      setAuthState(false);
+    } else {
+      setAuthState(true);
+    }
+  });
+
+  var logout = function logout() {
+    axios_1["default"].post('api/logout').then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data.message);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("username");
+        window.location.href = '/';
+      }
+    });
+  };
+
+  return react_1["default"].createElement("div", {
+    className: "App"
+  }, react_1["default"].createElement("div", {
+    className: "page-header"
+  }, react_1["default"].createElement("nav", {
+    className: "navbar navbar-expand-lg navbar-light"
+  }, react_1["default"].createElement("ul", {
+    className: "navbar-nav mr-auto marg-left"
+  }, react_1["default"].createElement("li", {
+    className: "nav-item active"
+  }, react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/",
+    className: "nav-link"
+  }, react_1["default"].createElement("strong", null, "Home"))), react_1["default"].createElement("div", {
+    className: "people-icon"
+  }, react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/addWorker",
+    className: "nav-link"
+  }, react_1["default"].createElement("i", {
+    className: "fas fa-user-plus"
+  })))), !authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/login",
+    className: "btn btn-info"
+  }, "Login"), react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/register",
+    className: "btn btn-info marg-left marg-right"
+  }, "Register")) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+    className: "marg-welcome"
+  }, react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/userProfile",
+    className: "username"
+  }, localStorage.getItem('username'))), react_1["default"].createElement("div", {
+    className: "marg-right"
+  }, react_1["default"].createElement("button", {
+    className: "btn btn-danger",
+    onClick: logout
+  }, "Logout"))))));
+}
+
+exports["default"] = Navbar;
 
 /***/ }),
 
@@ -73546,6 +73583,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 __webpack_require__(/*! ./components/App */ "./resources/js/components/App.tsx");
 
 __webpack_require__(/*! ./components/Home */ "./resources/js/components/Home.tsx");
+
+__webpack_require__(/*! ./components/Navbar */ "./resources/js/components/Navbar.tsx");
 
 __webpack_require__(/*! ./components/auth/Register */ "./resources/js/components/auth/Register.tsx");
 
