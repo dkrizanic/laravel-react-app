@@ -39,6 +39,7 @@ function App() {
               <Route path='/addWorker' component={AddWorkers} />
               <Route path='/projectSettings' component={ProjectSettings} />
               <Route path='/groups' component={Groups} />
+              <Route path='/groupData' component={Groups} />
               
             </Switch>
           </Router>

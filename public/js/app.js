@@ -2143,6 +2143,9 @@ function App() {
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/groups',
     component: Groups_1["default"]
+  }), react_1["default"].createElement(react_router_dom_1.Route, {
+    path: '/groupData',
+    component: Groups_1["default"]
   })));
 }
 
@@ -3343,6 +3346,35 @@ exports["default"] = ChangePassword;
 
 /***/ }),
 
+/***/ "./resources/js/components/user/GroupData.tsx":
+/*!****************************************************!*\
+  !*** ./resources/js/components/user/GroupData.tsx ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+function GroupData() {
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Group"));
+}
+
+exports["default"] = GroupData;
+
+/***/ }),
+
 /***/ "./resources/js/components/user/Groups.tsx":
 /*!*************************************************!*\
   !*** ./resources/js/components/user/Groups.tsx ***!
@@ -3408,15 +3440,24 @@ Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 
+__webpack_require__(/*! ./user.css */ "./resources/js/components/user/user.css");
+
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
 function Groups() {
   var _ref = (0, react_1.useState)(""),
       _ref2 = _slicedToArray(_ref, 2),
       group_name = _ref2[0],
       setGroup = _ref2[1];
+
+  var _ref3 = (0, react_1.useState)([]),
+      _ref4 = _slicedToArray(_ref3, 2),
+      group = _ref4[0],
+      setListOfGroups = _ref4[1];
 
   var newGroup = function newGroup() {
     axios_1["default"].post('api/createGroup', {
@@ -3431,7 +3472,20 @@ function Groups() {
     });
   };
 
+  (0, react_1.useEffect)(function () {
+    axios_1["default"].get("/api/groupList").then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data);
+        setListOfGroups(response.data.group_list);
+        console.log(response.data.message);
+      } else {
+        console.log(response.data.message);
+      }
+    });
+  }, []);
   return react_1["default"].createElement("div", {
+    className: "data"
+  }, react_1["default"].createElement("div", {
     className: "wrapper fadeInDown"
   }, react_1["default"].createElement("div", {
     id: "formContent"
@@ -3447,7 +3501,20 @@ function Groups() {
   }), react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
     className: "fadeIn second btn btn-info",
     onClick: newGroup
-  }, " Add "))));
+  }, " Add ")))), react_1["default"].createElement("h1", {
+    className: "fadeIn third"
+  }, "List of groups"), group.map(function (value, key) {
+    return react_1["default"].createElement("div", {
+      className: "jumbotron jumbotron-fluid con-size fadeIn third",
+      key: key
+    }, react_1["default"].createElement("div", {
+      className: "container"
+    }, react_1["default"].createElement("h1", {
+      className: "display-12"
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/groupData"
+    }, " ", value.group_name, " "))));
+  }));
 }
 
 exports["default"] = Groups;
@@ -8114,7 +8181,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -73601,6 +73668,8 @@ __webpack_require__(/*! ./components/user/ChangePassword */ "./resources/js/comp
 __webpack_require__(/*! ./components/user/AddWorkers */ "./resources/js/components/user/AddWorkers.tsx");
 
 __webpack_require__(/*! ./components/user/Groups */ "./resources/js/components/user/Groups.tsx");
+
+__webpack_require__(/*! ./components/user/GroupData */ "./resources/js/components/user/GroupData.tsx");
 
 __webpack_require__(/*! ./components/task/TaskList */ "./resources/js/components/task/TaskList.tsx");
 })();

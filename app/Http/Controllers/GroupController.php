@@ -19,4 +19,19 @@ class GroupController extends Controller
             'message' => 'Group added!'
         ]);
     }
+
+    public function groupList(Request $request){
+        $group_list = Group::where("user_id",  $request->user()->id)->get(); 
+        if($group_list){
+            return response()->json([ 
+                'group_list' => $group_list,
+                'status' => 200,
+                'message' => 'Group list'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'No groups yet'
+            ]);
+        }
+    }
 }

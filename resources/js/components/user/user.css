@@ -2,3 +2,9 @@
     margin-top: 1%;
     margin-bottom: 1%;
 }
+
+.data{
+    text-align: center;
+    vertical-align: middle;
+    list-style-type: none;
+}
