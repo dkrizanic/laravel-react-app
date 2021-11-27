@@ -13,8 +13,6 @@ function UserProfile() {
     const [email, setEmail] = useState("");
 
     const updateProfile = () =>{
-        localStorage.removeItem("username");
-        localStorage.setItem("username", username);
         axios.post('api/updateProfile',{
             username: username,
             surname: surname,
@@ -23,6 +21,8 @@ function UserProfile() {
         .then((response) =>{
             if(response.data.status === 200){
             console.log(response.data.message);
+            localStorage.removeItem("username");
+            localStorage.setItem("username", username);
             window.location.href = '/';
             }else{
             console.log(response.data.message);

@@ -24,7 +24,7 @@ class ProjectController extends Controller
     }
 
     public function projectList(Request $request){
-        $project_list = Project::all()->where("user_id",  $request->user()->id)->toArray(); 
+        $project_list = Project::where("user_id",  $request->user()->id)->get(); 
         if($project_list){
             return response()->json([ 
                 'project_list' => $project_list,

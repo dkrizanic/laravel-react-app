@@ -3507,8 +3507,6 @@ function UserProfile() {
       setEmail = _ref6[1];
 
   var updateProfile = function updateProfile() {
-    localStorage.removeItem("username");
-    localStorage.setItem("username", username);
     axios_1["default"].post('api/updateProfile', {
       username: username,
       surname: surname,
@@ -3516,6 +3514,8 @@ function UserProfile() {
     }).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
+        localStorage.removeItem("username");
+        localStorage.setItem("username", username);
         window.location.href = '/';
       } else {
         console.log(response.data.message);
