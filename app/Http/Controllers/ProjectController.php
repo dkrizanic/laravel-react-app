@@ -4,23 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
-
+use App\Models\Group;
 
 class ProjectController extends Controller
 {
     public function store(Request $request){
-        $project = new Project;
-        $project->user_id = $request->user()->id;
-        $project->project_name = $request->project_name;
-        $project->start_date = $request->start_date;
-        $project->finish_date = $request->finish_date;
-        $project->status = 1;
-        $project->save();
+        $group = Group::where("group_name",  $request->group_name)->first(); 
+        if($group){
+            $project = new Project;
+            $project->user_id = $request->user()->id;
+            $project->project_name = $request->project_name;
+            $project->start_date = $request->start_date;
+            $project->finish_date = $request->finish_date;
+            $project->groups_id = $group->id;
+            $project->status = 1;
+            $project->save();
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Project added!'
-        ]);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Project added!'
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'err!'
+            ]);
+        }
     }
 
     public function projectList(Request $request){

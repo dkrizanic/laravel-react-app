@@ -17,11 +17,13 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('groups_id');
             $table->string('project_name');
             $table->date('start_date');
             $table->date('finish_date');
             $table->boolean('status');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('groups_id')->references('id')->on('groups');
 
         });
 

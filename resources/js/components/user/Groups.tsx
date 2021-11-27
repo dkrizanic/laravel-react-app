@@ -32,19 +32,19 @@ function Groups() {
     }
 
     
-        useEffect(()=>{
-          axios.get("/api/groupList")
-          .then((response) =>{
-            if(response.data.status === 200){
-              console.log(response.data);
-              setListOfGroups(response.data.group_list);
-              console.log(response.data.message);
-            }else{
-              console.log(response.data.message);
-            }
-          })
-          
-        }, []);
+    useEffect(()=>{
+        axios.get("/api/groupList")
+        .then((response) =>{
+        if(response.data.status === 200){
+            console.log(response.data);
+            setListOfGroups(response.data.group_list);
+            console.log(response.data.message);
+        }else{
+            console.log(response.data.message);
+        }
+        })
+        
+    }, []);
 
 
     return (
@@ -58,7 +58,7 @@ function Groups() {
                     </div>
                 </div>
             </div>
-            <h1 className="fadeIn third">List of groups</h1>
+            
             {group.map((value, key) => {
             return (
               <div className="jumbotron jumbotron-fluid con-size fadeIn third" key={key}>

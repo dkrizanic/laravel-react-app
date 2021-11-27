@@ -13,6 +13,7 @@ import TaskList from './task/TaskList';
 import AddWorkers from './user/AddWorkers';
 import ProjectSettings from './project/ProjectSettings';
 import Groups from './user/Groups';
+import GroupData from './user/GroupData';
 import Navbar from './Navbar';
 
 axios.interceptors.request.use(function (config){
@@ -39,7 +40,7 @@ function App() {
               <Route path='/addWorker' component={AddWorkers} />
               <Route path='/projectSettings' component={ProjectSettings} />
               <Route path='/groups' component={Groups} />
-              <Route path='/groupData' component={Groups} />
+              <Route path='/groupData' component={GroupData} />
               
             </Switch>
           </Router>
