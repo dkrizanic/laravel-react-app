@@ -1,7 +1,7 @@
 import './project.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import Select from 'react-select';
 
 
 function CreateProject() {
@@ -20,8 +20,6 @@ function CreateProject() {
     const [group_name, setGroupName] = useState("");
 
     const newProject = () => {
-        console.log(group_name);
-        console.log("++++");
         if(project_name === ''){
             setMessage("Insert name");
         }else{

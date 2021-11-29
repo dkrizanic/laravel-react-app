@@ -11,12 +11,16 @@ function UserProfile() {
     const [username, setUsername] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
+    const [number, setNumber] = useState("");
+    const [company, setCompany] = useState("");
 
     const updateProfile = () =>{
         axios.post('api/updateProfile',{
             username: username,
             surname: surname,
-            email: email
+            email: email,
+            number: number,
+            company: company
         })
         .then((response) =>{
             if(response.data.status === 200){
@@ -50,6 +54,8 @@ function UserProfile() {
             setUsername(response.data.username);
             setSurname(response.data.surname);
             setEmail(response.data.email);
+            setNumber(response.data.number);
+            setCompany(response.data.company);
             console.log(response.data.message);
         }else{
             console.log(response.data.message);
@@ -66,7 +72,11 @@ function UserProfile() {
                 setSurname(event.target.value);}}></input>
                 <input type="email" id="email" className="fadeIn second" name="login" value={email} required onChange={(event) => {
                 setEmail(event.target.value);}}></input>
-                <input type="submit" className="fadeIn third" onClick={updateProfile} value="Update"></input>
+                <input type="text" id="number" className="fadeIn third" name="login" value={number} required onChange={(event) => {
+                setNumber(event.target.value);}}></input>
+                <input type="text" id="company" className="fadeIn third" name="login" value={company} required onChange={(event) => {
+                setCompany(event.target.value);}}></input>
+                <input type="submit" className="fadeIn fourth" onClick={updateProfile} value="Update"></input>
                 <div className="fadeIn fourth">
                     <h3>Operations</h3>
                     <Link to="/changePassword" className="btn btn-info" >  Update password  </Link>

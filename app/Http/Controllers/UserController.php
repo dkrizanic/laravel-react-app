@@ -20,6 +20,8 @@ class UserController extends Controller
             $user->name = $request->username;
             $user->surname = $request->surname;
             $user->email = $request->email;
+            $user->number = $request->number;
+            $user->company = $request->company;
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -73,6 +75,8 @@ class UserController extends Controller
         $username = $user->name;
         $email = $user->email;
         $surname = $user->surname;
+        $number = $user->number;
+        $company = $user->company;
 
         if($user){
             return response()->json([ 
@@ -80,6 +84,8 @@ class UserController extends Controller
                 'username' => $username,
                 'email' => $email,
                 'surname' => $surname,
+                'number' => $number,
+                'company' => $company,
                 'message' => 'User data'
             ]);
         }else{
@@ -95,7 +101,8 @@ class UserController extends Controller
         if($user_check){
             if($user_check->id == $request->user()->id){
                 $user = User::where("id",  $request->user()->id)
-                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email]); 
+                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number,
+                 'company' => $request->company]); 
 
                 if($user){
                     return response()->json([ 
@@ -114,7 +121,8 @@ class UserController extends Controller
             }
         }else{
             $user = User::where("id",  $request->user()->id)
-                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email]); 
+                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number,
+                 'company' => $request->company]); 
             return response()->json([ 
                 'status' => 200,
                 'message' => $request->username

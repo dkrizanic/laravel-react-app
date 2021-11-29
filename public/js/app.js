@@ -2661,30 +2661,46 @@ function Register() {
 
   var _ref11 = (0, react_1.useState)(""),
       _ref12 = _slicedToArray(_ref11, 2),
-      message = _ref12[0],
-      setMessage = _ref12[1];
+      company = _ref12[0],
+      setCompany = _ref12[1];
+
+  var _ref13 = (0, react_1.useState)(""),
+      _ref14 = _slicedToArray(_ref13, 2),
+      number = _ref14[0],
+      setNumber = _ref14[1];
+
+  var _ref15 = (0, react_1.useState)(""),
+      _ref16 = _slicedToArray(_ref15, 2),
+      message = _ref16[0],
+      setMessage = _ref16[1];
 
   var register = function register() {
-    if (validateEmail(email) === false || validatePassword(password, password2) === false) {
-      setMessage("Wrong data inside input fields");
-    }
+    if (username === '' || surname === '' || password === '' || company === '' || number === '') {
+      setMessage("Please insert all required information");
+    } else {
+      if (validateEmail(email) === false || validatePassword(password, password2) === false) {
+        setMessage("Wrong data inside input fields");
+      }
 
-    if (validateEmail(email) === true && validatePassword(password, password2) === true) {
-      axios_1["default"].post('api/createUser', {
-        username: username,
-        surname: surname,
-        email: email,
-        password: password
-      }).then(function (response) {
-        if (response.data.status === 200) {
-          localStorage.setItem("accessToken", response.data.token);
-          localStorage.setItem("username", response.data.username);
-          console.log(response.data.message);
-          window.location.href = '/';
-        } else {
-          setMessage(response.data.message);
-        }
-      });
+      if (validateEmail(email) === true && validatePassword(password, password2) === true) {
+        axios_1["default"].post('api/createUser', {
+          username: username,
+          surname: surname,
+          email: email,
+          password: password,
+          company: company,
+          number: number
+        }).then(function (response) {
+          if (response.data.status === 200) {
+            localStorage.setItem("accessToken", response.data.token);
+            localStorage.setItem("username", response.data.username);
+            console.log(response.data.message);
+            window.location.href = '/';
+          } else {
+            setMessage(response.data.message);
+          }
+        });
+      }
     }
   };
 
@@ -2737,6 +2753,26 @@ function Register() {
     required: true,
     onChange: function onChange(event) {
       setEmail(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "company",
+    className: "fadeIn second",
+    name: "login",
+    placeholder: "company",
+    required: true,
+    onChange: function onChange(event) {
+      setCompany(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "number",
+    className: "fadeIn third",
+    name: "login",
+    placeholder: "number",
+    required: true,
+    onChange: function onChange(event) {
+      setNumber(event.target.value);
     }
   }), react_1["default"].createElement("input", {
     type: "password",
@@ -2871,9 +2907,6 @@ function CreateProject() {
       setGroupName = _ref12[1];
 
   var newProject = function newProject() {
-    console.log(group_name);
-    console.log("++++");
-
     if (project_name === '') {
       setMessage("Insert name");
     } else {
@@ -3649,11 +3682,23 @@ function UserProfile() {
       email = _ref6[0],
       setEmail = _ref6[1];
 
+  var _ref7 = (0, react_1.useState)(""),
+      _ref8 = _slicedToArray(_ref7, 2),
+      number = _ref8[0],
+      setNumber = _ref8[1];
+
+  var _ref9 = (0, react_1.useState)(""),
+      _ref10 = _slicedToArray(_ref9, 2),
+      company = _ref10[0],
+      setCompany = _ref10[1];
+
   var updateProfile = function updateProfile() {
     axios_1["default"].post('api/updateProfile', {
       username: username,
       surname: surname,
-      email: email
+      email: email,
+      number: number,
+      company: company
     }).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
@@ -3683,6 +3728,8 @@ function UserProfile() {
         setUsername(response.data.username);
         setSurname(response.data.surname);
         setEmail(response.data.email);
+        setNumber(response.data.number);
+        setCompany(response.data.company);
         console.log(response.data.message);
       } else {
         console.log(response.data.message);
@@ -3724,8 +3771,28 @@ function UserProfile() {
       setEmail(event.target.value);
     }
   }), react_1["default"].createElement("input", {
-    type: "submit",
+    type: "text",
+    id: "number",
     className: "fadeIn third",
+    name: "login",
+    value: number,
+    required: true,
+    onChange: function onChange(event) {
+      setNumber(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "company",
+    className: "fadeIn third",
+    name: "login",
+    value: company,
+    required: true,
+    onChange: function onChange(event) {
+      setCompany(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "submit",
+    className: "fadeIn fourth",
     onClick: updateProfile,
     value: "Update"
   }), react_1["default"].createElement("div", {
