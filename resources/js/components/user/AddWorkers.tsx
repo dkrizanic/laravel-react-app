@@ -12,6 +12,7 @@ function AddWorkers() {
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [message, setMessage] = useState("");
+    const [number, setNumber] = useState("");
 
     const add = () => {
         if(validateEmail(email) === false || validatePassword(password, password2) === false){
@@ -22,7 +23,8 @@ function AddWorkers() {
                 username: username,
                 surname: surname,
                 email: email,
-                password: password
+                password: password,
+                number: number
                 }).then((response) => {
                     if(response.data.status === 200){
                         console.log(response.data.message);
@@ -63,6 +65,8 @@ function AddWorkers() {
                 setSurname(event.target.value);}}></input>
                 <input type="email" id="email" className="fadeIn second" name="login" placeholder="email" required onChange={(event) => {
                 setEmail(event.target.value);}}></input>
+                <input type="text" id="number" className="fadeIn third" name="login" placeholder="number" required onChange={(event) => {
+                setNumber(event.target.value);}}></input>
                 <input type="password" id="password" className="fadeIn third" name="login" placeholder="password" required onChange={(event) => {
                 setPassword(event.target.value);}}></input>
                 <input type="password" id="password2" className="fadeIn fourth" name="login" placeholder="repeted password" required onChange={(event) => {

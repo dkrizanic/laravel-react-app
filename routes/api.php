@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/changePassword', [UserController::class, 'changePassword']);
     Route::post('/deleteUser', [UserController::class, 'destroy']);
     Route::post('/addWorker', [UserController::class, 'addWorker']);
+    Route::get('/workersList', [GroupController::class, 'workersList']);
     Route::post('/createGroup', [GroupController::class, 'createGroup']);
 });
 

@@ -3156,6 +3156,11 @@ function AddWorkers() {
       message = _ref12[0],
       setMessage = _ref12[1];
 
+  var _ref13 = (0, react_1.useState)(""),
+      _ref14 = _slicedToArray(_ref13, 2),
+      number = _ref14[0],
+      setNumber = _ref14[1];
+
   var add = function add() {
     if (validateEmail(email) === false || validatePassword(password, password2) === false) {
       setMessage("Wrong data inside input fields");
@@ -3166,7 +3171,8 @@ function AddWorkers() {
         username: username,
         surname: surname,
         email: email,
-        password: password
+        password: password,
+        number: number
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
@@ -3229,6 +3235,16 @@ function AddWorkers() {
     required: true,
     onChange: function onChange(event) {
       setEmail(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "number",
+    className: "fadeIn third",
+    name: "login",
+    placeholder: "number",
+    required: true,
+    onChange: function onChange(event) {
+      setNumber(event.target.value);
     }
   }), react_1["default"].createElement("input", {
     type: "password",

@@ -17,7 +17,6 @@ class ProjectController extends Controller
             $project->start_date = $request->start_date;
             $project->finish_date = $request->finish_date;
             $project->groups_id = $group->id;
-            $project->status = 1;
             $project->save();
 
             return response()->json([

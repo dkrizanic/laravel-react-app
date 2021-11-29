@@ -22,6 +22,7 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->number = $request->number;
             $user->company = $request->company;
+            $user->status = 1;
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -173,12 +174,38 @@ class UserController extends Controller
             $user->name = $request->username;
             $user->surname = $request->surname;
             $user->email = $request->email;
+            $user->number = $request->number;
+            $user->status = 0;
+            $user->company = $request->user()->company;
             $user->password = Hash::make($request->password);
             $user->save();
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Worker added!',
+                'message' => 'Worker added',
+            ]);
+        }
+    }
+
+    public function workersList(Request $request){
+        $user_db = User::where("company",  $request->user()->company)->get();
+        if($user_db){
+            return response()->json([
+                'message' => 'No workers',
+            ]);
+        }else{
+            $username = $user_db->name;
+            $surname = $user_db->surname;
+            $email = $user_db->email;
+            $number = $user_db->number;
+
+            return response()->json([
+                'status' => 200,
+                'username' => $username,
+                'email' => $email,
+                'surname' => $surname,
+                'number' => $number,
+                'message' => 'Workers'
             ]);
         }
     }
