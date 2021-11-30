@@ -10,31 +10,36 @@ class UserController extends Controller
 {
     public function store(Request $request){
         $user_db = User::where("email",  $request->email)->first();
+        $company_name = User::where("company",  $request->company)->first();
         if($user_db){
             return response()->json([
                 'status' => 403,
-                'message' => 'User already exists!',
-            ]);
-        }else{
-            $user = new User;
-            $user->name = $request->username;
-            $user->surname = $request->surname;
-            $user->email = $request->email;
-            $user->number = $request->number;
-            $user->company = $request->company;
-            $user->status = 1;
-            $user->password = Hash::make($request->password);
-            $user->save();
-
-            $token = $user->createToken('accessToken')->plainTextToken;
-
-            return response()->json([
-                'status' => 200,
-                'message' => 'User added!',
-                'username' => $request->username,
-                'token' => $token
+                'message' => 'User already exists!'
             ]);
         }
+        if($company_name){
+            return response()->json([
+                'message' => 'Company already exists!'
+            ]);
+        }
+        $user = new User;
+        $user->name = $request->username;
+        $user->surname = $request->surname;
+        $user->email = $request->email;
+        $user->number = $request->number;
+        $user->company = $request->company;
+        $user->status = 1;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $token = $user->createToken('accessToken')->plainTextToken;
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'User added!',
+            'username' => $request->username,
+            'token' => $token
+        ]);
     }
 
     public function login(Request $request){
@@ -77,6 +82,7 @@ class UserController extends Controller
         $email = $user->email;
         $surname = $user->surname;
         $number = $user->number;
+        $status = $user->status;
         $company = $user->company;
 
         if($user){
@@ -87,6 +93,7 @@ class UserController extends Controller
                 'surname' => $surname,
                 'number' => $number,
                 'company' => $company,
+                'user_status' => $status,
                 'message' => 'User data'
             ]);
         }else{

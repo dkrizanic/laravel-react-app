@@ -13,6 +13,7 @@ function UserProfile() {
     const [email, setEmail] = useState("");
     const [number, setNumber] = useState("");
     const [company, setCompany] = useState("");
+    const [authState, setAuthState] = useState(false);
 
     const updateProfile = () =>{
         axios.post('api/updateProfile',{
@@ -56,6 +57,9 @@ function UserProfile() {
             setEmail(response.data.email);
             setNumber(response.data.number);
             setCompany(response.data.company);
+            if(response.data.user_status === 1){
+                setAuthState(true);
+            }
             console.log(response.data.message);
         }else{
             console.log(response.data.message);
@@ -66,24 +70,38 @@ function UserProfile() {
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
-                <input type="text" id="username" className="fadeIn first" name="login" value={username} required onChange={(event) => {
+                <input type="text" id="username" className="" name="login" value={username} required onChange={(event) => {
                 setUsername(event.target.value);}}></input>
-                <input type="text" id="surname" className="fadeIn second" name="login" value={surname} required onChange={(event) => {
+                <input type="text" id="surname" className="" name="login" value={surname} required onChange={(event) => {
                 setSurname(event.target.value);}}></input>
-                <input type="email" id="email" className="fadeIn second" name="login" value={email} required onChange={(event) => {
+                <input type="email" id="email" className="" name="login" value={email} required onChange={(event) => {
                 setEmail(event.target.value);}}></input>
-                <input type="text" id="number" className="fadeIn third" name="login" value={number} required onChange={(event) => {
+                <input type="text" id="number" className="" name="login" value={number} required onChange={(event) => {
                 setNumber(event.target.value);}}></input>
-                <input type="text" id="company" className="fadeIn third" name="login" value={company} required onChange={(event) => {
-                setCompany(event.target.value);}}></input>
-                <input type="submit" className="fadeIn fourth" onClick={updateProfile} value="Update"></input>
-                <div className="fadeIn fourth">
+                {authState ? (
+                    <>
+                        <input type="text" id="company" className="" name="login" value={company} required onChange={(event) => {
+                        setCompany(event.target.value);}}></input>
+                    </>
+                  ) : (
+                    <>
+                    </>
+                )}
+                <input type="submit" className="fadeIn fifth" onClick={updateProfile} value="Update"></input>
+                <div className="fadeIn fifth">
                     <h3>Operations</h3>
                     <Link to="/changePassword" className="btn btn-info" >  Update password  </Link>
                 </div>
-                <div className="fadeIn fifth marg-up" >
-                    <button className="btn btn-danger" onClick={deleteUser}> Delete profile </button>
-                </div>
+                {authState ? (
+                    <>
+                        <div className="fadeIn fourth marg-up" >
+                            <button className="btn btn-danger" onClick={deleteUser}> Delete everything </button>
+                        </div>
+                    </>
+                  ) : (
+                    <>
+                    </>
+                )}
             </div>
         </div>
     );

@@ -3708,6 +3708,11 @@ function UserProfile() {
       company = _ref10[0],
       setCompany = _ref10[1];
 
+  var _ref11 = (0, react_1.useState)(false),
+      _ref12 = _slicedToArray(_ref11, 2),
+      authState = _ref12[0],
+      setAuthState = _ref12[1];
+
   var updateProfile = function updateProfile() {
     axios_1["default"].post('api/updateProfile', {
       username: username,
@@ -3746,6 +3751,11 @@ function UserProfile() {
         setEmail(response.data.email);
         setNumber(response.data.number);
         setCompany(response.data.company);
+
+        if (response.data.user_status === 1) {
+          setAuthState(true);
+        }
+
         console.log(response.data.message);
       } else {
         console.log(response.data.message);
@@ -3759,7 +3769,7 @@ function UserProfile() {
   }, react_1["default"].createElement("input", {
     type: "text",
     id: "username",
-    className: "fadeIn first",
+    className: "",
     name: "login",
     value: username,
     required: true,
@@ -3769,7 +3779,7 @@ function UserProfile() {
   }), react_1["default"].createElement("input", {
     type: "text",
     id: "surname",
-    className: "fadeIn second",
+    className: "",
     name: "login",
     value: surname,
     required: true,
@@ -3779,7 +3789,7 @@ function UserProfile() {
   }), react_1["default"].createElement("input", {
     type: "email",
     id: "email",
-    className: "fadeIn second",
+    className: "",
     name: "login",
     value: email,
     required: true,
@@ -3789,39 +3799,39 @@ function UserProfile() {
   }), react_1["default"].createElement("input", {
     type: "text",
     id: "number",
-    className: "fadeIn third",
+    className: "",
     name: "login",
     value: number,
     required: true,
     onChange: function onChange(event) {
       setNumber(event.target.value);
     }
-  }), react_1["default"].createElement("input", {
+  }), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
     type: "text",
     id: "company",
-    className: "fadeIn third",
+    className: "",
     name: "login",
     value: company,
     required: true,
     onChange: function onChange(event) {
       setCompany(event.target.value);
     }
-  }), react_1["default"].createElement("input", {
+  })) : react_1["default"].createElement(react_1["default"].Fragment, null), react_1["default"].createElement("input", {
     type: "submit",
-    className: "fadeIn fourth",
+    className: "fadeIn fifth",
     onClick: updateProfile,
     value: "Update"
   }), react_1["default"].createElement("div", {
-    className: "fadeIn fourth"
+    className: "fadeIn fifth"
   }, react_1["default"].createElement("h3", null, "Operations"), react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/changePassword",
     className: "btn btn-info"
-  }, "  Update password  ")), react_1["default"].createElement("div", {
-    className: "fadeIn fifth marg-up"
+  }, "  Update password  ")), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+    className: "fadeIn fourth marg-up"
   }, react_1["default"].createElement("button", {
     className: "btn btn-danger",
     onClick: deleteUser
-  }, " Delete profile "))));
+  }, " Delete everything "))) : react_1["default"].createElement(react_1["default"].Fragment, null)));
 }
 
 exports["default"] = UserProfile;
