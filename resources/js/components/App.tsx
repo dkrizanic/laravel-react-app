@@ -15,6 +15,7 @@ import ProjectSettings from './project/ProjectSettings';
 import Groups from './user/Groups';
 import GroupData from './user/GroupData';
 import Navbar from './Navbar';
+import ListOfWorkers from './user/ListOfWorkers';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
@@ -41,7 +42,7 @@ function App() {
               <Route path='/projectSettings' component={ProjectSettings} />
               <Route path='/groups' component={Groups} />
               <Route path='/groupData' component={GroupData} />
-              
+              <Route path='/listOfWorkers' component={ListOfWorkers} />
             </Switch>
           </Router>
   );

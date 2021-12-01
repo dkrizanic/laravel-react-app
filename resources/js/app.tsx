@@ -27,4 +27,5 @@ require('./components/user/ChangePassword');
 require('./components/user/AddWorkers');
 require('./components/user/Groups');
 require('./components/user/GroupData');
+require('./components/user/ListOfWorkers');
 require('./components/task/TaskList');

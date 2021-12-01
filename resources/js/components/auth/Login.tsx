@@ -1,7 +1,7 @@
 import './auth.css';
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useHistory } from 'react-router-dom';
 
 
 function Login() {
@@ -9,6 +9,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    let history = useHistory();
 
     const login = () => {
         axios.post('api/loginUser', {

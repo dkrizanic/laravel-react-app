@@ -2107,6 +2107,8 @@ var GroupData_1 = __importDefault(__webpack_require__(/*! ./user/GroupData */ ".
 
 var Navbar_1 = __importDefault(__webpack_require__(/*! ./Navbar */ "./resources/js/components/Navbar.tsx"));
 
+var ListOfWorkers_1 = __importDefault(__webpack_require__(/*! ./user/ListOfWorkers */ "./resources/js/components/user/ListOfWorkers.tsx"));
+
 axios_1["default"].interceptors.request.use(function (config) {
   var token = localStorage.getItem('accessToken');
   config.headers.Authorization = token ? "Bearer ".concat(token) : '';
@@ -2148,6 +2150,9 @@ function App() {
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/groupData',
     component: GroupData_1["default"]
+  }), react_1["default"].createElement(react_router_dom_1.Route, {
+    path: '/listOfWorkers',
+    component: ListOfWorkers_1["default"]
   })));
 }
 
@@ -2363,13 +2368,30 @@ function Navbar() {
       authState = _ref2[0],
       setAuthState = _ref2[1];
 
+  var _ref3 = (0, react_1.useState)(false),
+      _ref4 = _slicedToArray(_ref3, 2),
+      status = _ref4[0],
+      setStatus = _ref4[1];
+
   (0, react_1.useEffect)(function () {
+    axios_1["default"].get('api/getStatus').then(function (response) {
+      console.log(response.data.user_status);
+
+      if (response.status === 200) {
+        if (response.data.user_status === 1) {
+          setStatus(true);
+        }
+      } else {
+        setStatus(false);
+      }
+    });
+
     if (!localStorage.getItem('accessToken')) {
       setAuthState(false);
     } else {
       setAuthState(true);
     }
-  });
+  }, []);
 
   var logout = function logout() {
     axios_1["default"].post('api/logout').then(function (response) {
@@ -2395,14 +2417,14 @@ function Navbar() {
   }, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/",
     className: "nav-link"
-  }, react_1["default"].createElement("strong", null, "Home"))), react_1["default"].createElement("div", {
+  }, react_1["default"].createElement("strong", null, "Home"))), status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
     className: "people-icon"
   }, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/addWorker",
     className: "nav-link"
   }, react_1["default"].createElement("i", {
     className: "fas fa-user-plus"
-  })))), !authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Link, {
+  })))) : react_1["default"].createElement(react_1["default"].Fragment, null)), !authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/login",
     className: "btn btn-info"
   }, "Login"), react_1["default"].createElement(react_router_dom_1.Link, {
@@ -2496,6 +2518,8 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 function Login() {
   var _ref = (0, react_1.useState)(""),
       _ref2 = _slicedToArray(_ref, 2),
@@ -2511,6 +2535,8 @@ function Login() {
       _ref6 = _slicedToArray(_ref5, 2),
       message = _ref6[0],
       setMessage = _ref6[1];
+
+  var history = (0, react_router_dom_1.useHistory)();
 
   var login = function login() {
     axios_1["default"].post('api/loginUser', {
@@ -3161,6 +3187,8 @@ function AddWorkers() {
       number = _ref14[0],
       setNumber = _ref14[1];
 
+  var history = (0, react_router_dom_1.useHistory)();
+
   var add = function add() {
     if (validateEmail(email) === false || validatePassword(password, password2) === false) {
       setMessage("Wrong data inside input fields");
@@ -3176,7 +3204,11 @@ function AddWorkers() {
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
-          window.location.href = '/addWorker';
+          history.push('/addWorker', {
+            state: {
+              deleted: true
+            }
+          });
         } else {
           setMessage(response.data.message);
         }
@@ -3272,7 +3304,12 @@ function AddWorkers() {
   }, " Add "), react_1["default"].createElement("h3", null, message)), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/groups",
     className: "btn btn-primary fadeIn fifth"
-  }, "  Groups  "))));
+  }, "  Groups  ")), react_1["default"].createElement("div", {
+    className: "marg-up"
+  }, react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/listOfWorkers",
+    className: "btn btn-primary fadeIn fifth"
+  }, "  List of Workers  "))));
 }
 
 exports["default"] = AddWorkers;
@@ -3348,6 +3385,8 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 
 var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 function ChangePassword() {
   var _ref = (0, react_1.useState)(""),
       _ref2 = _slicedToArray(_ref, 2),
@@ -3369,6 +3408,8 @@ function ChangePassword() {
       message = _ref8[0],
       setMessage = _ref8[1];
 
+  var history = (0, react_router_dom_1.useHistory)();
+
   var updatePassword = function updatePassword() {
     if (validatePassword(password, password2) === true) {
       axios_1["default"].post('api/changePassword', {
@@ -3377,7 +3418,7 @@ function ChangePassword() {
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
-          window.location.href = '/';
+          history.push("/");
         } else {
           setMessage(response.data.message);
         }
@@ -3609,6 +3650,134 @@ exports["default"] = Groups;
 
 /***/ }),
 
+/***/ "./resources/js/components/user/ListOfWorkers.tsx":
+/*!********************************************************!*\
+  !*** ./resources/js/components/user/ListOfWorkers.tsx ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+__webpack_require__(/*! ./user.css */ "./resources/js/components/user/user.css");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+function ListOfWorkers() {
+  var _ref = (0, react_1.useState)(""),
+      _ref2 = _slicedToArray(_ref, 2),
+      group_name = _ref2[0],
+      setGroup = _ref2[1];
+
+  var _ref3 = (0, react_1.useState)([]),
+      _ref4 = _slicedToArray(_ref3, 2),
+      workers = _ref4[0],
+      setListOfWorkers = _ref4[1];
+
+  (0, react_1.useEffect)(function () {
+    axios_1["default"].get("/api/workersList").then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data);
+        setListOfWorkers(response.data);
+        console.log(response.data.message);
+      } else {
+        console.log(response.data.message);
+      }
+    });
+  }, []);
+  return react_1["default"].createElement("div", {
+    className: "data"
+  }, react_1["default"].createElement("div", {
+    className: "wrapper fadeInDown"
+  }, react_1["default"].createElement("div", {
+    id: "formContent"
+  }, react_1["default"].createElement("input", {
+    type: "text",
+    id: "text",
+    className: "fadeIn first",
+    placeholder: "Group name",
+    required: true,
+    onChange: function onChange(event) {
+      setGroup(event.target.value);
+    }
+  }), react_1["default"].createElement("div", null))), workers.map(function (value, key) {
+    return react_1["default"].createElement("div", {
+      className: "jumbotron jumbotron-fluid con-size fadeIn third",
+      key: key
+    }, react_1["default"].createElement("div", {
+      className: "container"
+    }, react_1["default"].createElement("h1", {
+      className: "display-12"
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/groupData"
+    }, " ", value.name, " "))));
+  }));
+}
+
+exports["default"] = ListOfWorkers;
+
+/***/ }),
+
 /***/ "./resources/js/components/user/UserProfile.tsx":
 /*!******************************************************!*\
   !*** ./resources/js/components/user/UserProfile.tsx ***!
@@ -3682,6 +3851,8 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_mod
 
 var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
+var react_router_dom_2 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 function UserProfile() {
   var _ref = (0, react_1.useState)(""),
       _ref2 = _slicedToArray(_ref, 2),
@@ -3713,6 +3884,8 @@ function UserProfile() {
       authState = _ref12[0],
       setAuthState = _ref12[1];
 
+  var history = (0, react_router_dom_2.useHistory)();
+
   var updateProfile = function updateProfile() {
     axios_1["default"].post('api/updateProfile', {
       username: username,
@@ -3725,10 +3898,11 @@ function UserProfile() {
         console.log(response.data.message);
         localStorage.removeItem("username");
         localStorage.setItem("username", username);
-        window.location.href = '/';
       } else {
         console.log(response.data.message);
       }
+
+      history.push("/");
     });
   };
 
@@ -73856,6 +74030,8 @@ __webpack_require__(/*! ./components/user/AddWorkers */ "./resources/js/componen
 __webpack_require__(/*! ./components/user/Groups */ "./resources/js/components/user/Groups.tsx");
 
 __webpack_require__(/*! ./components/user/GroupData */ "./resources/js/components/user/GroupData.tsx");
+
+__webpack_require__(/*! ./components/user/ListOfWorkers */ "./resources/js/components/user/ListOfWorkers.tsx");
 
 __webpack_require__(/*! ./components/task/TaskList */ "./resources/js/components/task/TaskList.tsx");
 })();

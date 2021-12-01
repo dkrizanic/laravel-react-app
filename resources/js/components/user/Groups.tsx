@@ -26,11 +26,8 @@ function Groups() {
             }else{
                 console.log("create project failed");
             }
-            
         });
-        
     }
-
     
     useEffect(()=>{
         axios.get("/api/groupList")

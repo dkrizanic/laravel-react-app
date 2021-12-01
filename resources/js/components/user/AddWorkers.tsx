@@ -2,7 +2,7 @@
 import '../app.css';
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function AddWorkers() {
 
@@ -13,6 +13,7 @@ function AddWorkers() {
     const [password2, setPassword2] = useState("");
     const [message, setMessage] = useState("");
     const [number, setNumber] = useState("");
+    let history = useHistory();
 
     const add = () => {
         if(validateEmail(email) === false || validatePassword(password, password2) === false){
@@ -28,7 +29,7 @@ function AddWorkers() {
                 }).then((response) => {
                     if(response.data.status === 200){
                         console.log(response.data.message);
-                        window.location.href = '/addWorker';
+                        history.push('/addWorker', { state: { deleted: true } });
                     }else{
                         setMessage(response.data.message);
                     }
@@ -76,7 +77,10 @@ function AddWorkers() {
                     <h3>{message}</h3>
                 </div>
                 <div>
-                <Link to="/groups" className="btn btn-primary fadeIn fifth" >  Groups  </Link>
+                    <Link to="/groups" className="btn btn-primary fadeIn fifth" >  Groups  </Link>
+                </div>
+                <div className="marg-up">
+                    <Link to="/listOfWorkers" className="btn btn-primary fadeIn fifth" >  List of Workers  </Link>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@ import './user.css';
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import { useHistory } from "react-router-dom";
 
 
 function UserProfile() {
@@ -15,6 +15,8 @@ function UserProfile() {
     const [company, setCompany] = useState("");
     const [authState, setAuthState] = useState(false);
 
+    let history = useHistory();
+
     const updateProfile = () =>{
         axios.post('api/updateProfile',{
             username: username,
@@ -25,14 +27,13 @@ function UserProfile() {
         })
         .then((response) =>{
             if(response.data.status === 200){
-            console.log(response.data.message);
-            localStorage.removeItem("username");
-            localStorage.setItem("username", username);
-            window.location.href = '/';
+                console.log(response.data.message);
+                localStorage.removeItem("username");
+                localStorage.setItem("username", username);
             }else{
             console.log(response.data.message);
             }
-            
+            history.push("/");
         });
     }
 

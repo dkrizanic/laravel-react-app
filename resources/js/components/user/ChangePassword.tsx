@@ -1,6 +1,7 @@
 
 import React, { useState} from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function ChangePassword() {
 
@@ -8,7 +9,7 @@ function ChangePassword() {
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [message, setMessage] = useState("");
-
+    let history = useHistory();
     const updatePassword = () =>{
         if(validatePassword(password, password2) === true){
             axios.post('api/changePassword',{
@@ -18,7 +19,7 @@ function ChangePassword() {
             .then((response) =>{
               if(response.data.status === 200){
                 console.log(response.data.message);
-                window.location.href = '/';
+                history.push("/");
               }else{
                 setMessage(response.data.message);
               }

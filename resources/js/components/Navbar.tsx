@@ -8,15 +8,27 @@ import { Link } from 'react-router-dom';
 function Navbar() {
 
   const [authState, setAuthState] = useState(false);
+  const [status, setStatus] = useState(false);
 
   useEffect(()=>{
+    axios.get('api/getStatus')
+    .then((response) =>{
+      console.log(response.data.user_status);
+      if(response.status === 200){
+        if(response.data.user_status === 1){
+          setStatus(true);
+        }
+      }else{
+        setStatus(false);
+      }
+    })
     if(!localStorage.getItem('accessToken')){
       setAuthState(false);
     }else{
       setAuthState(true);
     }
     
-  });
+  }, []);
 
   const logout = () =>{
     axios.post('api/logout')
@@ -38,9 +50,16 @@ function Navbar() {
                     <li className="nav-item active">
                     <Link to="/" className="nav-link"><strong>Home</strong></Link>
                     </li>
-                    <div className="people-icon">
-                      <Link to="/addWorker" className="nav-link"><i className="fas fa-user-plus"></i></Link>
-                    </div>
+                    {status ? (
+                    <>
+                      <div className="people-icon">
+                        <Link to="/addWorker" className="nav-link"><i className="fas fa-user-plus"></i></Link>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                    </>
+                )}
                 </ul>
                     
                   {!authState ? (

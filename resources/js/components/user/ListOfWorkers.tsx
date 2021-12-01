@@ -22,7 +22,7 @@ function ListOfWorkers() {
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);
-            setListOfWorkers(response.data.group_list);
+            setListOfWorkers(response.data);
             console.log(response.data.message);
         }else{
             console.log(response.data.message);
