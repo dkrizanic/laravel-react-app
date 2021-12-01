@@ -14,7 +14,7 @@ function UserProfile() {
     const [number, setNumber] = useState("");
     const [company, setCompany] = useState("");
     const [authState, setAuthState] = useState(false);
-
+    const CryptoJS = require("crypto-js");
     let history = useHistory();
 
     const updateProfile = () =>{
@@ -53,14 +53,20 @@ function UserProfile() {
       axios.get("/api/userProfile")
       .then((response) =>{
         if(response.data.status === 200){
+            if(localStorage.getItem('status')){
+                let bytes = CryptoJS.AES.decrypt(localStorage.getItem('status'), 'my-secret-key@123');
+                let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+                if(decryptedData == 1){
+                  setAuthState(true)
+                }else{
+                  setAuthState(false);
+                }
+              }
             setUsername(response.data.username);
             setSurname(response.data.surname);
             setEmail(response.data.email);
             setNumber(response.data.number);
             setCompany(response.data.company);
-            if(response.data.user_status === 1){
-                setAuthState(true);
-            }
             console.log(response.data.message);
         }else{
             console.log(response.data.message);

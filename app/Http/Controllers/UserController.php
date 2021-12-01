@@ -62,7 +62,8 @@ class UserController extends Controller
                     'status' => 200,
                     'message' => "User logged in",
                     'token' => $token,
-                    'username' => $user->name
+                    'username' => $user->name,
+                    'user_status' => $user->status
                 ]);
             }
         }
@@ -217,18 +218,4 @@ class UserController extends Controller
         }
     }
 
-    public function getStatus(Request $request){
-        $user_db = User::where("id",  $request->user()->id)->first();
-        if(!$user_db){
-            return response()->json([
-                'message' => 'Status error',
-            ]);
-        }else{
-            $user_status = $user_db->status;
-            return response()->json([
-                'status' => 200,
-                'user_status' => $user_status
-            ]);
-        }
-    }
 }

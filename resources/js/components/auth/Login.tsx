@@ -1,7 +1,7 @@
 import './auth.css';
 import React, { useState } from "react";
 import axios from "axios";
-import { useHistory } from 'react-router-dom';
+
 
 
 function Login() {
@@ -9,7 +9,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    let history = useHistory();
+    const CryptoJS = require("crypto-js");
 
     const login = () => {
         axios.post('api/loginUser', {
@@ -17,8 +17,10 @@ function Login() {
             password: password
         }).then((response) => {
             if(response.data.status === 200){
+                let status = CryptoJS.AES.encrypt(JSON.stringify(response.data.user_status), 'my-secret-key@123').toString();
                 localStorage.setItem("accessToken", response.data.token);
                 localStorage.setItem("username", response.data.username);
+                localStorage.setItem("status", status);
                 console.log(response.data.message);
                 window.location.href = '/';
             }else{

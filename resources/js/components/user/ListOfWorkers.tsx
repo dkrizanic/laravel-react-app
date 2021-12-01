@@ -8,7 +8,6 @@ function ListOfWorkers() {
 
     const [group_name, setGroup] = useState("");
     const [workers, setListOfWorkers] = useState<IState["workers"]>([]);
-
     interface IState {
         workers: {
           name: string;
@@ -34,16 +33,6 @@ function ListOfWorkers() {
 
     return (
         <div className="data">
-            <div className="wrapper fadeInDown">
-                <div id="formContent">
-                    <input type="text" id="text" className="fadeIn first" placeholder="Group name" required onChange={(event) => {
-                    setGroup(event.target.value);}}></input>
-                    <div>
-                        
-                    </div>
-                </div>
-            </div>
-            
             {workers.map((value, key) => {
             return (
               <div className="jumbotron jumbotron-fluid con-size fadeIn third" key={key}>

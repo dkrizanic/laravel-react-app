@@ -9,19 +9,18 @@ function Navbar() {
 
   const [authState, setAuthState] = useState(false);
   const [status, setStatus] = useState(false);
+  const CryptoJS = require("crypto-js");
 
   useEffect(()=>{
-    axios.get('api/getStatus')
-    .then((response) =>{
-      console.log(response.data.user_status);
-      if(response.status === 200){
-        if(response.data.user_status === 1){
-          setStatus(true);
-        }
+    if(localStorage.getItem('status')){
+      let bytes = CryptoJS.AES.decrypt(localStorage.getItem('status'), 'my-secret-key@123');
+      let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      if(decryptedData === 1){
+        setStatus(true)
       }else{
         setStatus(false);
       }
-    })
+    }
     if(!localStorage.getItem('accessToken')){
       setAuthState(false);
     }else{
@@ -37,6 +36,7 @@ function Navbar() {
         console.log(response.data.message);
         localStorage.removeItem("accessToken");
         localStorage.removeItem("username");
+        localStorage.removeItem("status");
         window.location.href = '/';
       }
     });
