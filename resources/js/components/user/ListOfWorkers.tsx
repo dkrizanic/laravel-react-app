@@ -21,7 +21,7 @@ function ListOfWorkers() {
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);
-            setListOfWorkers(response.data);
+            setListOfWorkers(response.data.workers);
             console.log(response.data.message);
         }else{
             console.log(response.data.message);
@@ -35,7 +35,7 @@ function ListOfWorkers() {
         <div className="data">
             {workers.map((value, key) => {
             return (
-              <div className="jumbotron jumbotron-fluid con-size fadeIn third" key={key}>
+              <div className="jumbotron jumbotron-fluid con-size fadeIn first" key={key}>
                 <div className="container">
                   <h1 className="display-12"><Link to="/groupData" > {value.name} </Link></h1>
                 </div>

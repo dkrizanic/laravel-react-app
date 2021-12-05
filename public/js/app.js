@@ -2187,7 +2187,7 @@ function App() {
       setStatus(true);
     }
   }, []);
-  return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(Navbar_1["default"], null), status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Switch, null, react_1["default"].createElement(react_router_dom_1.Route, {
+  return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(Navbar_1["default"], null), ~status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Switch, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/',
     exact: true,
     component: Home_1["default"]
@@ -3279,8 +3279,6 @@ function AddWorkers() {
       number = _ref14[0],
       setNumber = _ref14[1];
 
-  var history = (0, react_router_dom_1.useHistory)();
-
   var add = function add() {
     if (validateEmail(email) === false || validatePassword(password, password2) === false) {
       setMessage("Wrong data inside input fields");
@@ -3296,11 +3294,7 @@ function AddWorkers() {
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
-          history.push('/addWorker', {
-            state: {
-              deleted: true
-            }
-          });
+          window.location.href = '/';
         } else {
           setMessage(response.data.message);
         }
@@ -3722,11 +3716,11 @@ function Groups() {
       setGroup(event.target.value);
     }
   }), react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
-    className: "fadeIn second btn btn-info",
+    className: "btn btn-info fadeIn second",
     onClick: newGroup
   }, " Add ")))), group.map(function (value, key) {
     return react_1["default"].createElement("div", {
-      className: "jumbotron jumbotron-fluid con-size fadeIn third",
+      className: "jumbotron jumbotron-fluid con-size fadeIn second",
       key: key
     }, react_1["default"].createElement("div", {
       className: "container"
@@ -3830,7 +3824,7 @@ function ListOfWorkers() {
     axios_1["default"].get("/api/workersList").then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data);
-        setListOfWorkers(response.data);
+        setListOfWorkers(response.data.workers);
         console.log(response.data.message);
       } else {
         console.log(response.data.message);
@@ -3841,7 +3835,7 @@ function ListOfWorkers() {
     className: "data"
   }, workers.map(function (value, key) {
     return react_1["default"].createElement("div", {
-      className: "jumbotron jumbotron-fluid con-size fadeIn third",
+      className: "jumbotron jumbotron-fluid con-size fadeIn first",
       key: key
     }, react_1["default"].createElement("div", {
       className: "container"

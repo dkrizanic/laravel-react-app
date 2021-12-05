@@ -51,14 +51,14 @@ function Groups() {
                     <input type="text" id="text" className="fadeIn first" placeholder="Group name" required onChange={(event) => {
                     setGroup(event.target.value);}}></input>
                     <div>
-                        <button className="fadeIn second btn btn-info" onClick={newGroup}> Add </button>  
+                        <button className="btn btn-info fadeIn second" onClick={newGroup}> Add </button>  
                     </div>
                 </div>
             </div>
             
             {group.map((value, key) => {
             return (
-              <div className="jumbotron jumbotron-fluid con-size fadeIn third" key={key}>
+              <div className="jumbotron jumbotron-fluid con-size fadeIn second" key={key}>
                 <div className="container">
                   <h1 className="display-12"><Link to="/groupData" > {value.group_name} </Link></h1>
                 </div>

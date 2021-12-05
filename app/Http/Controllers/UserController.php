@@ -79,14 +79,15 @@ class UserController extends Controller
 
     public function userProfile(Request $request){          
         $user = User::where("id",  $request->user()->id)->first(); 
-        $username = $user->name;
-        $email = $user->email;
-        $surname = $user->surname;
-        $number = $user->number;
-        $status = $user->status;
-        $company = $user->company;
+        
 
         if($user){
+            $username = $user->name;
+            $email = $user->email;
+            $surname = $user->surname;
+            $number = $user->number;
+            $status = $user->status;
+            $company = $user->company;
             return response()->json([ 
                 'status' => 200,
                 'username' => $username,
@@ -197,22 +198,14 @@ class UserController extends Controller
 
     public function workersList(Request $request){
         $user_db = User::where("company",  $request->user()->company)->get();
-        if($user_db){
+        if(!$user_db){
             return response()->json([
                 'message' => 'No workers',
             ]);
         }else{
-            $username = $user_db->name;
-            $surname = $user_db->surname;
-            $email = $user_db->email;
-            $number = $user_db->number;
-
             return response()->json([
                 'status' => 200,
-                'username' => $username,
-                'email' => $email,
-                'surname' => $surname,
-                'number' => $number,
+                'workers' => $user_db,
                 'message' => 'Workers'
             ]);
         }

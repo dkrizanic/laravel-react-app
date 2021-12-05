@@ -2,7 +2,7 @@
 import '../app.css';
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function AddWorkers() {
 
@@ -13,7 +13,6 @@ function AddWorkers() {
     const [password2, setPassword2] = useState("");
     const [message, setMessage] = useState("");
     const [number, setNumber] = useState("");
-    let history = useHistory();
 
     const add = () => {
         if(validateEmail(email) === false || validatePassword(password, password2) === false){
@@ -29,7 +28,7 @@ function AddWorkers() {
                 }).then((response) => {
                     if(response.data.status === 200){
                         console.log(response.data.message);
-                        history.push('/addWorker', { state: { deleted: true } });
+                        window.location.href = '/';
                     }else{
                         setMessage(response.data.message);
                     }

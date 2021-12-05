@@ -48,7 +48,7 @@ function App() {
   return (
           <Router>
             <Navbar/>
-            {status ? (
+            {~status ? (
                     <>
                       <Switch>
                         <Route path='/' exact component={Home} />
