@@ -5848,7 +5848,7 @@ function Groups() {
     onClick: newGroup
   }, " Add ")))), group.map(function (value, key) {
     return react_1["default"].createElement("div", {
-      className: "jumbotron jumbotron-fluid con-size fadeIn second",
+      className: "jumbotron jumbotron-fluid con-size fadeIn second rounded-circle",
       key: key
     }, react_1["default"].createElement("div", {
       className: "container"
@@ -5856,7 +5856,11 @@ function Groups() {
       className: "display-12"
     }, react_1["default"].createElement(react_router_dom_1.Link, {
       to: "/groupData"
-    }, " ", value.group_name, " "))));
+    }, " ", value.group_name, " "))), react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/projectSettings"
+    }, "  ", react_1["default"].createElement("i", {
+      className: "fas fa-cog"
+    }), "  "));
   }));
 }
 
@@ -6114,6 +6118,7 @@ function UserProfile() {
       if (response.data.status === 200) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("username");
+        localStorage.removeItem("status");
         console.log(response.data.message);
         window.location.href = '/';
       }
@@ -6153,8 +6158,8 @@ function UserProfile() {
     type: "text",
     id: "username",
     className: "",
-    name: "login",
     value: username,
+    title: "number",
     required: true,
     onChange: function onChange(event) {
       setUsername(event.target.value);
@@ -6163,8 +6168,8 @@ function UserProfile() {
     type: "text",
     id: "surname",
     className: "",
-    name: "login",
     value: surname,
+    title: "surname",
     required: true,
     onChange: function onChange(event) {
       setSurname(event.target.value);
@@ -6173,8 +6178,8 @@ function UserProfile() {
     type: "email",
     id: "email",
     className: "",
-    name: "login",
     value: email,
+    title: "email",
     required: true,
     onChange: function onChange(event) {
       setEmail(event.target.value);
@@ -6183,8 +6188,8 @@ function UserProfile() {
     type: "text",
     id: "number",
     className: "",
-    name: "login",
     value: number,
+    title: "number",
     required: true,
     onChange: function onChange(event) {
       setNumber(event.target.value);
@@ -6193,8 +6198,8 @@ function UserProfile() {
     type: "text",
     id: "company",
     className: "",
-    name: "login",
     value: company,
+    title: "company",
     required: true,
     onChange: function onChange(event) {
       setCompany(event.target.value);

@@ -43,6 +43,7 @@ function UserProfile() {
             if(response.data.status === 200){
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("username");
+                localStorage.removeItem("status");
                 console.log(response.data.message);
                 window.location.href = '/';
             }
@@ -77,17 +78,17 @@ function UserProfile() {
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
-                <input type="text" id="username" className="" name="login" value={username} required onChange={(event) => {
+                <input type="text" id="username" className="" value={username} title="number" required onChange={(event) => {
                 setUsername(event.target.value);}}></input>
-                <input type="text" id="surname" className="" name="login" value={surname} required onChange={(event) => {
+                <input type="text" id="surname" className="" value={surname} title="surname" required onChange={(event) => {
                 setSurname(event.target.value);}}></input>
-                <input type="email" id="email" className="" name="login" value={email} required onChange={(event) => {
+                <input type="email" id="email" className="" value={email} title="email" required onChange={(event) => {
                 setEmail(event.target.value);}}></input>
-                <input type="text" id="number" className="" name="login" value={number} required onChange={(event) => {
+                <input type="text" id="number" className="" value={number} title="number" required onChange={(event) => {
                 setNumber(event.target.value);}}></input>
                 {authState ? (
                     <>
-                        <input type="text" id="company" className="" name="login" value={company} required onChange={(event) => {
+                        <input type="text" id="company" className=""  value={company} title="company" required onChange={(event) => {
                         setCompany(event.target.value);}}></input>
                     </>
                   ) : (

@@ -58,10 +58,11 @@ function Groups() {
             
             {group.map((value, key) => {
             return (
-              <div className="jumbotron jumbotron-fluid con-size fadeIn second" key={key}>
+              <div className="jumbotron jumbotron-fluid con-size fadeIn second rounded-circle" key={key}>
                 <div className="container">
                   <h1 className="display-12"><Link to="/groupData" > {value.group_name} </Link></h1>
                 </div>
+                <Link to="/projectSettings">  <i className="fas fa-cog"></i>  </Link>
               </div>
             );
             })}
