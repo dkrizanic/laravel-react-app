@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/userProfile', [UserController::class, 'userProfile']);
     Route::post('/updateProfile', [UserController::class, 'updateProfile']);
     Route::post('/changePassword', [UserController::class, 'changePassword']);
-    Route::post('/deleteUser', [UserController::class, 'destroy']);
+    Route::post('/deleteUser', [UserController::class, 'delete_everything']);
     Route::post('/addWorker', [UserController::class, 'addWorker']);
     Route::get('/workersList', [UserController::class, 'workersList']);
     Route::post('/createGroup', [GroupController::class, 'createGroup']);

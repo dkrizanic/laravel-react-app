@@ -163,12 +163,12 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(Request $request){      
-        User::where("id",  $request->user()->id)->first()->delete(); 
+    public function delete_everything(Request $request){      
+        User::where("company",  $request->user()->company)->delete(); 
         $request->user()->currentAccessToken()->delete();
         return response()->json([ 
             'status' => 200,
-            'message' => 'User deleted'
+            'message' => 'company deleted!'
         ]);
     }
 
