@@ -2,6 +2,7 @@ import './project.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from 'react-select';
+import { Form } from "react-bootstrap";
 
 
 function CreateProject() {
@@ -10,6 +11,11 @@ function CreateProject() {
         group: {
           group_name: string;
         }[]
+
+        selected: {
+            selected1: string;
+          }[]
+
       }
 
     const [project_name, setName] = useState("");
@@ -17,7 +23,12 @@ function CreateProject() {
     const [finish_date, setFinishDate] = useState("");
     const [group, setListOfGroups] = useState<IState["group"]>([]);
     const [message, setMessage] = useState("");
-    const [group_name, setGroupName] = useState("");
+    const [selected, setSelectedOption] = useState<IState["selected"]>([]);
+
+    const options = group.map(d => ({
+        "value" : d.group_name,
+        "label" : d.group_name
+      }))
 
     const newProject = () => {
         if(project_name === ''){
@@ -27,7 +38,6 @@ function CreateProject() {
                 project_name: project_name,
                 start_date: start_date,
                 finish_date: finish_date,
-                group_name: group_name
             }).then((response) => {
                 if(response.data.status === 200){
                     console.log(response.data.message);
@@ -54,6 +64,8 @@ function CreateProject() {
         
     }, []);
 
+
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
@@ -64,13 +76,10 @@ function CreateProject() {
                 <input type="date" id="date2" className="fadeIn third" placeholder="finish_date" title="finish date" required onChange={(event) => {
                 setFinishDate(event.target.value);}}></input>
                 <div>
-                    <select value={group_name} onChange={(event) => {setGroupName(event.target.value);}}>
-                        {group.map((option, key) => {
-                            return(
-                                <option key={key} value={option.group_name}>{option.group_name}</option>
-                            );
-                        })}
-                    </select>
+                    <Select 
+                    isMulti
+                    options={options}
+                    />
                 </div>
 
                 <div className="marg-up">
@@ -83,5 +92,4 @@ function CreateProject() {
 }
 
 export default CreateProject;
-
 

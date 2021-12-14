@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 
+
 function Home() {
 
   interface IState {
@@ -39,7 +40,7 @@ function Home() {
         </div>
         {project.map((value, key) => {
             return (
-              <div className="jumbotron jumbotron-fluid con-size " key={key}>
+              <div className="jumbotron jumbotron-fluid con-size fadeIn first" key={key}>
                 <div className="container">
                   <h1 className="display-12"><Link to="/taskList" > {value.project_name} </Link></h1>
                   <p className="lead"> {value.start_date} : {value.finish_date} </p>

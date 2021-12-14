@@ -49,5 +49,3 @@ function ListOfWorkers() {
 }
 
 export default ListOfWorkers;
-
-
