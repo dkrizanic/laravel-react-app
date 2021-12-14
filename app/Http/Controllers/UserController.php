@@ -38,7 +38,8 @@ class UserController extends Controller
             'status' => 200,
             'message' => 'User added!',
             'username' => $request->username,
-            'token' => $token
+            'token' => $token,
+            'user_status' => $user->status
         ]);
     }
 

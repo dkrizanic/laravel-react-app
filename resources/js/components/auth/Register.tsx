@@ -13,6 +13,7 @@ function Register() {
     const [company, setCompany] = useState("");
     const [number, setNumber] = useState("");
     const [message, setMessage] = useState("");
+    const CryptoJS = require("crypto-js");
 
     const register = () => {
         if(username === '' || surname === '' || password === '' || company === '' || number === ''){
@@ -31,8 +32,10 @@ function Register() {
                     number: number
                     }).then((response) => {
                         if(response.data.status === 200){
+                            let status = CryptoJS.AES.encrypt(JSON.stringify(response.data.user_status), 'my-secret-key@123').toString();
                             localStorage.setItem("accessToken", response.data.token);
                             localStorage.setItem("username", response.data.username);
+                            localStorage.setItem("status", status);
                             console.log(response.data.message);
                             window.location.href = '/';
                         }else{

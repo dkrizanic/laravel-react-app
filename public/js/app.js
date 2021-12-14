@@ -4915,6 +4915,8 @@ function Register() {
       message = _ref16[0],
       setMessage = _ref16[1];
 
+  var CryptoJS = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
+
   var register = function register() {
     if (username === '' || surname === '' || password === '' || company === '' || number === '') {
       setMessage("Please insert all required information");
@@ -4933,8 +4935,10 @@ function Register() {
           number: number
         }).then(function (response) {
           if (response.data.status === 200) {
+            var status = CryptoJS.AES.encrypt(JSON.stringify(response.data.user_status), 'my-secret-key@123').toString();
             localStorage.setItem("accessToken", response.data.token);
             localStorage.setItem("username", response.data.username);
+            localStorage.setItem("status", status);
             console.log(response.data.message);
             window.location.href = '/';
           } else {
