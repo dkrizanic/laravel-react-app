@@ -2,21 +2,20 @@ import './project.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from 'react-select';
-import { Form } from "react-bootstrap";
 
 
 function CreateProject() {
 
     interface IState {
         group: {
-          group_name: string;
+            group_name: string;
         }[]
 
         selected: {
             selected1: string;
-          }[]
+            }[]
 
-      }
+    }
 
     const [project_name, setName] = useState("");
     const [start_date, setStartDate] = useState("");
@@ -28,7 +27,7 @@ function CreateProject() {
     const options = group.map(d => ({
         "value" : d.group_name,
         "label" : d.group_name
-      }))
+    }))
 
     const newProject = () => {
         if(project_name === ''){
@@ -63,7 +62,6 @@ function CreateProject() {
         })
         
     }, []);
-
 
 
     return (

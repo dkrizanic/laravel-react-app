@@ -16,11 +16,14 @@ function Register() {
     const CryptoJS = require("crypto-js");
 
     const register = () => {
-        if(username === '' || surname === '' || password === '' || company === '' || number === ''){
-            setMessage("Please insert all required information");
+        if(username === '' || surname === '' || password === '' || company === '' ){
+            setMessage("Please insert all valid informations");
         }else{
-            if(validateEmail(email) === false || validatePassword(password, password2) === false){
-                setMessage("Wrong data inside input fields");
+            if(validatePassword(password, password2) === false){
+                setMessage("Password missmatch");
+            }
+            if(validatePassword(password, password2) === false){
+                setMessage("Please insert valid email adress");
             }
             if(validateEmail(email) === true && validatePassword(password, password2) === true){
                 axios.post('api/createUser', {
@@ -73,7 +76,7 @@ function Register() {
                 setEmail(event.target.value);}}></input>
                 <input type="text" id="company" className="fadeIn second" name="login" placeholder="company" required onChange={(event) => {
                 setCompany(event.target.value);}}></input>
-                <input type="text" id="number" className="fadeIn third" name="login" placeholder="number" required onChange={(event) => {
+                <input type="number" id="number" className="fadeIn third" name="login" placeholder="number" required onChange={(event) => {
                 setNumber(event.target.value);}}></input>
                 <input type="password" id="password" className="fadeIn third" name="login" placeholder="password" required onChange={(event) => {
                 setPassword(event.target.value);}}></input>

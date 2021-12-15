@@ -28,7 +28,7 @@ function AddWorkers() {
                 }).then((response) => {
                     if(response.data.status === 200){
                         console.log(response.data.message);
-                        window.location.href = '/';
+                        window.location.href = '/addWorker';
                     }else{
                         setMessage(response.data.message);
                     }
@@ -78,7 +78,7 @@ function AddWorkers() {
                 <div>
                     <Link to="/groups" className="btn btn-primary fadeIn fifth" >  Groups  </Link>
                 </div>
-                <div className="marg-up">
+                <div className="marg-up-inp">
                     <Link to="/listOfWorkers" className="btn btn-primary fadeIn fifth" >  List of Workers  </Link>
                 </div>
             </div>

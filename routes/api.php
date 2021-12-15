@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/addWorker', [UserController::class, 'addWorker']);
     Route::get('/workersList', [UserController::class, 'workersList']);
     Route::post('/createGroup', [GroupController::class, 'createGroup']);
+    Route::get('/groupWorkersList', [GroupController::class, 'groupWorkersList']);
 });
 
 

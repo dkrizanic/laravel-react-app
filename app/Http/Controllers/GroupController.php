@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Group;
+use App\Models\User;
 
 class GroupController extends Controller
 {
@@ -33,6 +34,29 @@ class GroupController extends Controller
                 'message' => 'No groups yet'
             ]);
         }
+    }
+
+    public function groupWorkersList(Request $request){
+        $workers_list = User::where("company",  $request->user()->company)->where("status", 0)->get(); 
+        if($workers_list){
+            return response()->json([ 
+                'workers_list' => $workers_list,
+                'status' => 200,
+                'message' => 'Workers list'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'No workers yet'
+            ]);
+        }
+    }
+
+    public function deleteGroup(Request $request){
+        Group::where("group",  1)->delete(); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Group deleted!'
+        ]);
     }
     
 }

@@ -27,8 +27,6 @@ html {
     color: #cccccc;
   }
   
-  
-  
   /* STRUCTURE */
   
   .wrapper {
@@ -77,9 +75,19 @@ html {
     border-bottom: 2px solid #5fbae9;
   }
   
-  
-  
   /* FORM TYPOGRAPHY*/
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
   
   input[type=button], input[type=submit], input[type=reset]  {
     background-color: #56baed;
@@ -115,9 +123,6 @@ html {
     transform: scale(0.95);
   }
   
-
-
-
   
   input {
     background-color: #f6f6f6;
@@ -149,10 +154,6 @@ html {
     color: #cccccc;
   }
 
-
-
-  
-  
   
   /* ANIMATIONS */
   

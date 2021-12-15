@@ -13,7 +13,7 @@ import TaskList from './task/TaskList';
 import AddWorkers from './user/AddWorkers';
 import ProjectSettings from './project/ProjectSettings';
 import Groups from './user/Groups';
-import GroupData from './user/GroupData';
+import GroupOperations from './user/GroupOperations';
 import Navbar from './Navbar';
 import ListOfWorkers from './user/ListOfWorkers';
 
@@ -55,7 +55,7 @@ function App() {
                         <Route path='/addWorker' component={AddWorkers} />
                         <Route path='/projectSettings' component={ProjectSettings} />
                         <Route path='/groups' component={Groups} />
-                        <Route path='/groupData' component={GroupData} />
+                        <Route path='/groupOperations' component={GroupOperations} />
                         <Route path='/listOfWorkers' component={ListOfWorkers} />
                         <Route path='/createProject' component={CreateProject} />
                         <Route path='/register' component={Register} />

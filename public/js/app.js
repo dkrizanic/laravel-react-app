@@ -4272,7 +4272,7 @@ var ProjectSettings_1 = __importDefault(__webpack_require__(/*! ./project/Projec
 
 var Groups_1 = __importDefault(__webpack_require__(/*! ./user/Groups */ "./resources/js/components/user/Groups.tsx"));
 
-var GroupData_1 = __importDefault(__webpack_require__(/*! ./user/GroupData */ "./resources/js/components/user/GroupData.tsx"));
+var GroupOperations_1 = __importDefault(__webpack_require__(/*! ./user/GroupOperations */ "./resources/js/components/user/GroupOperations.tsx"));
 
 var Navbar_1 = __importDefault(__webpack_require__(/*! ./Navbar */ "./resources/js/components/Navbar.tsx"));
 
@@ -4324,8 +4324,8 @@ function App() {
     path: '/groups',
     component: Groups_1["default"]
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/groupData',
-    component: GroupData_1["default"]
+    path: '/groupOperations',
+    component: GroupOperations_1["default"]
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/listOfWorkers',
     component: ListOfWorkers_1["default"]
@@ -4918,11 +4918,15 @@ function Register() {
   var CryptoJS = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
 
   var register = function register() {
-    if (username === '' || surname === '' || password === '' || company === '' || number === '') {
-      setMessage("Please insert all required information");
+    if (username === '' || surname === '' || password === '' || company === '') {
+      setMessage("Please insert all valid informations");
     } else {
-      if (validateEmail(email) === false || validatePassword(password, password2) === false) {
-        setMessage("Wrong data inside input fields");
+      if (validatePassword(password, password2) === false) {
+        setMessage("Password missmatch");
+      }
+
+      if (validatePassword(password, password2) === false) {
+        setMessage("Please insert valid email adress");
       }
 
       if (validateEmail(email) === true && validatePassword(password, password2) === true) {
@@ -5010,7 +5014,7 @@ function Register() {
       setCompany(event.target.value);
     }
   }), react_1["default"].createElement("input", {
-    type: "text",
+    type: "number",
     id: "number",
     className: "fadeIn third",
     name: "login",
@@ -5422,7 +5426,7 @@ function AddWorkers() {
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
-          window.location.href = '/';
+          window.location.href = '/addWorker';
         } else {
           setMessage(response.data.message);
         }
@@ -5519,7 +5523,7 @@ function AddWorkers() {
     to: "/groups",
     className: "btn btn-primary fadeIn fifth"
   }, "  Groups  ")), react_1["default"].createElement("div", {
-    className: "marg-up"
+    className: "marg-up-inp"
   }, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/listOfWorkers",
     className: "btn btn-primary fadeIn fifth"
@@ -5691,14 +5695,60 @@ exports["default"] = ChangePassword;
 
 /***/ }),
 
-/***/ "./resources/js/components/user/GroupData.tsx":
-/*!****************************************************!*\
-  !*** ./resources/js/components/user/GroupData.tsx ***!
-  \****************************************************/
+/***/ "./resources/js/components/user/GroupOperations.tsx":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/user/GroupOperations.tsx ***!
+  \**********************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -5710,13 +5760,79 @@ Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+__webpack_require__(/*! ./user.css */ "./resources/js/components/user/user.css");
 
-function GroupData() {
-  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Group"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_select_1 = __importDefault(__webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+function GroupOperations() {
+  var _ref = (0, react_1.useState)([]),
+      _ref2 = _slicedToArray(_ref, 2),
+      workers = _ref2[0],
+      setListOfWorkers = _ref2[1];
+
+  var options = workers.map(function (d) {
+    return {
+      "value": d.name,
+      "label": d.name
+    };
+  });
+  (0, react_1.useEffect)(function () {
+    axios_1["default"].get("/api/groupWorkersList").then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data);
+        setListOfWorkers(response.data.workers_list);
+        console.log(response.data.message);
+      } else {
+        console.log(response.data.message);
+      }
+    });
+  }, []);
+
+  var deleteGroup = function deleteGroup() {
+    axios_1["default"].post('api/deleteUser').then(function (response) {
+      if (response.data.status === 200) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("username");
+        localStorage.removeItem("status");
+        console.log(response.data.message);
+        window.location.href = '/';
+      }
+    });
+  };
+
+  return react_1["default"].createElement("div", {
+    className: "wrapper fadeInDown"
+  }, react_1["default"].createElement("div", {
+    id: "formContent"
+  }, react_1["default"].createElement("div", {
+    className: 'marg-up-inp'
+  }, react_1["default"].createElement(react_select_1["default"], {
+    isMulti: true,
+    options: options
+  })), react_1["default"].createElement("div", {
+    className: "marg-up "
+  }, react_1["default"].createElement("button", {
+    className: " btn btn-info"
+  }, " Save ")), react_1["default"].createElement("div", null, react_1["default"].createElement("h3", {
+    className: 'marg-up'
+  }, "Operations"), react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/changePassword",
+    className: "btn btn-info"
+  }, " Update group name ")), react_1["default"].createElement("div", {
+    className: "marg-up-inp"
+  }, react_1["default"].createElement("button", {
+    className: "btn btn-danger",
+    onClick: deleteGroup
+  }, " Delete group "))));
 }
 
-exports["default"] = GroupData;
+exports["default"] = GroupOperations;
 
 /***/ }),
 
@@ -5855,12 +5971,8 @@ function Groups() {
     }, react_1["default"].createElement("h1", {
       className: "display-12"
     }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/groupData"
-    }, " ", value.group_name, " "))), react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/projectSettings"
-    }, "  ", react_1["default"].createElement("i", {
-      className: "fas fa-cog"
-    }), "  "));
+      to: "/groupOperations"
+    }, " ", value.group_name, " "))));
   }));
 }
 
@@ -17546,7 +17658,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\r\n/* BASIC */\r\n\r\nhtml {\r\n    background-color: #56baed;\r\n  }\r\n  \r\n  body {\r\n    font-family: \"Poppins\", sans-serif;\r\n    height: 100vh;\r\n  }\r\n  \r\n  a {\r\n    color: #92badd;\r\n    display:inline-block;\r\n    text-decoration: none;\r\n    font-weight: 400;\r\n  }\r\n  \r\n  h2 {\r\n    text-align: center;\r\n    font-size: 16px;\r\n    font-weight: 600;\r\n    text-transform: uppercase;\r\n    display:inline-block;\r\n    margin: 40px 8px 10px 8px; \r\n    color: #cccccc;\r\n  }\r\n  \r\n  \r\n  \r\n  /* STRUCTURE */\r\n  \r\n  .wrapper {\r\n    display: flex;\r\n    align-items: center;\r\n    flex-direction: column; \r\n    justify-content: center;\r\n    width: 100%;\r\n    min-height: 100%;\r\n    padding: 20px;\r\n  }\r\n  \r\n  #formContent {\r\n    border-radius: 10px 10px 10px 10px;\r\n    background: #fff;\r\n    padding: 30px;\r\n    width: 90%;\r\n    max-width: 450px;\r\n    position: relative;\r\n    padding: 0px;\r\n    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);\r\n    text-align: center;\r\n  }\r\n  \r\n  #formFooter {\r\n    background-color: #f6f6f6;\r\n    border-top: 1px solid #dce8f1;\r\n    padding: 25px;\r\n    text-align: center;\r\n    border-radius: 0 0 10px 10px;\r\n  }\r\n  \r\n  \r\n  \r\n  /* TABS */\r\n  \r\n  h2.inactive {\r\n    color: #cccccc;\r\n  }\r\n  \r\n  h2.active {\r\n    color: #0d0d0d;\r\n    border-bottom: 2px solid #5fbae9;\r\n  }\r\n  \r\n  \r\n  \r\n  /* FORM TYPOGRAPHY*/\r\n  \r\n  input[type=button], input[type=submit], input[type=reset]  {\r\n    background-color: #56baed;\r\n    border: none;\r\n    \r\n    padding: 15px 80px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    display: inline-block;\r\n    text-transform: uppercase;\r\n    font-size: 13px;\r\n    box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);\r\n    border-radius: 5px 5px 5px 5px;\r\n    margin: 5px 20px 40px 20px;\r\n    transition: all 0.3s ease-in-out;\r\n  }\r\n  \r\n  input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {\r\n    background-color: #39ace7;\r\n  }\r\n  \r\n  input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {\r\n    transform: scale(0.95);\r\n  }\r\n  \r\n\r\n\r\n\r\n  \r\n  input {\r\n    background-color: #f6f6f6;\r\n    border: none;\r\n    color: #0d0d0d;\r\n    padding: 15px 32px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    display: inline-block;\r\n    font-size: 16px;\r\n    margin: 5px;\r\n    width: 85%;\r\n    border: 2px solid #f6f6f6;\r\n    transition: all 0.5s ease-in-out;\r\n    border-radius: 5px 5px 5px 5px;\r\n  }\r\n  \r\n  input:focus {\r\n    background-color: #fff;\r\n    border-bottom: 2px solid #5fbae9;\r\n  }\r\n  \r\n  input:placeholder {\r\n    color: #cccccc;\r\n  }\r\n\r\n\r\n\r\n  \r\n  \r\n  \r\n  /* ANIMATIONS */\r\n  \r\n  /* Simple CSS3 Fade-in-down Animation */\r\n  .fadeInDown {\r\n    -webkit-animation-name: fadeInDown;\r\n    animation-name: fadeInDown;\r\n    -webkit-animation-duration: 1s;\r\n    animation-duration: 1s;\r\n    -webkit-animation-fill-mode: both;\r\n    animation-fill-mode: both;\r\n  }\r\n  \r\n  @-webkit-keyframes fadeInDown {\r\n    0% {\r\n      opacity: 0;\r\n      transform: translate3d(0, -100%, 0);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      transform: none;\r\n    }\r\n  }\r\n  \r\n  @keyframes fadeInDown {\r\n    0% {\r\n      opacity: 0;\r\n      transform: translate3d(0, -100%, 0);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      transform: none;\r\n    }\r\n  }\r\n  \r\n  /* Simple CSS3 Fade-in Animation */\r\n  @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }\r\n  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }\r\n  \r\n  .fadeIn {\r\n    opacity:0;\r\n    -webkit-animation:fadeIn ease-in 1;\r\n    animation:fadeIn ease-in 1;\r\n  \r\n    -webkit-animation-fill-mode:forwards;\r\n    animation-fill-mode:forwards;\r\n  \r\n    -webkit-animation-duration:1s;\r\n    animation-duration:1s;\r\n  }\r\n  \r\n  .fadeIn.first {\r\n    -webkit-animation-delay: 0.2s;\r\n    animation-delay: 0.2s;\r\n  }\r\n  \r\n  .fadeIn.second {\r\n    -webkit-animation-delay: 0.3s;\r\n    animation-delay: 0.3s;\r\n  }\r\n  \r\n  .fadeIn.third {\r\n    -webkit-animation-delay: 0.4s;\r\n    animation-delay: 0.4s;\r\n  }\r\n  \r\n  .fadeIn.fourth {\r\n    -webkit-animation-delay: 0.5s;\r\n    animation-delay: 0.5s;\r\n  }\r\n\r\n  .fadeIn.fifth {\r\n    -webkit-animation-delay: 0.6s;\r\n    animation-delay: 0.6s;\r\n  }\r\n  \r\n  /* Simple CSS3 Fade-in Animation */\r\n  .underlineHover:after {\r\n    display: block;\r\n    left: 0;\r\n    bottom: -10px;\r\n    width: 0;\r\n    height: 2px;\r\n    background-color: #56baed;\r\n    content: \"\";\r\n    transition: width 0.2s;\r\n  }\r\n  \r\n  .underlineHover:hover {\r\n    color: #0d0d0d;\r\n  }\r\n  \r\n  .underlineHover:hover:after{\r\n    width: 100%;\r\n  }\r\n  \r\n  \r\n  \r\n  /* OTHERS */\r\n  \r\n  *:focus {\r\n      outline: none;\r\n  } \r\n  ", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n/* BASIC */\r\n\r\nhtml {\r\n    background-color: #56baed;\r\n  }\r\n  \r\n  body {\r\n    font-family: \"Poppins\", sans-serif;\r\n    height: 100vh;\r\n  }\r\n  \r\n  a {\r\n    color: #92badd;\r\n    display:inline-block;\r\n    text-decoration: none;\r\n    font-weight: 400;\r\n  }\r\n  \r\n  h2 {\r\n    text-align: center;\r\n    font-size: 16px;\r\n    font-weight: 600;\r\n    text-transform: uppercase;\r\n    display:inline-block;\r\n    margin: 40px 8px 10px 8px; \r\n    color: #cccccc;\r\n  }\r\n  \r\n  /* STRUCTURE */\r\n  \r\n  .wrapper {\r\n    display: flex;\r\n    align-items: center;\r\n    flex-direction: column; \r\n    justify-content: center;\r\n    width: 100%;\r\n    min-height: 100%;\r\n    padding: 20px;\r\n  }\r\n  \r\n  #formContent {\r\n    border-radius: 10px 10px 10px 10px;\r\n    background: #fff;\r\n    padding: 30px;\r\n    width: 90%;\r\n    max-width: 450px;\r\n    position: relative;\r\n    padding: 0px;\r\n    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);\r\n    text-align: center;\r\n  }\r\n  \r\n  #formFooter {\r\n    background-color: #f6f6f6;\r\n    border-top: 1px solid #dce8f1;\r\n    padding: 25px;\r\n    text-align: center;\r\n    border-radius: 0 0 10px 10px;\r\n  }\r\n  \r\n  \r\n  \r\n  /* TABS */\r\n  \r\n  h2.inactive {\r\n    color: #cccccc;\r\n  }\r\n  \r\n  h2.active {\r\n    color: #0d0d0d;\r\n    border-bottom: 2px solid #5fbae9;\r\n  }\r\n  \r\n  /* FORM TYPOGRAPHY*/\r\n\r\n  /* Chrome, Safari, Edge, Opera */\r\n  input::-webkit-outer-spin-button,\r\n  input::-webkit-inner-spin-button {\r\n    -webkit-appearance: none;\r\n    margin: 0;\r\n  }\r\n\r\n  /* Firefox */\r\n  input[type=number] {\r\n    -moz-appearance: textfield;\r\n  }\r\n  \r\n  input[type=button], input[type=submit], input[type=reset]  {\r\n    background-color: #56baed;\r\n    border: none;\r\n    \r\n    padding: 15px 80px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    display: inline-block;\r\n    text-transform: uppercase;\r\n    font-size: 13px;\r\n    box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);\r\n    border-radius: 5px 5px 5px 5px;\r\n    margin: 5px 20px 40px 20px;\r\n    transition: all 0.3s ease-in-out;\r\n  }\r\n  \r\n  input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {\r\n    background-color: #39ace7;\r\n  }\r\n  \r\n  input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {\r\n    transform: scale(0.95);\r\n  }\r\n  \r\n  \r\n  input {\r\n    background-color: #f6f6f6;\r\n    border: none;\r\n    color: #0d0d0d;\r\n    padding: 15px 32px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    display: inline-block;\r\n    font-size: 16px;\r\n    margin: 5px;\r\n    width: 85%;\r\n    border: 2px solid #f6f6f6;\r\n    transition: all 0.5s ease-in-out;\r\n    border-radius: 5px 5px 5px 5px;\r\n  }\r\n  \r\n  input:focus {\r\n    background-color: #fff;\r\n    border-bottom: 2px solid #5fbae9;\r\n  }\r\n  \r\n  input:placeholder {\r\n    color: #cccccc;\r\n  }\r\n\r\n  \r\n  /* ANIMATIONS */\r\n  \r\n  /* Simple CSS3 Fade-in-down Animation */\r\n  .fadeInDown {\r\n    -webkit-animation-name: fadeInDown;\r\n    animation-name: fadeInDown;\r\n    -webkit-animation-duration: 1s;\r\n    animation-duration: 1s;\r\n    -webkit-animation-fill-mode: both;\r\n    animation-fill-mode: both;\r\n  }\r\n  \r\n  @-webkit-keyframes fadeInDown {\r\n    0% {\r\n      opacity: 0;\r\n      transform: translate3d(0, -100%, 0);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      transform: none;\r\n    }\r\n  }\r\n  \r\n  @keyframes fadeInDown {\r\n    0% {\r\n      opacity: 0;\r\n      transform: translate3d(0, -100%, 0);\r\n    }\r\n    100% {\r\n      opacity: 1;\r\n      transform: none;\r\n    }\r\n  }\r\n  \r\n  /* Simple CSS3 Fade-in Animation */\r\n  @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }\r\n  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }\r\n  \r\n  .fadeIn {\r\n    opacity:0;\r\n    -webkit-animation:fadeIn ease-in 1;\r\n    animation:fadeIn ease-in 1;\r\n  \r\n    -webkit-animation-fill-mode:forwards;\r\n    animation-fill-mode:forwards;\r\n  \r\n    -webkit-animation-duration:1s;\r\n    animation-duration:1s;\r\n  }\r\n  \r\n  .fadeIn.first {\r\n    -webkit-animation-delay: 0.2s;\r\n    animation-delay: 0.2s;\r\n  }\r\n  \r\n  .fadeIn.second {\r\n    -webkit-animation-delay: 0.3s;\r\n    animation-delay: 0.3s;\r\n  }\r\n  \r\n  .fadeIn.third {\r\n    -webkit-animation-delay: 0.4s;\r\n    animation-delay: 0.4s;\r\n  }\r\n  \r\n  .fadeIn.fourth {\r\n    -webkit-animation-delay: 0.5s;\r\n    animation-delay: 0.5s;\r\n  }\r\n\r\n  .fadeIn.fifth {\r\n    -webkit-animation-delay: 0.6s;\r\n    animation-delay: 0.6s;\r\n  }\r\n  \r\n  /* Simple CSS3 Fade-in Animation */\r\n  .underlineHover:after {\r\n    display: block;\r\n    left: 0;\r\n    bottom: -10px;\r\n    width: 0;\r\n    height: 2px;\r\n    background-color: #56baed;\r\n    content: \"\";\r\n    transition: width 0.2s;\r\n  }\r\n  \r\n  .underlineHover:hover {\r\n    color: #0d0d0d;\r\n  }\r\n  \r\n  .underlineHover:hover:after{\r\n    width: 100%;\r\n  }\r\n  \r\n  \r\n  \r\n  /* OTHERS */\r\n  \r\n  *:focus {\r\n      outline: none;\r\n  } \r\n  ", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17594,7 +17706,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 3%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.marg-up-inp{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -90224,7 +90336,7 @@ __webpack_require__(/*! ./components/user/AddWorkers */ "./resources/js/componen
 
 __webpack_require__(/*! ./components/user/Groups */ "./resources/js/components/user/Groups.tsx");
 
-__webpack_require__(/*! ./components/user/GroupData */ "./resources/js/components/user/GroupData.tsx");
+__webpack_require__(/*! ./components/user/GroupOperations */ "./resources/js/components/user/GroupOperations.tsx");
 
 __webpack_require__(/*! ./components/user/ListOfWorkers */ "./resources/js/components/user/ListOfWorkers.tsx");
 
