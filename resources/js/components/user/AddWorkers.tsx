@@ -28,7 +28,7 @@ function AddWorkers() {
                 }).then((response) => {
                     if(response.data.status === 200){
                         console.log(response.data.message);
-                        window.location.href = '/addWorker';
+                        window.location.href = '/addWorkers';
                     }else{
                         setMessage(response.data.message);
                     }

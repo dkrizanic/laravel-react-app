@@ -17,6 +17,7 @@ require('./bootstrap');
 
 require('./components/App');
 require('./components/Home');
+require('./components/NotFound');
 require('./components/Navbar');
 require('./components/auth/Register');
 require('./components/auth/Login');

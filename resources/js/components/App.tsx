@@ -2,7 +2,7 @@ import './app.css';
 import React, { useState, useEffect } from "react";
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Login from './auth/Login';
 import Register from './auth/Register';
 import Home from './Home';
@@ -16,6 +16,7 @@ import Groups from './user/Groups';
 import GroupOperations from './user/GroupOperations';
 import Navbar from './Navbar';
 import ListOfWorkers from './user/ListOfWorkers';
+import NotFound from './NotFound';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
@@ -48,33 +49,34 @@ function App() {
   return (
           <Router>
             <Navbar/>
-            {~status ? (
+            {status ? (
                     <>
-                      <Switch>
-                        <Route path='/' exact component={Home} />
-                        <Route path='/addWorker' component={AddWorkers} />
-                        <Route path='/projectSettings' component={ProjectSettings} />
-                        <Route path='/groups' component={Groups} />
-                        <Route path='/groupOperations' component={GroupOperations} />
-                        <Route path='/listOfWorkers' component={ListOfWorkers} />
-                        <Route path='/createProject' component={CreateProject} />
-                        <Route path='/register' component={Register} />
-                        <Route path='/login' component={Login} />
-                        <Route path='/userProfile' component={UserProfile} />
-                        <Route path='/changePassword' component={ChangePassword} />
-                        <Route path='/taskList' component={TaskList} />
-                      </Switch>
+                      <Routes>
+                        <Route path='*' element={<NotFound />} />
+                        <Route path='/' element={<Home />} />
+                        <Route path='/addWorker' element={<AddWorkers/>} />
+                        <Route path='/projectSettings' element={<ProjectSettings/>} />
+                        <Route path='/groups' element={<Groups/>} />
+                        <Route path='/groupOperations' element={<GroupOperations/>} />
+                        <Route path='/listOfWorkers' element={<ListOfWorkers/>} />
+                        <Route path='/createProject' element={<CreateProject/>} />
+                        <Route path='/register' element={<Register/>} />
+                        <Route path='/login' element={<Login/>} />
+                        <Route path='/userProfile' element={<UserProfile/>} />
+                        <Route path='/changePassword' element={<ChangePassword/>} />
+                        <Route path='/taskList' element={<TaskList/>} />
+                      </Routes>
                     </>
                   ) : (
                     <>
-                      <Switch>
-                        <Route path='/' exact component={Home} />
-                        <Route path='/register' component={Register} />
-                        <Route path='/login' component={Login} />
-                        <Route path='/userProfile' component={UserProfile} />
-                        <Route path='/changePassword' component={ChangePassword} />
-                        <Route path='/taskList' component={TaskList} />
-                      </Switch>
+                      <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/register' element={<Register/>} />
+                        <Route path='/login' element={<Login/>} />
+                        <Route path='/userProfile' element={<UserProfile/>} />
+                        <Route path='/changePassword' element={<ChangePassword/>} />
+                        <Route path='/taskList' element={<TaskList/>} />
+                      </Routes>
                     </>
                 )}
           </Router>

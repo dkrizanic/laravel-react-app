@@ -2,7 +2,7 @@ import './user.css';
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function UserProfile() {
@@ -15,7 +15,7 @@ function UserProfile() {
     const [company, setCompany] = useState("");
     const [authState, setAuthState] = useState(false);
     const CryptoJS = require("crypto-js");
-    let history = useHistory();
+    let navigate = useNavigate();
 
     const updateProfile = () =>{
         axios.post('api/updateProfile',{
@@ -33,7 +33,7 @@ function UserProfile() {
             }else{
             console.log(response.data.message);
             }
-            history.push("/");
+            navigate('/');
         });
     }
 
@@ -102,7 +102,7 @@ function UserProfile() {
                 </div>
                 {authState ? (
                     <>
-                        <div className="fadeIn fourth marg-up" >
+                        <div className="fadeIn fourth marg-up-inp" >
                             <button className="btn btn-danger" onClick={deleteUser}> Delete everything </button>
                         </div>
                     </>

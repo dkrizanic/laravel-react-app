@@ -22,12 +22,13 @@ function CreateProject() {
     const [finish_date, setFinishDate] = useState("");
     const [group, setListOfGroups] = useState<IState["group"]>([]);
     const [message, setMessage] = useState("");
-    const [selected, setSelectedOption] = useState<IState["selected"]>([]);
 
     const options = group.map(d => ({
         "value" : d.group_name,
         "label" : d.group_name
     }))
+
+    const [selectedOption, setSelectedOption] = useState([]);
 
     const newProject = () => {
         if(project_name === ''){
@@ -63,8 +64,9 @@ function CreateProject() {
         
     }, []);
 
-
+    
     return (
+        
         <div className="wrapper fadeInDown">
             <div id="formContent">
                 <input type="text" id="text" className="fadeIn first" placeholder="Project name" required onChange={(event) => {
