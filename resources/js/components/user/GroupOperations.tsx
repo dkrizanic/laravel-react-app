@@ -3,21 +3,25 @@ import './user.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from 'react-select';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 function GroupOperations() {
 
     interface IState {
         workers: {
             name: string;
-        }[]
+        }[],
+
     }
-    const [workers, setListOfWorkers] = useState<IState["workers"]>([]);
+    const params = useParams()
+    const [workers, setListOfWorkers] = useState<IState["workers"]>([]);    
     const options = workers.map(d => ({
         "value" : d.  name,
         "label" : d.  name
     }))
-
+    
+    let navigate = useNavigate();
+    
     useEffect(()=>{
         axios.get("/api/groupWorkersList")
         .then((response) =>{
@@ -33,14 +37,13 @@ function GroupOperations() {
     }, []);
 
     const deleteGroup = () =>{
-        axios.post('api/deleteUser')
+        axios.post('/api/deleteGroup', {
+            group_id: params.id,
+        })
         .then((response) => {
             if(response.data.status === 200){
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("username");
-                localStorage.removeItem("status");
                 console.log(response.data.message);
-                window.location.href = '/';
+                navigate('/groups');
             }
         })
     }
@@ -48,6 +51,7 @@ function GroupOperations() {
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
+                <h1>{params.group_name}</h1>
                 <div className='marg-up-inp'>
                     <Select 
                     isMulti

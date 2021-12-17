@@ -54,10 +54,10 @@ function App() {
                       <Routes>
                         <Route path='*' element={<NotFound />} />
                         <Route path='/' element={<Home />} />
-                        <Route path='/addWorker' element={<AddWorkers/>} />
+                        <Route path='/addWorkers' element={<AddWorkers/>} />
                         <Route path='/projectSettings' element={<ProjectSettings/>} />
                         <Route path='/groups' element={<Groups/>} />
-                        <Route path='/groupOperations' element={<GroupOperations/>} />
+                        <Route path='/groupOperations/:id/:group_name' element={<GroupOperations/>} />
                         <Route path='/listOfWorkers' element={<ListOfWorkers/>} />
                         <Route path='/createProject' element={<CreateProject/>} />
                         <Route path='/register' element={<Register/>} />

@@ -8,11 +8,12 @@ function Groups() {
 
     const [group_name, setGroup] = useState("");
     const [group, setListOfGroups] = useState<IState["group"]>([]);
-    
+
 
     interface IState {
         group: {
           group_name: string;
+          id : number;
         }[]
       }
 
@@ -61,7 +62,9 @@ function Groups() {
             return (
               <div className="jumbotron jumbotron-fluid con-size fadeIn second rounded-circle" key={key}>
                 <div className="container">
-                  <h1 className="display-12"><Link to="/groupOperations" state={{ from: "group "}}> {value.group_name} </Link></h1>
+                  <h1 className="display-12">
+                    <Link to={`/groupOperations/${value.id}/${value.group_name}`}>{value.group_name}</Link>
+                  </h1>
                 </div>
               </div>
             );

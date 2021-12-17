@@ -4319,7 +4319,7 @@ function App() {
     path: '/',
     element: react_1["default"].createElement(Home_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/addWorker',
+    path: '/addWorkers',
     element: react_1["default"].createElement(AddWorkers_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/projectSettings',
@@ -4328,7 +4328,7 @@ function App() {
     path: '/groups',
     element: react_1["default"].createElement(Groups_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/groupOperations',
+    path: '/groupOperations/:id/:group_name',
     element: react_1["default"].createElement(GroupOperations_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/listOfWorkers',
@@ -4638,7 +4638,7 @@ function Navbar() {
   }, react_1["default"].createElement("strong", null, "Home"))), status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
     className: "people-icon"
   }, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/addWorker",
+    to: "/addWorkers",
     className: "nav-link"
   }, react_1["default"].createElement("i", {
     className: "fas fa-user-plus"
@@ -5803,6 +5803,8 @@ var react_select_1 = __importDefault(__webpack_require__(/*! react-select */ "./
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
 function GroupOperations() {
+  var params = (0, react_router_dom_1.useParams)();
+
   var _ref = (0, react_1.useState)([]),
       _ref2 = _slicedToArray(_ref, 2),
       workers = _ref2[0],
@@ -5814,6 +5816,7 @@ function GroupOperations() {
       "label": d.name
     };
   });
+  var navigate = (0, react_router_dom_1.useNavigate)();
   (0, react_1.useEffect)(function () {
     axios_1["default"].get("/api/groupWorkersList").then(function (response) {
       if (response.data.status === 200) {
@@ -5827,13 +5830,12 @@ function GroupOperations() {
   }, []);
 
   var deleteGroup = function deleteGroup() {
-    axios_1["default"].post('api/deleteUser').then(function (response) {
+    axios_1["default"].post('/api/deleteGroup', {
+      group_id: params.id
+    }).then(function (response) {
       if (response.data.status === 200) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("username");
-        localStorage.removeItem("status");
         console.log(response.data.message);
-        window.location.href = '/';
+        navigate('/groups');
       }
     });
   };
@@ -5842,7 +5844,7 @@ function GroupOperations() {
     className: "wrapper fadeInDown"
   }, react_1["default"].createElement("div", {
     id: "formContent"
-  }, react_1["default"].createElement("div", {
+  }, react_1["default"].createElement("h1", null, params.group_name), react_1["default"].createElement("div", {
     className: 'marg-up-inp'
   }, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
@@ -6003,11 +6005,8 @@ function Groups() {
     }, react_1["default"].createElement("h1", {
       className: "display-12"
     }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/groupOperations",
-      state: {
-        from: "group "
-      }
-    }, " ", value.group_name, " "))));
+      to: "/groupOperations/".concat(value.id, "/").concat(value.group_name)
+    }, value.group_name))));
   }));
 }
 

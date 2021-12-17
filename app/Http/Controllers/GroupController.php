@@ -52,7 +52,7 @@ class GroupController extends Controller
     }
 
     public function deleteGroup(Request $request){
-        Group::where("group",  1)->delete(); 
+        Group::where("id",  $request->group_id)->delete(); 
         return response()->json([ 
             'status' => 200,
             'message' => 'Group deleted!'

@@ -53,7 +53,7 @@ function Navbar() {
                     {status ? (
                     <>
                       <div className="people-icon">
-                        <Link to="/addWorker" className="nav-link"><i className="fas fa-user-plus"></i></Link>
+                        <Link to="/addWorkers" className="nav-link"><i className="fas fa-user-plus"></i></Link>
                       </div>
                     </>
                   ) : (
