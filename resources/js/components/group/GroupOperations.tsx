@@ -1,5 +1,5 @@
 
-import './user.css';
+import './group.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from 'react-select';
@@ -63,7 +63,7 @@ function GroupOperations() {
                 </div>
                 <div>
                     <h3 className='marg-up'>Operations</h3>
-                    <Link to="/changePassword" className="btn btn-info" > Update group name </Link>
+                    <Link to="/updateGroup" className="btn btn-info" > Update group name </Link>
                 </div>
                 <div className="marg-up-inp" >
                     <button className="btn btn-danger" onClick={deleteGroup}> Delete group </button>

@@ -10,12 +10,13 @@ import CreateProject from './project/CreateProject';
 import UserProfile from './user/UserProfile';
 import ChangePassword from './user/ChangePassword';
 import TaskList from './task/TaskList';
-import AddWorkers from './user/AddWorkers';
+import AddWorkers from './group/AddWorkers';
 import ProjectSettings from './project/ProjectSettings';
-import Groups from './user/Groups';
-import GroupOperations from './user/GroupOperations';
+import Groups from './group/Groups';
+import GroupOperations from './group/GroupOperations';
 import Navbar from './Navbar';
-import ListOfWorkers from './user/ListOfWorkers';
+import ListOfWorkers from './group/ListOfWorkers';
+import UpdateGroup from './group/UpdateGroup';
 import NotFound from './NotFound';
 
 axios.interceptors.request.use(function (config){
@@ -65,6 +66,7 @@ function App() {
                         <Route path='/userProfile' element={<UserProfile/>} />
                         <Route path='/changePassword' element={<ChangePassword/>} />
                         <Route path='/taskList' element={<TaskList/>} />
+                        <Route path='/updateGroup' element={<UpdateGroup/>} />
                       </Routes>
                     </>
                   ) : (
