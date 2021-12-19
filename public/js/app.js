@@ -5405,6 +5405,11 @@ function GroupOperations() {
       workers = _ref2[0],
       setListOfWorkers = _ref2[1];
 
+  var _ref3 = (0, react_1.useState)(""),
+      _ref4 = _slicedToArray(_ref3, 2),
+      group_name = _ref4[0],
+      setGroup = _ref4[1];
+
   var options = workers.map(function (d) {
     return {
       "value": d.name,
@@ -5435,11 +5440,34 @@ function GroupOperations() {
     });
   };
 
+  var updateGroup = function updateGroup() {
+    axios_1["default"].post('/api/updateGroup', {
+      group_name: group_name,
+      group_id: params.id
+    }).then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data.message);
+        window.location.href = '/groups';
+      } else {
+        console.log("create project failed");
+      }
+    });
+  };
+
   return react_1["default"].createElement("div", {
     className: "wrapper fadeInDown"
   }, react_1["default"].createElement("div", {
     id: "formContent"
-  }, react_1["default"].createElement("h1", null, params.group_name), react_1["default"].createElement("div", {
+  }, react_1["default"].createElement("input", {
+    type: "text",
+    id: "text",
+    className: "fadeIn first",
+    placeholder: params.group_name,
+    required: true,
+    onChange: function onChange(event) {
+      setGroup(event.target.value);
+    }
+  }), react_1["default"].createElement("div", {
     className: 'marg-up-inp'
   }, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
@@ -5447,7 +5475,8 @@ function GroupOperations() {
   })), react_1["default"].createElement("div", {
     className: "marg-up "
   }, react_1["default"].createElement("button", {
-    className: " btn btn-info"
+    className: " btn btn-info",
+    onClick: updateGroup
   }, " Save ")), react_1["default"].createElement("div", null, react_1["default"].createElement("h3", {
     className: 'marg-up'
   }, "Operations"), react_1["default"].createElement(react_router_dom_1.Link, {

@@ -58,5 +58,13 @@ class GroupController extends Controller
             'message' => 'Group deleted!'
         ]);
     }
+
+    public function updateGroup(Request $request){
+        Group::where("id",  $request->group_id)->update(['group_name' => $request->group_name]); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Group updated!'
+        ]);
+    }
     
 }

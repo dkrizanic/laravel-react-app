@@ -15,6 +15,7 @@ function GroupOperations() {
     }
     const params = useParams()
     const [workers, setListOfWorkers] = useState<IState["workers"]>([]);    
+    const [group_name, setGroup] = useState("");
     const options = workers.map(d => ({
         "value" : d.  name,
         "label" : d.  name
@@ -48,10 +49,26 @@ function GroupOperations() {
         })
     }
 
+    const updateGroup = () => {
+        axios.post('/api/updateGroup', {
+            group_name: group_name,
+            group_id: params.id
+
+        }).then((response) => {
+            if(response.data.status === 200){
+                console.log(response.data.message);
+                window.location.href = '/groups';
+            }else{
+                console.log("create project failed");
+            }
+        });
+    }
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
-                <h1>{params.group_name}</h1>
+                <input type="text" id="text" className="fadeIn first" placeholder={params.group_name} required onChange={(event) => {
+                setGroup(event.target.value);}}></input>
                 <div className='marg-up-inp'>
                     <Select 
                     isMulti
@@ -59,7 +76,7 @@ function GroupOperations() {
                     />
                 </div>
                 <div className="marg-up ">
-                    <button className=" btn btn-info" > Save </button>  
+                    <button className=" btn btn-info" onClick={updateGroup}> Save </button>  
                 </div>
                 <div>
                     <h3 className='marg-up'>Operations</h3>
