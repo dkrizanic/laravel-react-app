@@ -111,10 +111,9 @@ class UserController extends Controller
         
         if($user_check){
             if($user_check->id == $request->user()->id){
+                User::where("company",  $request->user()->company)->update(['company' => $request->company]); 
                 $user = User::where("id",  $request->user()->id)
-                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number,
-                 'company' => $request->company]); 
-
+                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number]); 
                 if($user){
                     return response()->json([ 
                         'status' => 200,
@@ -131,12 +130,12 @@ class UserController extends Controller
                 ]);
             }
         }else{
+            User::where("company",  $request->user()->company)->update(['company' => $request->company]); 
             $user = User::where("id",  $request->user()->id)
-                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number,
-                 'company' => $request->company]); 
+                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number]); 
             return response()->json([ 
                 'status' => 200,
-                'message' => $request->username
+                'message' => $user->company 
             ]);
         }
     }

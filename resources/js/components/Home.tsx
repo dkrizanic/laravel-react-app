@@ -22,7 +22,6 @@ function Home() {
       axios.get("/api/projectList")
       .then((response) =>{
         if(response.data.status === 200){
-          console.log(response.data);
           setListOfProjects(response.data.project_list);
           console.log(response.data.message);
         }else{

@@ -4462,7 +4462,6 @@ function Home() {
   (0, react_1.useEffect)(function () {
     axios_1["default"].get("/api/projectList").then(function (response) {
       if (response.data.status === 200) {
-        console.log(response.data);
         setListOfProjects(response.data.project_list);
         console.log(response.data.message);
       } else {
