@@ -72,7 +72,7 @@ function AddWorkers() {
                 <input type="password" id="password2" className="fadeIn fourth" name="login" placeholder="repeted password" required onChange={(event) => {
                 setPassword2(event.target.value);}}></input>
                 <div>
-                    <button className="fadeIn fifth btn btn-info" onClick={add}> Add </button>  
+                    <input type="submit" className="fadeIn fifth btn btn-info btn-lg" onClick={add} value=" Add"></input>
                     <h3>{message}</h3>
                 </div>
                 <div>

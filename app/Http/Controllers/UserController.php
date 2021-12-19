@@ -106,38 +106,30 @@ class UserController extends Controller
         }
     }
 
-    public function updateProfile(Request $request){      
-        $user_check = User::where("email",  $request->email)->first(); 
+    public function updateProfile(Request $request){     
+        $id =  $request->user()->id;
+        $user_check = User::where("email",  $request->email)->where('id', '!=', $id)->first();
+        $company_check = User::where("company",  $request->company)->where('id', '!=', $id)->first(); 
         
         if($user_check){
-            if($user_check->id == $request->user()->id){
-                User::where("company",  $request->user()->company)->update(['company' => $request->company]); 
-                $user = User::where("id",  $request->user()->id)
-                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number]); 
-                if($user){
-                    return response()->json([ 
-                        'status' => 200,
-                        'message' => $request->username
-                    ]);
-                }else{
-                    return response()->json([ 
-                        'message' => 'User data not updated'
-                    ]);
-                }
-            }else{
-                return response()->json([ 
-                    'message' => 'Email in use!'
-                ]);
-            }
-        }else{
-            User::where("company",  $request->user()->company)->update(['company' => $request->company]); 
-            $user = User::where("id",  $request->user()->id)
-                ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number]); 
             return response()->json([ 
-                'status' => 200,
-                'message' => $user->company 
+                'message' => "Email in use"
             ]);
         }
+
+        if($company_check){
+            return response()->json([ 
+                'message' => "Company name in use"
+            ]);
+        }
+
+        User::where("company",  $request->user()->company)->update(['company' => $request->company]); 
+        User::where("id",  $request->user()->id)
+            ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number]); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => "User updated"
+        ]);
     }
 
     public function changePassword(Request $request){          

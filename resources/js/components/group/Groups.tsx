@@ -53,7 +53,7 @@ function Groups() {
                     <input type="text" id="text" className="fadeIn first" placeholder="Group name" required onChange={(event) => {
                     setGroup(event.target.value);}}></input>
                     <div>
-                        <button className="btn btn-info fadeIn second" onClick={newGroup}> Add </button>  
+                        <input type="submit" className="fadeIn secund btn btn-info btn-lg" onClick={newGroup} value=" Add"></input>
                     </div>
                 </div>
             </div>

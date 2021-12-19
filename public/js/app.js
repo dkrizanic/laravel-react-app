@@ -5298,10 +5298,12 @@ function AddWorkers() {
     onChange: function onChange(event) {
       setPassword2(event.target.value);
     }
-  }), react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
-    className: "fadeIn fifth btn btn-info",
-    onClick: add
-  }, " Add "), react_1["default"].createElement("h3", null, message)), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
+  }), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
+    type: "submit",
+    className: "fadeIn fifth btn btn-info btn-lg",
+    onClick: add,
+    value: " Add"
+  }), react_1["default"].createElement("h3", null, message)), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/groups",
     className: "btn btn-primary fadeIn fifth"
   }, "  Groups  ")), react_1["default"].createElement("div", {
@@ -5606,10 +5608,12 @@ function Groups() {
     onChange: function onChange(event) {
       setGroup(event.target.value);
     }
-  }), react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
-    className: "btn btn-info fadeIn second",
-    onClick: newGroup
-  }, " Add ")))), group.map(function (value, key) {
+  }), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
+    type: "submit",
+    className: "fadeIn secund btn btn-info btn-lg",
+    onClick: newGroup,
+    value: " Add"
+  })))), group.map(function (value, key) {
     return react_1["default"].createElement("div", {
       className: "jumbotron jumbotron-fluid con-size fadeIn second rounded-circle",
       key: key
@@ -5921,10 +5925,12 @@ function CreateProject() {
     options: options
   })), react_1["default"].createElement("div", {
     className: "marg-up"
-  }, react_1["default"].createElement("button", {
-    className: "fadeIn fourth btn btn-info",
-    onClick: newProject
-  }, " Add "), react_1["default"].createElement("h3", null, message))));
+  }, react_1["default"].createElement("input", {
+    type: "submit",
+    className: "fadeIn fourth btn btn-info btn-lg",
+    onClick: newProject,
+    value: " Add"
+  }), react_1["default"].createElement("h3", null, message))));
 }
 
 exports["default"] = CreateProject;
@@ -6438,6 +6444,11 @@ function UserProfile() {
       authState = _ref12[0],
       setAuthState = _ref12[1];
 
+  var _ref13 = (0, react_1.useState)(""),
+      _ref14 = _slicedToArray(_ref13, 2),
+      message = _ref14[0],
+      setMessage = _ref14[1];
+
   var CryptoJS = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
 
   var navigate = (0, react_router_dom_2.useNavigate)();
@@ -6454,11 +6465,11 @@ function UserProfile() {
         console.log(response.data.message);
         localStorage.removeItem("username");
         localStorage.setItem("username", username);
+        navigate('/');
       } else {
+        setMessage(response.data.message);
         console.log(response.data.message);
       }
-
-      navigate('/');
     });
   };
 
@@ -6555,10 +6566,10 @@ function UserProfile() {
     }
   })) : react_1["default"].createElement(react_1["default"].Fragment, null), react_1["default"].createElement("input", {
     type: "submit",
-    className: "fadeIn fifth",
+    className: "fadeIn fifth btn btn-info btn-lg",
     onClick: updateProfile,
     value: "Update"
-  }), react_1["default"].createElement("div", {
+  }), react_1["default"].createElement("h3", null, message), react_1["default"].createElement("div", {
     className: "fadeIn fifth"
   }, react_1["default"].createElement("h3", null, "Operations"), react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/changePassword",

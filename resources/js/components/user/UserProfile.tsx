@@ -14,6 +14,7 @@ function UserProfile() {
     const [number, setNumber] = useState("");
     const [company, setCompany] = useState("");
     const [authState, setAuthState] = useState(false);
+    const [message, setMessage] = useState("");
     const CryptoJS = require("crypto-js");
     let navigate = useNavigate();
 
@@ -30,10 +31,11 @@ function UserProfile() {
                 console.log(response.data.message);
                 localStorage.removeItem("username");
                 localStorage.setItem("username", username);
+                navigate('/');
             }else{
-            console.log(response.data.message);
+                setMessage(response.data.message);
+                console.log(response.data.message);
             }
-            navigate('/');
         });
     }
 
@@ -95,7 +97,8 @@ function UserProfile() {
                     <>
                     </>
                 )}
-                <input type="submit" className="fadeIn fifth" onClick={updateProfile} value="Update"></input>
+                <input type="submit" className="fadeIn fifth btn btn-info btn-lg" onClick={updateProfile} value="Update"></input>
+                <h3>{message}</h3>
                 <div className="fadeIn fifth">
                     <h3>Operations</h3>
                     <Link to="/changePassword" className="btn btn-info" >  Update password  </Link>
@@ -104,6 +107,7 @@ function UserProfile() {
                     <>
                         <div className="fadeIn fourth marg-up-inp" >
                             <button className="btn btn-danger" onClick={deleteUser}> Delete everything </button>
+                            
                         </div>
                     </>
                   ) : (

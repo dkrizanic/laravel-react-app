@@ -83,7 +83,7 @@ function CreateProject() {
                 </div>
 
                 <div className="marg-up">
-                    <button className="fadeIn fourth btn btn-info" onClick={newProject}> Add </button>  
+                    <input type="submit" className="fadeIn fourth btn btn-info btn-lg" onClick={newProject} value=" Add"></input>
                     <h3>{message}</h3>
                 </div>
             </div>
