@@ -78,10 +78,6 @@ function GroupOperations() {
                 <div className="marg-up ">
                     <button className=" btn btn-info" onClick={updateGroup}> Save </button>  
                 </div>
-                <div>
-                    <h3 className='marg-up'>Operations</h3>
-                    <Link to="/updateGroup" className="btn btn-info" > Update group name </Link>
-                </div>
                 <div className="marg-up-inp" >
                     <button className="btn btn-danger" onClick={deleteGroup}> Delete group </button>
                 </div>

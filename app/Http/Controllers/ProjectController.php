@@ -44,4 +44,21 @@ class ProjectController extends Controller
             ]);
         }
     }
+
+    public function updateProject(Request $request){
+        Project::where("id",  $request->project_id)->update(['project_name' => $request->project_name, 'start_date' => $request->start_date,
+        'finish_date' => $request->finish_date]); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Project updated!'
+        ]);
+    }
+
+    public function deleteproject(Request $request){
+        Project::where("id",  $request->project_id)->delete(); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Project deleted!'
+        ]);
+    }
 }

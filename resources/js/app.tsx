@@ -29,5 +29,4 @@ require('./components/group/AddWorkers');
 require('./components/group/Groups');
 require('./components/group/GroupOperations');
 require('./components/group/ListOfWorkers');
-require('./components/group/UpdateGroup');
 require('./components/task/TaskList');

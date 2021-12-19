@@ -24,6 +24,8 @@ Route::post('/loginUser', [UserController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/projectList', [ProjectController::class, 'projectList']);
+    Route::post('/updateProject', [ProjectController::class, 'updateProject']);
+    Route::post('/deleteProject', [ProjectController::class, 'deleteProject']);
     Route::get('/groupList', [GroupController::class, 'groupList']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/createProject', [ProjectController::class, 'store']);

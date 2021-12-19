@@ -4278,8 +4278,6 @@ var Navbar_1 = __importDefault(__webpack_require__(/*! ./Navbar */ "./resources/
 
 var ListOfWorkers_1 = __importDefault(__webpack_require__(/*! ./group/ListOfWorkers */ "./resources/js/components/group/ListOfWorkers.tsx"));
 
-var UpdateGroup_1 = __importDefault(__webpack_require__(/*! ./group/UpdateGroup */ "./resources/js/components/group/UpdateGroup.tsx"));
-
 var NotFound_1 = __importDefault(__webpack_require__(/*! ./NotFound */ "./resources/js/components/NotFound.tsx"));
 
 axios_1["default"].interceptors.request.use(function (config) {
@@ -4324,7 +4322,7 @@ function App() {
     path: '/addWorkers',
     element: react_1["default"].createElement(AddWorkers_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/projectSettings',
+    path: '/projectSettings/:id/:project_name',
     element: react_1["default"].createElement(ProjectSettings_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/groups',
@@ -4353,9 +4351,6 @@ function App() {
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/taskList',
     element: react_1["default"].createElement(TaskList_1["default"], null)
-  }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/updateGroup',
-    element: react_1["default"].createElement(UpdateGroup_1["default"], null)
   }))) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/',
     element: react_1["default"].createElement(Home_1["default"], null)
@@ -4499,10 +4494,10 @@ function Home() {
     }, " ", value.project_name, " ")), react_1["default"].createElement("p", {
       className: "lead"
     }, " ", value.start_date, " : ", value.finish_date, " "), react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/projectSettings"
-    }, "  ", react_1["default"].createElement("i", {
+      to: "/projectSettings/".concat(value.id, "/").concat(value.project_name)
+    }, react_1["default"].createElement("i", {
       className: "fas fa-cog"
-    }), "  ")));
+    }))));
   }));
 }
 
@@ -5477,12 +5472,7 @@ function GroupOperations() {
   }, react_1["default"].createElement("button", {
     className: " btn btn-info",
     onClick: updateGroup
-  }, " Save ")), react_1["default"].createElement("div", null, react_1["default"].createElement("h3", {
-    className: 'marg-up'
-  }, "Operations"), react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/updateGroup",
-    className: "btn btn-info"
-  }, " Update group name ")), react_1["default"].createElement("div", {
+  }, " Save ")), react_1["default"].createElement("div", {
     className: "marg-up-inp"
   }, react_1["default"].createElement("button", {
     className: "btn btn-danger",
@@ -5753,126 +5743,6 @@ exports["default"] = ListOfWorkers;
 
 /***/ }),
 
-/***/ "./resources/js/components/group/UpdateGroup.tsx":
-/*!*******************************************************!*\
-  !*** ./resources/js/components/group/UpdateGroup.tsx ***!
-  \*******************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  Object.defineProperty(o, k2, {
-    enumerable: true,
-    get: function get() {
-      return m[k];
-    }
-  });
-} : function (o, m, k, k2) {
-  if (k2 === undefined) k2 = k;
-  o[k2] = m[k];
-});
-
-var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
-  Object.defineProperty(o, "default", {
-    enumerable: true,
-    value: v
-  });
-} : function (o, v) {
-  o["default"] = v;
-});
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-  }
-
-  __setModuleDefault(result, mod);
-
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-__webpack_require__(/*! ./group.css */ "./resources/js/components/group/group.css");
-
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
-
-function UpdateGroups() {
-  var _ref = (0, react_1.useState)(""),
-      _ref2 = _slicedToArray(_ref, 2),
-      group_name = _ref2[0],
-      setGroup = _ref2[1];
-
-  var _ref3 = (0, react_1.useState)([]),
-      _ref4 = _slicedToArray(_ref3, 2),
-      group = _ref4[0],
-      setListOfGroups = _ref4[1];
-
-  var newGroup = function newGroup() {
-    axios_1["default"].post('api/createGroup', {
-      group_name: group_name
-    }).then(function (response) {
-      if (response.data.status === 200) {
-        console.log(response.data.message);
-        window.location.href = '/groups';
-      } else {
-        console.log("create project failed");
-      }
-    });
-  };
-
-  return react_1["default"].createElement("div", {
-    className: "data"
-  }, react_1["default"].createElement("div", {
-    className: "wrapper fadeInDown"
-  }, react_1["default"].createElement("div", {
-    id: "formContent"
-  }, react_1["default"].createElement("input", {
-    type: "text",
-    id: "text",
-    className: "fadeIn first",
-    placeholder: "Group name",
-    required: true,
-    onChange: function onChange(event) {
-      setGroup(event.target.value);
-    }
-  }), react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
-    className: "btn btn-info fadeIn second",
-    onClick: newGroup
-  }, " Add ")))));
-}
-
-exports["default"] = UpdateGroups;
-
-/***/ }),
-
 /***/ "./resources/js/components/project/CreateProject.tsx":
 /*!***********************************************************!*\
   !*** ./resources/js/components/project/CreateProject.tsx ***!
@@ -6071,6 +5941,52 @@ exports["default"] = CreateProject;
 "use strict";
 
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -6081,12 +5997,146 @@ Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+__webpack_require__(/*! ./project.css */ "./resources/js/components/project/project.css");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_select_1 = __importDefault(__webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
 function ProjectSettings() {
-  var fun = function fun() {};
+  var navigate = (0, react_router_dom_1.useNavigate)();
+  var params = (0, react_router_dom_1.useParams)();
 
-  return react_1["default"].createElement("h1", null, "asign worker to projects, calendar");
+  var _ref = (0, react_1.useState)(params.project_name),
+      _ref2 = _slicedToArray(_ref, 2),
+      project_name = _ref2[0],
+      setName = _ref2[1];
+
+  var _ref3 = (0, react_1.useState)(""),
+      _ref4 = _slicedToArray(_ref3, 2),
+      start_date = _ref4[0],
+      setStartDate = _ref4[1];
+
+  var _ref5 = (0, react_1.useState)(""),
+      _ref6 = _slicedToArray(_ref5, 2),
+      finish_date = _ref6[0],
+      setFinishDate = _ref6[1];
+
+  var _ref7 = (0, react_1.useState)([]),
+      _ref8 = _slicedToArray(_ref7, 2),
+      group = _ref8[0],
+      setListOfGroups = _ref8[1];
+
+  var _ref9 = (0, react_1.useState)(""),
+      _ref10 = _slicedToArray(_ref9, 2),
+      message = _ref10[0],
+      setMessage = _ref10[1];
+
+  var options = group.map(function (d) {
+    return {
+      "value": d.group_name,
+      "label": d.group_name
+    };
+  });
+
+  var _ref11 = (0, react_1.useState)([]),
+      _ref12 = _slicedToArray(_ref11, 2),
+      selectedOption = _ref12[0],
+      setSelectedOption = _ref12[1];
+
+  (0, react_1.useEffect)(function () {
+    axios_1["default"].get("/api/groupList").then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data);
+        setListOfGroups(response.data.group_list);
+        console.log(response.data.message);
+      } else {
+        console.log(response.data.message);
+      }
+    });
+  }, []);
+
+  var updateProject = function updateProject() {
+    axios_1["default"].post('/api/updateProject', {
+      project_name: project_name,
+      project_id: params.id,
+      start_date: start_date,
+      finish_date: finish_date
+    }).then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data.message);
+        window.location.href = '/';
+      } else {
+        console.log("update project failed");
+      }
+    });
+  };
+
+  var deleteProject = function deleteProject() {
+    axios_1["default"].post('/api/deleteProject', {
+      project_id: params.id
+    }).then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data.message);
+        navigate('/');
+      }
+    });
+  };
+
+  return react_1["default"].createElement("div", {
+    className: "wrapper fadeInDown"
+  }, react_1["default"].createElement("div", {
+    id: "formContent"
+  }, react_1["default"].createElement("input", {
+    type: "text",
+    id: "text",
+    className: "fadeIn first",
+    placeholder: "Project name",
+    value: project_name,
+    required: true,
+    onChange: function onChange(event) {
+      setName(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "date",
+    id: "date1",
+    className: "fadeIn second",
+    placeholder: "start_date",
+    title: "start date",
+    value: start_date,
+    required: true,
+    onChange: function onChange(event) {
+      setStartDate(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "date",
+    id: "date2",
+    className: "fadeIn third",
+    placeholder: "finish_date",
+    title: "finish date",
+    value: finish_date,
+    required: true,
+    onChange: function onChange(event) {
+      setFinishDate(event.target.value);
+    }
+  }), react_1["default"].createElement("div", null, react_1["default"].createElement(react_select_1["default"], {
+    isMulti: true,
+    options: options
+  })), react_1["default"].createElement("div", {
+    className: "marg-up"
+  }, react_1["default"].createElement("button", {
+    className: "fadeIn fourth btn btn-info",
+    onClick: updateProject
+  }, " Update "), react_1["default"].createElement("h3", null, message)), react_1["default"].createElement("div", {
+    className: "marg-up-inp"
+  }, react_1["default"].createElement("button", {
+    className: "fadeIn fourth btn btn-danger",
+    onClick: deleteProject
+  }, " Delete "))));
 }
 
 exports["default"] = ProjectSettings;
@@ -88310,8 +88360,6 @@ __webpack_require__(/*! ./components/group/Groups */ "./resources/js/components/
 __webpack_require__(/*! ./components/group/GroupOperations */ "./resources/js/components/group/GroupOperations.tsx");
 
 __webpack_require__(/*! ./components/group/ListOfWorkers */ "./resources/js/components/group/ListOfWorkers.tsx");
-
-__webpack_require__(/*! ./components/group/UpdateGroup */ "./resources/js/components/group/UpdateGroup.tsx");
 
 __webpack_require__(/*! ./components/task/TaskList */ "./resources/js/components/task/TaskList.tsx");
 })();

@@ -16,7 +16,6 @@ import Groups from './group/Groups';
 import GroupOperations from './group/GroupOperations';
 import Navbar from './Navbar';
 import ListOfWorkers from './group/ListOfWorkers';
-import UpdateGroup from './group/UpdateGroup';
 import NotFound from './NotFound';
 
 axios.interceptors.request.use(function (config){
@@ -56,7 +55,7 @@ function App() {
                         <Route path='*' element={<NotFound />} />
                         <Route path='/' element={<Home />} />
                         <Route path='/addWorkers' element={<AddWorkers/>} />
-                        <Route path='/projectSettings' element={<ProjectSettings/>} />
+                        <Route path='/projectSettings/:id/:project_name' element={<ProjectSettings/>} />
                         <Route path='/groups' element={<Groups/>} />
                         <Route path='/groupOperations/:id/:group_name' element={<GroupOperations/>} />
                         <Route path='/listOfWorkers' element={<ListOfWorkers/>} />
@@ -66,7 +65,6 @@ function App() {
                         <Route path='/userProfile' element={<UserProfile/>} />
                         <Route path='/changePassword' element={<ChangePassword/>} />
                         <Route path='/taskList' element={<TaskList/>} />
-                        <Route path='/updateGroup' element={<UpdateGroup/>} />
                       </Routes>
                     </>
                   ) : (
