@@ -4460,7 +4460,7 @@ function Home() {
       setListOfProjects = _ref2[1];
 
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/projectList").then(function (response) {
+    axios_1["default"].get("/api/project").then(function (response) {
       if (response.data.status === 200) {
         setListOfProjects(response.data.project_list);
         console.log(response.data.message);
@@ -5426,9 +5426,7 @@ function GroupOperations() {
   }, []);
 
   var deleteGroup = function deleteGroup() {
-    axios_1["default"].post('/api/deleteGroup', {
-      group_id: params.id
-    }).then(function (response) {
+    axios_1["default"]["delete"]("/api/group/".concat(params.id), {}).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
         navigate('/groups');
@@ -5583,7 +5581,7 @@ function Groups() {
   };
 
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/groupList").then(function (response) {
+    axios_1["default"].get("/api/group").then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data);
         setListOfGroups(response.data.group_list);
@@ -6066,7 +6064,7 @@ function ProjectSettings() {
   }, []);
 
   var updateProject = function updateProject() {
-    axios_1["default"].post('/api/updateProject', {
+    axios_1["default"].put('/api/project', {
       project_name: project_name,
       project_id: params.id,
       start_date: start_date,
@@ -6082,9 +6080,7 @@ function ProjectSettings() {
   };
 
   var deleteProject = function deleteProject() {
-    axios_1["default"].post('/api/deleteProject', {
-      project_id: params.id
-    }).then(function (response) {
+    axios_1["default"]["delete"]("/api/project/".concat(params.id), {}).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
         navigate('/');
@@ -6273,7 +6269,7 @@ function ChangePassword() {
 
   var updatePassword = function updatePassword() {
     if (validatePassword(password, password2) === true) {
-      axios_1["default"].post('api/changePassword', {
+      axios_1["default"].put('api/changePassword', {
         old_password: old_password,
         new_password: password2
       }).then(function (response) {
@@ -6454,7 +6450,7 @@ function UserProfile() {
   var navigate = (0, react_router_dom_2.useNavigate)();
 
   var updateProfile = function updateProfile() {
-    axios_1["default"].post('api/updateProfile', {
+    axios_1["default"].put("/api/user", {
       username: username,
       surname: surname,
       email: email,
@@ -6474,7 +6470,7 @@ function UserProfile() {
   };
 
   var deleteUser = function deleteUser() {
-    axios_1["default"].post('api/deleteUser').then(function (response) {
+    axios_1["default"]["delete"]('api/user').then(function (response) {
       if (response.data.status === 200) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("username");
@@ -6486,7 +6482,7 @@ function UserProfile() {
   };
 
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/userProfile").then(function (response) {
+    axios_1["default"].get("/api/user").then(function (response) {
       if (response.data.status === 200) {
         if (localStorage.getItem('status')) {
           var bytes = CryptoJS.AES.decrypt(localStorage.getItem('status'), 'my-secret-key@123');

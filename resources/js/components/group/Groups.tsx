@@ -32,7 +32,7 @@ function Groups() {
     }
     
     useEffect(()=>{
-        axios.get("/api/groupList")
+        axios.get("/api/group")
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);

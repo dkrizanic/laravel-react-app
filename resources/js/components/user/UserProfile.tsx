@@ -19,7 +19,7 @@ function UserProfile() {
     let navigate = useNavigate();
 
     const updateProfile = () =>{
-        axios.post('api/updateProfile',{
+        axios.put(`/api/user`,{
             username: username,
             surname: surname,
             email: email,
@@ -40,7 +40,7 @@ function UserProfile() {
     }
 
     const deleteUser = () =>{
-        axios.post('api/deleteUser')
+        axios.delete('api/user')
         .then((response) => {
             if(response.data.status === 200){
                 localStorage.removeItem("accessToken");
@@ -53,7 +53,7 @@ function UserProfile() {
     }
 
     useEffect(()=>{
-      axios.get("/api/userProfile")
+      axios.get("/api/user")
       .then((response) =>{
         if(response.data.status === 200){
             if(localStorage.getItem('status')){

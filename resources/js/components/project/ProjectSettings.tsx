@@ -47,7 +47,7 @@ function ProjectSettings() {
     }, []);
 
     const updateProject = () => {
-        axios.post('/api/updateProject', {
+        axios.put('/api/project', {
             project_name: project_name,
             project_id: params.id,
             start_date: start_date,
@@ -64,8 +64,7 @@ function ProjectSettings() {
     }
 
     const deleteProject = () =>{
-        axios.post('/api/deleteProject', {
-            project_id: params.id,
+        axios.delete(`/api/project/${params.id}`, {
         })
         .then((response) => {
             if(response.data.status === 200){

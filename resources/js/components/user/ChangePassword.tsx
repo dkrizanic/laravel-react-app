@@ -12,7 +12,7 @@ function ChangePassword() {
     let navigate = useNavigate();
     const updatePassword = () =>{
         if(validatePassword(password, password2) === true){
-            axios.post('api/changePassword',{
+            axios.put('api/changePassword',{
                 old_password: old_password,
                 new_password: password2
             })

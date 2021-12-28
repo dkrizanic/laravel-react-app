@@ -38,8 +38,7 @@ function GroupOperations() {
     }, []);
 
     const deleteGroup = () =>{
-        axios.post('/api/deleteGroup', {
-            group_id: params.id,
+        axios.delete(`/api/group/${params.id}`, {
         })
         .then((response) => {
             if(response.data.status === 200){

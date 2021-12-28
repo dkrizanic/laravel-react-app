@@ -19,7 +19,7 @@ function Home() {
     const [project, setListOfProjects] = useState<IState["project"]>([]);
 
     useEffect(()=>{
-      axios.get("/api/projectList")
+      axios.get("/api/project")
       .then((response) =>{
         if(response.data.status === 200){
           setListOfProjects(response.data.project_list);
