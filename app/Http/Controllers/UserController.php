@@ -153,59 +153,55 @@ class UserController extends Controller
     }
 
     public function delete_everything(Request $request){    
-        if($request->user()->status === 1){
-            User::where("company",  $request->user()->company)->delete(); 
-            $request->user()->currentAccessToken()->delete();
-            return response()->json([ 
-                'status' => 200,
-                'message' => 'company deleted!'
-            ]);
-        }  
+        User::where("company",  $request->user()->company)->delete(); 
+        $request->user()->currentAccessToken()->delete();
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'company deleted!'
+        ]);
     }
 
     public function addWorker(Request $request){
-        if($request->user()->status === 1){
-            $user_db = User::where("email",  $request->email)->first();
-            if($user_db){
-                return response()->json([
-                    'status' => 403,
-                    'message' => 'Worker already exists!',
-                ]);
-            }else{
-                $user = new User;
-                $user->name = $request->username;
-                $user->surname = $request->surname;
-                $user->email = $request->email;
-                $user->number = $request->number;
-                $user->status = 0;
-                $user->company = $request->user()->company;
-                $user->password = Hash::make($request->password);
-                $user->save();
+        $user_db = User::where("email",  $request->email)->first();
+        if($user_db){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Worker already exists!',
+            ]);
+        }else{
+            $user = new User;
+            $user->name = $request->username;
+            $user->surname = $request->surname;
+            $user->email = $request->email;
+            $user->number = $request->number;
+            $user->status = 0;
+            $user->company = $request->user()->company;
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Worker added',
-                ]);
-            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Worker added',
+            ]);
         }
+        
         
     }
 
     public function workersList(Request $request){
-        if($request->user()->status === 1){
-            $user_db = User::where("company",  $request->user()->company)->get();
-            if(!$user_db){
-                return response()->json([
-                    'message' => 'No workers',
-                ]);
-            }else{
-                return response()->json([
-                    'status' => 200,
-                    'workers' => $user_db,
-                    'message' => 'Workers'
-                ]);
-            }
+        $user_db = User::where("company",  $request->user()->company)->get();
+        if(!$user_db){
+            return response()->json([
+                'message' => 'No workers',
+            ]);
+        }else{
+            return response()->json([
+                'status' => 200,
+                'workers' => $user_db,
+                'message' => 'Workers'
+            ]);
         }
     }
+    
 
 }
