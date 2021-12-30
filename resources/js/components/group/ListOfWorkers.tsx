@@ -14,6 +14,7 @@ function ListOfWorkers() {
           surname: string;
           email: string;
           number: number;
+          image: string;
         }[]
       }
     useEffect(()=>{
@@ -35,9 +36,10 @@ function ListOfWorkers() {
         <div className="data">
             {workers.map((value, key) => {
             return (
-              <div className="jumbotron jumbotron-fluid con-size fadeIn first" key={key}>
+              <div className="jumbotron jumbotron-fluid con-size fadeIn first " key={key}>
                 <div className="container">
-                  <h1 className="display-12"><Link to="/groupData" > {value.name} </Link></h1>
+                  <img src={value.image}></img>
+                  <h1 className="display-12 "><Link to="/groupData" > {value.name} {value.surname}</Link></h1>
                 </div>
               </div>
             );

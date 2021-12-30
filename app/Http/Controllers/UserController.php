@@ -81,20 +81,15 @@ class UserController extends Controller
     public function userProfile(Request $request){          
         $user = User::where("id",  $request->user()->id)->first(); 
         if($user){
-            $username = $user->name;
-            $email = $user->email;
-            $surname = $user->surname;
-            $number = $user->number;
-            $status = $user->status;
-            $company = $user->company;
             return response()->json([ 
                 'status' => 200,
-                'username' => $username,
-                'email' => $email,
-                'surname' => $surname,
-                'number' => $number,
-                'company' => $company,
-                'user_status' => $status,
+                'username' => $user->name,
+                'email' => $user->email,
+                'surname' => $user->surname,
+                'number' => $user->number,
+                'company' => $user->company,
+                'user_status' => $user->status,
+                'image' => $user->image,
                 'message' => 'User data'
             ]);
         }else{
@@ -115,7 +110,7 @@ class UserController extends Controller
             ]);
         }
 
-        if($company_check){
+        if($company_check && $id === 1){
             return response()->json([ 
                 'message' => "Company name in use"
             ]);
@@ -123,7 +118,8 @@ class UserController extends Controller
 
         User::where("company",  $request->user()->company)->update(['company' => $request->company]); 
         User::where("id",  $request->user()->id)
-            ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number]); 
+            ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number,
+             'image' => $request->image]); 
         return response()->json([ 
             'status' => 200,
             'message' => "User updated"
@@ -189,7 +185,7 @@ class UserController extends Controller
     }
 
     public function workersList(Request $request){
-        $user_db = User::where("company",  $request->user()->company)->get();
+        $user_db = User::where("company",  $request->user()->company)->where('status', '!=', 1)->get();
         if(!$user_db){
             return response()->json([
                 'message' => 'No workers',

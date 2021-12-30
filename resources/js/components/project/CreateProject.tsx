@@ -35,9 +35,7 @@ function CreateProject() {
             setMessage("Insert name");
         }else{
             axios.post('api/createProject', {
-                project_name: project_name,
-                start_date: start_date,
-                finish_date: finish_date,
+                options: options,
             }).then((response) => {
                 if(response.data.status === 200){
                     console.log(response.data.message);
@@ -51,7 +49,7 @@ function CreateProject() {
     }
 
     useEffect(()=>{
-        axios.get("/api/groupList")
+        axios.get("/api/group")
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);
@@ -63,7 +61,8 @@ function CreateProject() {
         })
         
     }, []);
-
+    const Add = options.map(Add => Add)
+    const handleAddrTypeChange = (e: any) => console.log((options[e.target.value]))
     
     return (
         
@@ -79,6 +78,8 @@ function CreateProject() {
                     <Select 
                     isMulti
                     options={options}
+                    value={options}
+                    onChange={e => handleAddrTypeChange(e)}
                     />
                 </div>
 

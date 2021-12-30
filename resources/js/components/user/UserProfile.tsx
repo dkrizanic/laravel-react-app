@@ -13,6 +13,7 @@ function UserProfile() {
     const [email, setEmail] = useState("");
     const [number, setNumber] = useState("");
     const [company, setCompany] = useState("");
+    const [image, setImage] = useState("");
     const [authState, setAuthState] = useState(false);
     const [message, setMessage] = useState("");
     const CryptoJS = require("crypto-js");
@@ -24,7 +25,8 @@ function UserProfile() {
             surname: surname,
             email: email,
             number: number,
-            company: company
+            company: company,
+            image: image
         })
         .then((response) =>{
             if(response.data.status === 200){
@@ -70,6 +72,7 @@ function UserProfile() {
             setEmail(response.data.email);
             setNumber(response.data.number);
             setCompany(response.data.company);
+            setImage(response.data.image);
             console.log(response.data.message);
         }else{
             console.log(response.data.message);
@@ -88,6 +91,8 @@ function UserProfile() {
                 setEmail(event.target.value);}}></input>
                 <input type="text" id="number" className="" value={number} title="number" required onChange={(event) => {
                 setNumber(event.target.value);}}></input>
+                <input type="text" id="image" className="" value={image} title="image" placeholder='Profile image link' required onChange={(event) => {
+                setImage(event.target.value);}}></input>
                 {authState ? (
                     <>
                         <input type="text" id="company" className=""  value={company} title="company" required onChange={(event) => {

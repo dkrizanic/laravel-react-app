@@ -4352,6 +4352,9 @@ function App() {
     path: '/taskList',
     element: react_1["default"].createElement(TaskList_1["default"], null)
   }))) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
+    path: '*',
+    element: react_1["default"].createElement(NotFound_1["default"], null)
+  }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/',
     element: react_1["default"].createElement(Home_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
@@ -5728,15 +5731,17 @@ function ListOfWorkers() {
     className: "data"
   }, workers.map(function (value, key) {
     return react_1["default"].createElement("div", {
-      className: "jumbotron jumbotron-fluid con-size fadeIn first",
+      className: "jumbotron jumbotron-fluid con-size fadeIn first ",
       key: key
     }, react_1["default"].createElement("div", {
       className: "container"
-    }, react_1["default"].createElement("h1", {
-      className: "display-12"
+    }, react_1["default"].createElement("img", {
+      src: value.image
+    }), react_1["default"].createElement("h1", {
+      className: "display-12 "
     }, react_1["default"].createElement(react_router_dom_1.Link, {
       to: "/groupData"
-    }, " ", value.name, " "))));
+    }, " ", value.name, " ", value.surname))));
   }));
 }
 
@@ -5860,9 +5865,7 @@ function CreateProject() {
       setMessage("Insert name");
     } else {
       axios_1["default"].post('api/createProject', {
-        project_name: project_name,
-        start_date: start_date,
-        finish_date: finish_date
+        options: options
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
@@ -5875,7 +5878,7 @@ function CreateProject() {
   };
 
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/groupList").then(function (response) {
+    axios_1["default"].get("/api/group").then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data);
         setListOfGroups(response.data.group_list);
@@ -5885,6 +5888,14 @@ function CreateProject() {
       }
     });
   }, []);
+  var Add = options.map(function (Add) {
+    return Add;
+  });
+
+  var handleAddrTypeChange = function handleAddrTypeChange(e) {
+    return console.log(options[e.target.value]);
+  };
+
   return react_1["default"].createElement("div", {
     className: "wrapper fadeInDown"
   }, react_1["default"].createElement("div", {
@@ -5920,7 +5931,11 @@ function CreateProject() {
     }
   }), react_1["default"].createElement("div", null, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
-    options: options
+    options: options,
+    value: options,
+    onChange: function onChange(e) {
+      return handleAddrTypeChange(e);
+    }
   })), react_1["default"].createElement("div", {
     className: "marg-up"
   }, react_1["default"].createElement("input", {
@@ -6435,15 +6450,20 @@ function UserProfile() {
       company = _ref10[0],
       setCompany = _ref10[1];
 
-  var _ref11 = (0, react_1.useState)(false),
+  var _ref11 = (0, react_1.useState)(""),
       _ref12 = _slicedToArray(_ref11, 2),
-      authState = _ref12[0],
-      setAuthState = _ref12[1];
+      image = _ref12[0],
+      setImage = _ref12[1];
 
-  var _ref13 = (0, react_1.useState)(""),
+  var _ref13 = (0, react_1.useState)(false),
       _ref14 = _slicedToArray(_ref13, 2),
-      message = _ref14[0],
-      setMessage = _ref14[1];
+      authState = _ref14[0],
+      setAuthState = _ref14[1];
+
+  var _ref15 = (0, react_1.useState)(""),
+      _ref16 = _slicedToArray(_ref15, 2),
+      message = _ref16[0],
+      setMessage = _ref16[1];
 
   var CryptoJS = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
 
@@ -6455,7 +6475,8 @@ function UserProfile() {
       surname: surname,
       email: email,
       number: number,
-      company: company
+      company: company,
+      image: image
     }).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
@@ -6500,6 +6521,7 @@ function UserProfile() {
         setEmail(response.data.email);
         setNumber(response.data.number);
         setCompany(response.data.company);
+        setImage(response.data.image);
         console.log(response.data.message);
       } else {
         console.log(response.data.message);
@@ -6549,6 +6571,17 @@ function UserProfile() {
     required: true,
     onChange: function onChange(event) {
       setNumber(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "image",
+    className: "",
+    value: image,
+    title: "image",
+    placeholder: 'Profile image link',
+    required: true,
+    onChange: function onChange(event) {
+      setImage(event.target.value);
     }
   }), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
     type: "text",
@@ -17926,7 +17959,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 3%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.marg-up-inp{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 3%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.marg-up-inp{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n\r\nimg {\r\n    width : 15%;\r\n    height: 15%; /*to preserve the aspect ratio of the image*/\r\n}\r\n\r\n.marg-left{\r\n    margin-right: 15%;\r\n}\r\n\r\n\r\n\r\nbody {\r\n    background-color: #f9f9fa\r\n}\r\n\r\n.padding {\r\n    padding: 3rem !important\r\n}\r\n\r\n.user-card-full {\r\n    overflow: hidden\r\n}\r\n\r\n.card {\r\n    border-radius: 5px;\r\n    box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);\r\n    border: none;\r\n    margin-bottom: 30px\r\n}\r\n\r\n.m-r-0 {\r\n    margin-right: 0px\r\n}\r\n\r\n.m-l-0 {\r\n    margin-left: 0px\r\n}\r\n\r\n.user-card-full .user-profile {\r\n    border-radius: 5px 0 0 5px\r\n}\r\n\r\n.bg-c-lite-green {\r\n    background: linear-gradient(to right, #ee5a6f, #f29263)\r\n}\r\n\r\n.user-profile {\r\n    padding: 20px 0\r\n}\r\n\r\n.card-block {\r\n    padding: 1.25rem\r\n}\r\n\r\n.m-b-25 {\r\n    margin-bottom: 25px\r\n}\r\n\r\n.img-radius {\r\n    border-radius: 5px\r\n}\r\n\r\nh6 {\r\n    font-size: 14px\r\n}\r\n\r\n.card .card-block p {\r\n    line-height: 25px\r\n}\r\n\r\n@media only screen and (min-width: 1400px) {\r\n    p {\r\n        font-size: 14px\r\n    }\r\n}\r\n\r\n.card-block {\r\n    padding: 1.25rem\r\n}\r\n\r\n.b-b-default {\r\n    border-bottom: 1px solid #e0e0e0\r\n}\r\n\r\n.m-b-20 {\r\n    margin-bottom: 20px\r\n}\r\n\r\n.p-b-5 {\r\n    padding-bottom: 5px !important\r\n}\r\n\r\n.card .card-block p {\r\n    line-height: 25px\r\n}\r\n\r\n.m-b-10 {\r\n    margin-bottom: 10px\r\n}\r\n\r\n.text-muted {\r\n    color: #919aa3 !important\r\n}\r\n\r\n.b-b-default {\r\n    border-bottom: 1px solid #e0e0e0\r\n}\r\n\r\n.f-w-600 {\r\n    font-weight: 600\r\n}\r\n\r\n.m-b-20 {\r\n    margin-bottom: 20px\r\n}\r\n\r\n.m-t-40 {\r\n    margin-top: 20px\r\n}\r\n\r\n.p-b-5 {\r\n    padding-bottom: 5px !important\r\n}\r\n\r\n.m-b-10 {\r\n    margin-bottom: 10px\r\n}\r\n\r\n.m-t-40 {\r\n    margin-top: 20px\r\n}\r\n\r\n.user-card-full .social-link li {\r\n    display: inline-block\r\n}\r\n\r\n.user-card-full .social-link li a {\r\n    font-size: 20px;\r\n    margin: 0 10px 0 0;\r\n    transition: all 0.3s ease-in-out\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17974,7 +18007,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 3%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.marg-up-inp{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 3%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.marg-up-inp{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
