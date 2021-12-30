@@ -80,6 +80,13 @@ function UserProfile() {
       })
     }, []);
 
+      const checker = () =>{
+        let text = "Are you sure you want to delete everything?";
+        if (confirm(text) == true) {
+            deleteUser();
+        }
+    }
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
@@ -111,7 +118,7 @@ function UserProfile() {
                 {authState ? (
                     <>
                         <div className="fadeIn fourth marg-up-inp" >
-                            <button className="btn btn-danger" onClick={deleteUser}> Delete everything </button>
+                            <button className="btn btn-danger" onClick={checker}> Delete everything </button>
                             
                         </div>
                     </>
