@@ -35,7 +35,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/user', [UserController::class, 'delete_everything'])->middleware("status");
     Route::put('/changePassword', [UserController::class, 'changePassword']);
     Route::post('/addWorker', [UserController::class, 'addWorker'])->middleware("status");
-    Route::get('/workersList', [UserController::class, 'workersList'])->middleware("status");
+    Route::get('/workers', [UserController::class, 'workersList'])->middleware("status");
+    Route::put('/workers', [UserController::class, 'updateWorker'])->middleware("status");
 
 
     Route::post('/createGroup', [GroupController::class, 'createGroup'])->middleware("status");

@@ -4,10 +4,11 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 
-function ListOfWorkers() {
+function Workers() {
 
     const [group_name, setGroup] = useState("");
     const [workers, setListOfWorkers] = useState<IState["workers"]>([]);
+    const [message, setMessage] = useState("");
     interface IState {
         workers: {
           name: string;
@@ -17,13 +18,13 @@ function ListOfWorkers() {
           image: string;
         }[]
       }
+      
     useEffect(()=>{
-        axios.get("/api/workersList")
+        axios.get("/api/workers")
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);
             setListOfWorkers(response.data.workers);
-            console.log(response.data.message);
         }else{
             console.log(response.data.message);
         }
@@ -39,7 +40,7 @@ function ListOfWorkers() {
               <div className="jumbotron jumbotron-fluid con-size fadeIn first " key={key}>
                 <div className="container">
                   <img src={value.image}></img>
-                  <h1 className="display-12 "><Link to="/groupData" > {value.name} {value.surname}</Link></h1>
+                  <h1 className="display-12 "><Link to="/workers/worker" state={workers[key]}> {value.name} {value.surname}</Link></h1>
                 </div>
               </div>
             );
@@ -50,4 +51,4 @@ function ListOfWorkers() {
     );
 }
 
-export default ListOfWorkers;
+export default Workers;

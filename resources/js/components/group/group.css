@@ -18,3 +18,8 @@ img {
     width : 15%;
     height: 15%; /*to preserve the aspect ratio of the image*/
 }
+
+
+.message1{
+    margin-top: 15%;
+}

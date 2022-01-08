@@ -15,7 +15,8 @@ import ProjectSettings from './project/ProjectSettings';
 import Groups from './group/Groups';
 import GroupOperations from './group/GroupOperations';
 import Navbar from './Navbar';
-import ListOfWorkers from './group/ListOfWorkers';
+import Workers from './group/Workers';
+import Worker from './group/Worker';
 import NotFound from './NotFound';
 
 axios.interceptors.request.use(function (config){
@@ -58,7 +59,8 @@ function App() {
                         <Route path='/projectSettings/:id/:project_name' element={<ProjectSettings/>} />
                         <Route path='/groups' element={<Groups/>} />
                         <Route path='/groupOperations/:id/:group_name' element={<GroupOperations/>} />
-                        <Route path='/listOfWorkers' element={<ListOfWorkers/>} />
+                        <Route path='/workers' element={<Workers/>} />
+                        <Route path='/workers/worker' element={<Worker/>} />
                         <Route path='/createProject' element={<CreateProject/>} />
                         <Route path='/register' element={<Register/>} />
                         <Route path='/login' element={<Login/>} />

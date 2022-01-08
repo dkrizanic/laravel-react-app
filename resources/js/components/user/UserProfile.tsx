@@ -72,7 +72,11 @@ function UserProfile() {
             setEmail(response.data.email);
             setNumber(response.data.number);
             setCompany(response.data.company);
-            setImage(response.data.image);
+            if(response.data.image === null){
+                setImage("");
+            }else{
+                setImage(response.data.image);
+            }
             console.log(response.data.message);
         }else{
             console.log(response.data.message);
@@ -80,7 +84,7 @@ function UserProfile() {
       })
     }, []);
 
-      const checker = () =>{
+    const checker = () =>{
         let text = "Are you sure you want to delete everything?";
         if (confirm(text) == true) {
             deleteUser();
@@ -100,6 +104,15 @@ function UserProfile() {
                 setNumber(event.target.value);}}></input>
                 <input type="text" id="image" className="" value={image} title="image" placeholder='Profile image link' required onChange={(event) => {
                 setImage(event.target.value);}}></input>
+                {image ? (
+                    <>
+                        <input type="text" id="company" className=""  value={company} title="company" required onChange={(event) => {
+                        setCompany(event.target.value);}}></input>
+                    </>
+                  ) : (
+                    <>
+                    </>
+                )}
                 {authState ? (
                     <>
                         <input type="text" id="company" className=""  value={company} title="company" required onChange={(event) => {
@@ -119,7 +132,6 @@ function UserProfile() {
                     <>
                         <div className="fadeIn fourth marg-up-inp" >
                             <button className="btn btn-danger" onClick={checker}> Delete everything </button>
-                            
                         </div>
                     </>
                   ) : (

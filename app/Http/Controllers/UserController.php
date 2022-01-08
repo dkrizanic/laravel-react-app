@@ -198,6 +198,23 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function updateWorker(Request $request){
+        $user_check = User::where("email",  $request->email)->where('id', '!=', $request->id)->first();
+        if($user_check){
+            return response()->json([
+                'message' => 'Email already exists',
+            ]);
+        }else{
+            User::where("id",  $request->id)
+            ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number,
+             'image' => $request->image]); 
+            return response()->json([
+                'status' => 200,
+                'message' => 'Worker updated'
+            ]);
+        }
+    }
     
 
 }

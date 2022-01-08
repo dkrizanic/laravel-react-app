@@ -79,7 +79,7 @@ function AddWorkers() {
                     <Link to="/groups" className="btn btn-primary fadeIn fifth" >  Groups  </Link>
                 </div>
                 <div className="marg-up-inp">
-                    <Link to="/listOfWorkers" className="btn btn-primary fadeIn fifth" >  List of Workers  </Link>
+                    <Link to="/workers" className="btn btn-primary fadeIn fifth" >  List of Workers  </Link>
                 </div>
             </div>
         </div>

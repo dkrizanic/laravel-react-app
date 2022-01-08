@@ -4276,7 +4276,9 @@ var GroupOperations_1 = __importDefault(__webpack_require__(/*! ./group/GroupOpe
 
 var Navbar_1 = __importDefault(__webpack_require__(/*! ./Navbar */ "./resources/js/components/Navbar.tsx"));
 
-var ListOfWorkers_1 = __importDefault(__webpack_require__(/*! ./group/ListOfWorkers */ "./resources/js/components/group/ListOfWorkers.tsx"));
+var Workers_1 = __importDefault(__webpack_require__(/*! ./group/Workers */ "./resources/js/components/group/Workers.tsx"));
+
+var Worker_1 = __importDefault(__webpack_require__(/*! ./group/Worker */ "./resources/js/components/group/Worker.tsx"));
 
 var NotFound_1 = __importDefault(__webpack_require__(/*! ./NotFound */ "./resources/js/components/NotFound.tsx"));
 
@@ -4331,8 +4333,11 @@ function App() {
     path: '/groupOperations/:id/:group_name',
     element: react_1["default"].createElement(GroupOperations_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/listOfWorkers',
-    element: react_1["default"].createElement(ListOfWorkers_1["default"], null)
+    path: '/workers',
+    element: react_1["default"].createElement(Workers_1["default"], null)
+  }), react_1["default"].createElement(react_router_dom_1.Route, {
+    path: '/workers/worker',
+    element: react_1["default"].createElement(Worker_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/createProject',
     element: react_1["default"].createElement(CreateProject_1["default"], null)
@@ -5312,7 +5317,7 @@ function AddWorkers() {
   }, "  Groups  ")), react_1["default"].createElement("div", {
     className: "marg-up-inp"
   }, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/listOfWorkers",
+    to: "/workers",
     className: "btn btn-primary fadeIn fifth"
   }, "  List of Workers  "))));
 }
@@ -5632,10 +5637,10 @@ exports["default"] = Groups;
 
 /***/ }),
 
-/***/ "./resources/js/components/group/ListOfWorkers.tsx":
-/*!*********************************************************!*\
-  !*** ./resources/js/components/group/ListOfWorkers.tsx ***!
-  \*********************************************************/
+/***/ "./resources/js/components/group/Worker.tsx":
+/*!**************************************************!*\
+  !*** ./resources/js/components/group/Worker.tsx ***!
+  \**************************************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -5705,7 +5710,239 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
-function ListOfWorkers() {
+function Worker() {
+  var _ref = (0, react_1.useState)(""),
+      _ref2 = _slicedToArray(_ref, 2),
+      username = _ref2[0],
+      setUsername = _ref2[1];
+
+  var _ref3 = (0, react_1.useState)(""),
+      _ref4 = _slicedToArray(_ref3, 2),
+      surname = _ref4[0],
+      setSurname = _ref4[1];
+
+  var _ref5 = (0, react_1.useState)(""),
+      _ref6 = _slicedToArray(_ref5, 2),
+      email = _ref6[0],
+      setEmail = _ref6[1];
+
+  var _ref7 = (0, react_1.useState)(""),
+      _ref8 = _slicedToArray(_ref7, 2),
+      password = _ref8[0],
+      setPassword = _ref8[1];
+
+  var _ref9 = (0, react_1.useState)(""),
+      _ref10 = _slicedToArray(_ref9, 2),
+      password2 = _ref10[0],
+      setPassword2 = _ref10[1];
+
+  var _ref11 = (0, react_1.useState)(""),
+      _ref12 = _slicedToArray(_ref11, 2),
+      message = _ref12[0],
+      setMessage = _ref12[1];
+
+  var _ref13 = (0, react_1.useState)(""),
+      _ref14 = _slicedToArray(_ref13, 2),
+      number = _ref14[0],
+      setNumber = _ref14[1];
+
+  var _ref15 = (0, react_1.useState)(""),
+      _ref16 = _slicedToArray(_ref15, 2),
+      image = _ref16[0],
+      setImage = _ref16[1];
+
+  var location = (0, react_router_dom_1.useLocation)();
+
+  var update = function update() {
+    if (validateEmail(email) === false || validatePassword(password, password2) === false) {
+      setMessage("Wrong data inside input fields");
+    }
+
+    if (validateEmail(email) === true && validatePassword(password, password2) === true) {
+      axios_1["default"].put('../api/workers', {
+        id: location.state.id,
+        username: username,
+        surname: surname,
+        email: email,
+        number: number
+      }).then(function (response) {
+        if (response.data.status === 200) {
+          console.log(response.data.message);
+          window.location.href = '/workers';
+        } else {
+          setMessage(response.data.message);
+        }
+      });
+    }
+  };
+
+  var validateEmail = function validateEmail(input) {
+    if (!input.includes("@")) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  var validatePassword = function validatePassword(password, password2) {
+    if (password === password2) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  (0, react_1.useEffect)(function () {
+    setUsername(location.state.name);
+    setSurname(location.state.surname);
+    setEmail(location.state.email);
+    setNumber(location.state.number);
+
+    if (location.state.image === null) {
+      setImage("");
+    } else {
+      setImage(location.state.image);
+    }
+  }, []);
+  return react_1["default"].createElement("div", {
+    className: "wrapper fadeInDown"
+  }, react_1["default"].createElement("div", {
+    id: "formContent"
+  }, react_1["default"].createElement("input", {
+    type: "text",
+    id: "username",
+    className: "fadeIn first",
+    value: username,
+    placeholder: "username",
+    required: true,
+    onChange: function onChange(event) {
+      setUsername(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "surname",
+    className: "fadeIn first",
+    value: surname,
+    placeholder: "surname",
+    required: true,
+    onChange: function onChange(event) {
+      setSurname(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "email",
+    id: "email",
+    className: "fadeIn second",
+    value: email,
+    placeholder: "email",
+    required: true,
+    onChange: function onChange(event) {
+      setEmail(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "number",
+    className: "fadeIn third",
+    value: number,
+    placeholder: "number",
+    required: true,
+    onChange: function onChange(event) {
+      setNumber(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "image",
+    className: "fadeIn third",
+    placeholder: "profile image",
+    required: true,
+    onChange: function onChange(event) {
+      setImage(event.target.value);
+    }
+  }), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
+    type: "submit",
+    className: "fadeIn fifth btn btn-info btn-lg",
+    onClick: update,
+    value: " Add"
+  }), react_1["default"].createElement("h3", null, message))));
+}
+
+exports["default"] = Worker;
+
+/***/ }),
+
+/***/ "./resources/js/components/group/Workers.tsx":
+/*!***************************************************!*\
+  !*** ./resources/js/components/group/Workers.tsx ***!
+  \***************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+__webpack_require__(/*! ./group.css */ "./resources/js/components/group/group.css");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+
+function Workers() {
   var _ref = (0, react_1.useState)(""),
       _ref2 = _slicedToArray(_ref, 2),
       group_name = _ref2[0],
@@ -5716,12 +5953,16 @@ function ListOfWorkers() {
       workers = _ref4[0],
       setListOfWorkers = _ref4[1];
 
+  var _ref5 = (0, react_1.useState)(""),
+      _ref6 = _slicedToArray(_ref5, 2),
+      message = _ref6[0],
+      setMessage = _ref6[1];
+
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/workersList").then(function (response) {
+    axios_1["default"].get("/api/workers").then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data);
         setListOfWorkers(response.data.workers);
-        console.log(response.data.message);
       } else {
         console.log(response.data.message);
       }
@@ -5740,12 +5981,13 @@ function ListOfWorkers() {
     }), react_1["default"].createElement("h1", {
       className: "display-12 "
     }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/groupData"
+      to: "/workers/worker",
+      state: workers[key]
     }, " ", value.name, " ", value.surname))));
   }));
 }
 
-exports["default"] = ListOfWorkers;
+exports["default"] = Workers;
 
 /***/ }),
 
@@ -6521,7 +6763,13 @@ function UserProfile() {
         setEmail(response.data.email);
         setNumber(response.data.number);
         setCompany(response.data.company);
-        setImage(response.data.image);
+
+        if (response.data.image === null) {
+          setImage("");
+        } else {
+          setImage(response.data.image);
+        }
+
         console.log(response.data.message);
       } else {
         console.log(response.data.message);
@@ -6592,7 +6840,17 @@ function UserProfile() {
     onChange: function onChange(event) {
       setImage(event.target.value);
     }
-  }), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
+  }), image ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
+    type: "text",
+    id: "company",
+    className: "",
+    value: company,
+    title: "company",
+    required: true,
+    onChange: function onChange(event) {
+      setCompany(event.target.value);
+    }
+  })) : react_1["default"].createElement(react_1["default"].Fragment, null), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
     type: "text",
     id: "company",
     className: "",
@@ -17968,7 +18226,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 3%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.marg-up-inp{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n\r\nimg {\r\n    width : 15%;\r\n    height: 15%; /*to preserve the aspect ratio of the image*/\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 3%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.marg-up-inp{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}\r\n\r\n.data{\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    list-style-type: none;\r\n}\r\n\r\nimg {\r\n    width : 15%;\r\n    height: 15%; /*to preserve the aspect ratio of the image*/\r\n}\r\n\r\n\r\n.message1{\r\n    margin-top: 15%;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -88407,7 +88665,9 @@ __webpack_require__(/*! ./components/group/Groups */ "./resources/js/components/
 
 __webpack_require__(/*! ./components/group/GroupOperations */ "./resources/js/components/group/GroupOperations.tsx");
 
-__webpack_require__(/*! ./components/group/ListOfWorkers */ "./resources/js/components/group/ListOfWorkers.tsx");
+__webpack_require__(/*! ./components/group/Workers */ "./resources/js/components/group/Workers.tsx");
+
+__webpack_require__(/*! ./components/group/Worker */ "./resources/js/components/group/Worker.tsx");
 
 __webpack_require__(/*! ./components/task/TaskList */ "./resources/js/components/task/TaskList.tsx");
 })();
