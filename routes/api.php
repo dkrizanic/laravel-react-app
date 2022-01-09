@@ -27,23 +27,23 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/project', [ProjectController::class, 'projectList']);
     Route::put('/project', [ProjectController::class, 'updateProject'])->middleware("status");
     Route::delete('/project/{id}', [ProjectController::class, 'deleteProject'])->middleware("status");
-    Route::post('/createProject', [ProjectController::class, 'store'])->middleware("status");
+    Route::post('/new-project', [ProjectController::class, 'store'])->middleware("status");
 
     Route::post('/logout', [UserController::class, 'logout']);
     Route::get('/user', [UserController::class, 'userProfile']);
     Route::put('/user', [UserController::class, 'updateProfile']);
     Route::delete('/user', [UserController::class, 'delete_everything'])->middleware("status");
     Route::delete('/worker/{id}', [GroupController::class, 'deleteWorker'])->middleware("status");
-    Route::put('/changePassword', [UserController::class, 'changePassword']);
-    Route::post('/addWorker', [UserController::class, 'addWorker'])->middleware("status");
+    Route::put('/change-password', [UserController::class, 'changePassword']);
+    Route::post('/new-worker', [UserController::class, 'addWorker'])->middleware("status");
     Route::get('/workers', [UserController::class, 'workersList'])->middleware("status");
     Route::put('/workers', [UserController::class, 'updateWorker'])->middleware("status");
 
 
-    Route::post('/createGroup', [GroupController::class, 'createGroup'])->middleware("status");
-    Route::get('/groupWorkersList', [GroupController::class, 'groupWorkersList'])->middleware("status");
+    Route::post('/new-group', [GroupController::class, 'createGroup'])->middleware("status");
+    Route::get('/group-workers', [GroupController::class, 'groupWorkersList'])->middleware("status");
     Route::delete('/group/{id}', [GroupController::class, 'deleteGroup'])->middleware("status");
-    Route::post('/updateGroup', [GroupController::class, 'updateGroup'])->middleware("status");
+    Route::post('/group', [GroupController::class, 'updateGroup'])->middleware("status");
     Route::get('/group', [GroupController::class, 'groupList'])->middleware("status");
     Route::put('/reset-password/{id}', [GroupController::class, 'resetPassword'])->middleware("status");
 });

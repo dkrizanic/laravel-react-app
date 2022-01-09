@@ -5212,7 +5212,7 @@ function AddWorkers() {
     }
 
     if (validateEmail(email) === true && validatePassword(password, password2) === true) {
-      axios_1["default"].post('api/addWorker', {
+      axios_1["default"].post('api/new-worker', {
         username: username,
         surname: surname,
         email: email,
@@ -5427,7 +5427,7 @@ function GroupOperations() {
   });
   var navigate = (0, react_router_dom_1.useNavigate)();
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/groupWorkersList").then(function (response) {
+    axios_1["default"].get("/api/group-workers").then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data);
         setListOfWorkers(response.data.workers_list);
@@ -5448,7 +5448,7 @@ function GroupOperations() {
   };
 
   var updateGroup = function updateGroup() {
-    axios_1["default"].post('/api/updateGroup', {
+    axios_1["default"].post('/api/group', {
       group_name: group_name,
       group_id: params.id
     }).then(function (response) {
@@ -5581,7 +5581,7 @@ function Groups() {
       setListOfGroups = _ref4[1];
 
   var newGroup = function newGroup() {
-    axios_1["default"].post('api/createGroup', {
+    axios_1["default"].post('api/new-group', {
       group_name: group_name
     }).then(function (response) {
       if (response.data.status === 200) {
@@ -6232,7 +6232,7 @@ function CreateProject() {
     if (project_name === '') {
       setMessage("Insert name");
     } else {
-      axios_1["default"].post('api/createProject', {
+      axios_1["default"].post('api/new-project', {
         options: options
       }).then(function (response) {
         if (response.data.status === 200) {
@@ -6652,7 +6652,7 @@ function ChangePassword() {
 
   var updatePassword = function updatePassword() {
     if (validatePassword(password, password2) === true) {
-      axios_1["default"].put('api/changePassword', {
+      axios_1["default"].put('api/change-password', {
         old_password: old_password,
         new_password: password2
       }).then(function (response) {

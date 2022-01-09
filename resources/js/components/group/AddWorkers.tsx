@@ -19,7 +19,7 @@ function AddWorkers() {
             setMessage("Wrong data inside input fields");
         }
         if(validateEmail(email) === true && validatePassword(password, password2) === true){
-            axios.post('api/addWorker', {
+            axios.post('api/new-worker', {
                 username: username,
                 surname: surname,
                 email: email,

@@ -18,7 +18,7 @@ function Groups() {
       }
 
     const newGroup = () => {
-        axios.post('api/createGroup', {
+        axios.post('api/new-group', {
             group_name: group_name,
 
         }).then((response) => {

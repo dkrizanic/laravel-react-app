@@ -24,7 +24,7 @@ function GroupOperations() {
     let navigate = useNavigate();
     
     useEffect(()=>{
-        axios.get("/api/groupWorkersList")
+        axios.get("/api/group-workers")
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);
@@ -49,7 +49,7 @@ function GroupOperations() {
     }
 
     const updateGroup = () => {
-        axios.post('/api/updateGroup', {
+        axios.post('/api/group', {
             group_name: group_name,
             group_id: params.id
 
