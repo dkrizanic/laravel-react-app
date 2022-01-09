@@ -100,19 +100,8 @@ function UserProfile() {
                 setSurname(event.target.value);}}></input>
                 <input type="email" id="email" className="" value={email} title="email" required onChange={(event) => {
                 setEmail(event.target.value);}}></input>
-                <input type="text" id="number" className="" value={number} title="number" required onChange={(event) => {
+                <input type="text" id="number" className="" value={number} title="phone number" required onChange={(event) => {
                 setNumber(event.target.value);}}></input>
-                <input type="text" id="image" className="" value={image} title="image" placeholder='Profile image link' required onChange={(event) => {
-                setImage(event.target.value);}}></input>
-                {image ? (
-                    <>
-                        <input type="text" id="company" className=""  value={company} title="company" required onChange={(event) => {
-                        setCompany(event.target.value);}}></input>
-                    </>
-                  ) : (
-                    <>
-                    </>
-                )}
                 {authState ? (
                     <>
                         <input type="text" id="company" className=""  value={company} title="company" required onChange={(event) => {
@@ -120,6 +109,8 @@ function UserProfile() {
                     </>
                   ) : (
                     <>
+                        <input type="text" id="image" className="" value={image} title="image" placeholder='Profile image link' required onChange={(event) => {
+                        setImage(event.target.value);}}></input>
                     </>
                 )}
                 <input type="submit" className="fadeIn fifth btn btn-info btn-lg" onClick={updateProfile} value="Update"></input>

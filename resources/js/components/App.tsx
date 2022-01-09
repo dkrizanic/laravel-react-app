@@ -18,6 +18,7 @@ import Navbar from './Navbar';
 import Workers from './group/Workers';
 import Worker from './group/Worker';
 import NotFound from './NotFound';
+import PasswordReset from './group/PasswordReset';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
@@ -67,6 +68,7 @@ function App() {
                         <Route path='/userProfile' element={<UserProfile/>} />
                         <Route path='/changePassword' element={<ChangePassword/>} />
                         <Route path='/taskList' element={<TaskList/>} />
+                        <Route path='/password-reset/:id' element={<PasswordReset/>} />
                       </Routes>
                     </>
                   ) : (

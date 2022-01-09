@@ -6,9 +6,7 @@ import { Link } from 'react-router-dom';
 
 function Workers() {
 
-    const [group_name, setGroup] = useState("");
     const [workers, setListOfWorkers] = useState<IState["workers"]>([]);
-    const [message, setMessage] = useState("");
     interface IState {
         workers: {
           name: string;

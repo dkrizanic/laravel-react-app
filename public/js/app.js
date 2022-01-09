@@ -4282,6 +4282,8 @@ var Worker_1 = __importDefault(__webpack_require__(/*! ./group/Worker */ "./reso
 
 var NotFound_1 = __importDefault(__webpack_require__(/*! ./NotFound */ "./resources/js/components/NotFound.tsx"));
 
+var PasswordReset_1 = __importDefault(__webpack_require__(/*! ./group/PasswordReset */ "./resources/js/components/group/PasswordReset.tsx"));
+
 axios_1["default"].interceptors.request.use(function (config) {
   var token = localStorage.getItem('accessToken');
   config.headers.Authorization = token ? "Bearer ".concat(token) : '';
@@ -4356,6 +4358,9 @@ function App() {
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/taskList',
     element: react_1["default"].createElement(TaskList_1["default"], null)
+  }), react_1["default"].createElement(react_router_dom_1.Route, {
+    path: '/password-reset/:id',
+    element: react_1["default"].createElement(PasswordReset_1["default"], null)
   }))) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '*',
     element: react_1["default"].createElement(NotFound_1["default"], null)
@@ -5637,6 +5642,153 @@ exports["default"] = Groups;
 
 /***/ }),
 
+/***/ "./resources/js/components/group/PasswordReset.tsx":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/group/PasswordReset.tsx ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+
+function PasswordReset() {
+  var _ref = (0, react_1.useState)(""),
+      _ref2 = _slicedToArray(_ref, 2),
+      password = _ref2[0],
+      setPassword = _ref2[1];
+
+  var _ref3 = (0, react_1.useState)(""),
+      _ref4 = _slicedToArray(_ref3, 2),
+      password2 = _ref4[0],
+      setPassword2 = _ref4[1];
+
+  var _ref5 = (0, react_1.useState)(""),
+      _ref6 = _slicedToArray(_ref5, 2),
+      message = _ref6[0],
+      setMessage = _ref6[1];
+
+  var navigate = (0, react_router_dom_1.useNavigate)();
+  var params = (0, react_router_dom_1.useParams)();
+
+  var updatePassword = function updatePassword() {
+    if (validatePassword(password, password2) === true) {
+      axios_1["default"].put("/api/reset-password/".concat(params.id), {
+        new_password: password2
+      }).then(function (response) {
+        if (response.data.status === 200) {
+          console.log(response.data.message);
+          navigate('/workers');
+        } else {
+          setMessage(response.data.message);
+        }
+      });
+    } else {
+      setMessage("Password missmatch");
+    }
+  };
+
+  var validatePassword = function validatePassword(password, password2) {
+    if (password === password2) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  return react_1["default"].createElement("div", {
+    className: "wrapper fadeInDown"
+  }, react_1["default"].createElement("div", {
+    id: "formContent"
+  }, react_1["default"].createElement("input", {
+    type: "password",
+    id: "password",
+    className: "fadeIn second",
+    placeholder: "New password",
+    required: true,
+    onChange: function onChange(event) {
+      setPassword(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "password",
+    id: "password2",
+    className: "fadeIn second",
+    placeholder: "Repeted new password",
+    required: true,
+    onChange: function onChange(event) {
+      setPassword2(event.target.value);
+    }
+  }), react_1["default"].createElement("button", {
+    className: "fadeIn third btn btn-info",
+    onClick: updatePassword
+  }, "Update"), react_1["default"].createElement("h3", null, message)));
+}
+
+exports["default"] = PasswordReset;
+
+/***/ }),
+
 /***/ "./resources/js/components/group/Worker.tsx":
 /*!**************************************************!*\
   !*** ./resources/js/components/group/Worker.tsx ***!
@@ -5711,54 +5863,41 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
 function Worker() {
-  var _ref = (0, react_1.useState)(""),
+  var location = (0, react_router_dom_1.useLocation)();
+
+  var _ref = (0, react_1.useState)(location.state.name),
       _ref2 = _slicedToArray(_ref, 2),
       username = _ref2[0],
       setUsername = _ref2[1];
 
-  var _ref3 = (0, react_1.useState)(""),
+  var _ref3 = (0, react_1.useState)(location.state.surname),
       _ref4 = _slicedToArray(_ref3, 2),
       surname = _ref4[0],
       setSurname = _ref4[1];
 
-  var _ref5 = (0, react_1.useState)(""),
+  var _ref5 = (0, react_1.useState)(location.state.email),
       _ref6 = _slicedToArray(_ref5, 2),
       email = _ref6[0],
       setEmail = _ref6[1];
 
   var _ref7 = (0, react_1.useState)(""),
       _ref8 = _slicedToArray(_ref7, 2),
-      password = _ref8[0],
-      setPassword = _ref8[1];
+      message = _ref8[0],
+      setMessage = _ref8[1];
 
-  var _ref9 = (0, react_1.useState)(""),
+  var _ref9 = (0, react_1.useState)(location.state.number),
       _ref10 = _slicedToArray(_ref9, 2),
-      password2 = _ref10[0],
-      setPassword2 = _ref10[1];
+      number = _ref10[0],
+      setNumber = _ref10[1];
 
-  var _ref11 = (0, react_1.useState)(""),
-      _ref12 = _slicedToArray(_ref11, 2),
-      message = _ref12[0],
-      setMessage = _ref12[1];
-
-  var _ref13 = (0, react_1.useState)(""),
-      _ref14 = _slicedToArray(_ref13, 2),
-      number = _ref14[0],
-      setNumber = _ref14[1];
-
-  var _ref15 = (0, react_1.useState)(""),
-      _ref16 = _slicedToArray(_ref15, 2),
-      image = _ref16[0],
-      setImage = _ref16[1];
-
-  var location = (0, react_router_dom_1.useLocation)();
+  var navigate = (0, react_router_dom_1.useNavigate)();
 
   var update = function update() {
-    if (validateEmail(email) === false || validatePassword(password, password2) === false) {
-      setMessage("Wrong data inside input fields");
+    if (validateEmail(email) === false) {
+      setMessage("Wrong email adress");
     }
 
-    if (validateEmail(email) === true && validatePassword(password, password2) === true) {
+    if (validateEmail(email) === true) {
       axios_1["default"].put('../api/workers', {
         id: location.state.id,
         username: username,
@@ -5768,7 +5907,7 @@ function Worker() {
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
-          window.location.href = '/workers';
+          navigate("/workers");
         } else {
           setMessage(response.data.message);
         }
@@ -5784,26 +5923,25 @@ function Worker() {
     }
   };
 
-  var validatePassword = function validatePassword(password, password2) {
-    if (password === password2) {
-      return true;
-    } else {
-      return false;
+  var deleteWorker = function deleteWorker() {
+    axios_1["default"]["delete"]("/api/worker/".concat(location.state.id), {}).then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data.message);
+        navigate('/workers');
+      } else {
+        console.log("Worker not deleted");
+      }
+    });
+  };
+
+  var checker = function checker() {
+    var text = "Are you sure you want to delete everything?";
+
+    if (confirm(text) == true) {
+      deleteWorker();
     }
   };
 
-  (0, react_1.useEffect)(function () {
-    setUsername(location.state.name);
-    setSurname(location.state.surname);
-    setEmail(location.state.email);
-    setNumber(location.state.number);
-
-    if (location.state.image === null) {
-      setImage("");
-    } else {
-      setImage(location.state.image);
-    }
-  }, []);
   return react_1["default"].createElement("div", {
     className: "wrapper fadeInDown"
   }, react_1["default"].createElement("div", {
@@ -5811,9 +5949,9 @@ function Worker() {
   }, react_1["default"].createElement("input", {
     type: "text",
     id: "username",
-    className: "fadeIn first",
+    className: "",
     value: username,
-    placeholder: "username",
+    title: "number",
     required: true,
     onChange: function onChange(event) {
       setUsername(event.target.value);
@@ -5821,9 +5959,9 @@ function Worker() {
   }), react_1["default"].createElement("input", {
     type: "text",
     id: "surname",
-    className: "fadeIn first",
+    className: "",
     value: surname,
-    placeholder: "surname",
+    title: "surname",
     required: true,
     onChange: function onChange(event) {
       setSurname(event.target.value);
@@ -5831,9 +5969,9 @@ function Worker() {
   }), react_1["default"].createElement("input", {
     type: "email",
     id: "email",
-    className: "fadeIn second",
+    className: "",
     value: email,
-    placeholder: "email",
+    title: "email",
     required: true,
     onChange: function onChange(event) {
       setEmail(event.target.value);
@@ -5841,28 +5979,26 @@ function Worker() {
   }), react_1["default"].createElement("input", {
     type: "text",
     id: "number",
-    className: "fadeIn third",
+    className: "",
     value: number,
-    placeholder: "number",
+    title: "phone number",
     required: true,
     onChange: function onChange(event) {
       setNumber(event.target.value);
-    }
-  }), react_1["default"].createElement("input", {
-    type: "text",
-    id: "image",
-    className: "fadeIn third",
-    placeholder: "profile image",
-    required: true,
-    onChange: function onChange(event) {
-      setImage(event.target.value);
     }
   }), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
     type: "submit",
     className: "fadeIn fifth btn btn-info btn-lg",
     onClick: update,
-    value: " Add"
-  }), react_1["default"].createElement("h3", null, message))));
+    value: " Update "
+  }), react_1["default"].createElement("h3", null, message)), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/password-reset/".concat(location.state.id),
+    className: "btn btn-primary fadeIn fifth"
+  }, "  Password reset  ")), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
+    className: "fadeIn fifth btn btn-danger",
+    onClick: checker,
+    value: " Delete worker "
+  }))));
 }
 
 exports["default"] = Worker;
@@ -5943,20 +6079,10 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
 function Workers() {
-  var _ref = (0, react_1.useState)(""),
+  var _ref = (0, react_1.useState)([]),
       _ref2 = _slicedToArray(_ref, 2),
-      group_name = _ref2[0],
-      setGroup = _ref2[1];
-
-  var _ref3 = (0, react_1.useState)([]),
-      _ref4 = _slicedToArray(_ref3, 2),
-      workers = _ref4[0],
-      setListOfWorkers = _ref4[1];
-
-  var _ref5 = (0, react_1.useState)(""),
-      _ref6 = _slicedToArray(_ref5, 2),
-      message = _ref6[0],
-      setMessage = _ref6[1];
+      workers = _ref2[0],
+      setListOfWorkers = _ref2[1];
 
   (0, react_1.useEffect)(function () {
     axios_1["default"].get("/api/workers").then(function (response) {
@@ -6824,12 +6950,22 @@ function UserProfile() {
     id: "number",
     className: "",
     value: number,
-    title: "number",
+    title: "phone number",
     required: true,
     onChange: function onChange(event) {
       setNumber(event.target.value);
     }
-  }), react_1["default"].createElement("input", {
+  }), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
+    type: "text",
+    id: "company",
+    className: "",
+    value: company,
+    title: "company",
+    required: true,
+    onChange: function onChange(event) {
+      setCompany(event.target.value);
+    }
+  })) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
     type: "text",
     id: "image",
     className: "",
@@ -6840,27 +6976,7 @@ function UserProfile() {
     onChange: function onChange(event) {
       setImage(event.target.value);
     }
-  }), image ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
-    type: "text",
-    id: "company",
-    className: "",
-    value: company,
-    title: "company",
-    required: true,
-    onChange: function onChange(event) {
-      setCompany(event.target.value);
-    }
-  })) : react_1["default"].createElement(react_1["default"].Fragment, null), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
-    type: "text",
-    id: "company",
-    className: "",
-    value: company,
-    title: "company",
-    required: true,
-    onChange: function onChange(event) {
-      setCompany(event.target.value);
-    }
-  })) : react_1["default"].createElement(react_1["default"].Fragment, null), react_1["default"].createElement("input", {
+  })), react_1["default"].createElement("input", {
     type: "submit",
     className: "fadeIn fifth btn btn-info btn-lg",
     onClick: updateProfile,
@@ -88668,6 +88784,8 @@ __webpack_require__(/*! ./components/group/GroupOperations */ "./resources/js/co
 __webpack_require__(/*! ./components/group/Workers */ "./resources/js/components/group/Workers.tsx");
 
 __webpack_require__(/*! ./components/group/Worker */ "./resources/js/components/group/Worker.tsx");
+
+__webpack_require__(/*! ./components/group/PasswordReset */ "./resources/js/components/group/PasswordReset.tsx");
 
 __webpack_require__(/*! ./components/task/TaskList */ "./resources/js/components/task/TaskList.tsx");
 })();

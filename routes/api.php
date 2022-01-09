@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [UserController::class, 'userProfile']);
     Route::put('/user', [UserController::class, 'updateProfile']);
     Route::delete('/user', [UserController::class, 'delete_everything'])->middleware("status");
+    Route::delete('/worker/{id}', [GroupController::class, 'deleteWorker'])->middleware("status");
     Route::put('/changePassword', [UserController::class, 'changePassword']);
     Route::post('/addWorker', [UserController::class, 'addWorker'])->middleware("status");
     Route::get('/workers', [UserController::class, 'workersList'])->middleware("status");
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/group/{id}', [GroupController::class, 'deleteGroup'])->middleware("status");
     Route::post('/updateGroup', [GroupController::class, 'updateGroup'])->middleware("status");
     Route::get('/group', [GroupController::class, 'groupList'])->middleware("status");
+    Route::put('/reset-password/{id}', [GroupController::class, 'resetPassword'])->middleware("status");
 });
 
 

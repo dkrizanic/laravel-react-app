@@ -30,4 +30,5 @@ require('./components/group/Groups');
 require('./components/group/GroupOperations');
 require('./components/group/Workers');
 require('./components/group/Worker');
+require('./components/group/PasswordReset');
 require('./components/task/TaskList');

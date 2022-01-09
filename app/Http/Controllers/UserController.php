@@ -180,8 +180,6 @@ class UserController extends Controller
                 'message' => 'Worker added',
             ]);
         }
-        
-        
     }
 
     public function workersList(Request $request){

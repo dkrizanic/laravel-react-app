@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class GroupController extends Controller
 {
@@ -65,6 +66,30 @@ class GroupController extends Controller
             'status' => 200,
             'message' => 'Group updated!'
         ]);
+    }
+
+    public function deleteWorker($id){
+        User::where("id",  $id)->delete(); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Worker deleted!'
+        ]);
+    }
+
+    public function resetPassword(Request $request, $id){          
+        $user = User::where("id",  $id)->first(); 
+        $new_password_hash = Hash::make($request->new_password);
+        if($user){
+            $user->update(['password' => $new_password_hash]); 
+            return response()->json([ 
+                'status' => 200,
+                'message' => 'Worker password reseted'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'User data not updated'
+            ]);
+        }
     }
     
 }
