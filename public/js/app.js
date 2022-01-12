@@ -4280,8 +4280,6 @@ var Workers_1 = __importDefault(__webpack_require__(/*! ./group/Workers */ "./re
 
 var Worker_1 = __importDefault(__webpack_require__(/*! ./group/Worker */ "./resources/js/components/group/Worker.tsx"));
 
-var NotFound_1 = __importDefault(__webpack_require__(/*! ./NotFound */ "./resources/js/components/NotFound.tsx"));
-
 var PasswordReset_1 = __importDefault(__webpack_require__(/*! ./group/PasswordReset */ "./resources/js/components/group/PasswordReset.tsx"));
 
 axios_1["default"].interceptors.request.use(function (config) {
@@ -4318,7 +4316,7 @@ function App() {
   }, []);
   return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(Navbar_1["default"], null), status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '*',
-    element: react_1["default"].createElement(NotFound_1["default"], null)
+    element: react_1["default"].createElement(Home_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/',
     element: react_1["default"].createElement(Home_1["default"], null)
@@ -4363,7 +4361,7 @@ function App() {
     element: react_1["default"].createElement(PasswordReset_1["default"], null)
   }))) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '*',
-    element: react_1["default"].createElement(NotFound_1["default"], null)
+    element: react_1["default"].createElement(Home_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/',
     element: react_1["default"].createElement(Home_1["default"], null)
@@ -4674,35 +4672,6 @@ function Navbar() {
 }
 
 exports["default"] = Navbar;
-
-/***/ }),
-
-/***/ "./resources/js/components/NotFound.tsx":
-/*!**********************************************!*\
-  !*** ./resources/js/components/NotFound.tsx ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-function NotFound() {
-  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "Page not found 404"));
-}
-
-exports["default"] = NotFound;
 
 /***/ }),
 
@@ -6005,17 +5974,16 @@ function Worker() {
     }
   }), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
     type: "submit",
-    className: "fadeIn fifth btn btn-info btn-lg",
+    className: "fadeIn third btn btn-info btn-lg",
     onClick: update,
     value: " Update "
   }), react_1["default"].createElement("h3", null, message)), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/workers/worker/password-reset/".concat(location.state.id),
-    className: "btn btn-primary fadeIn fifth"
-  }, "  Password reset  ")), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
-    className: "fadeIn fifth btn btn-danger",
-    onClick: checker,
-    value: " Delete worker "
-  }))));
+    className: "btn btn-primary fadeIn third"
+  }, "  Password reset  ")), react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
+    className: "fadeIn third btn btn-danger marg-up",
+    onClick: checker
+  }, " Delete worker "))));
 }
 
 exports["default"] = Worker;
@@ -88785,8 +88753,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 __webpack_require__(/*! ./components/App */ "./resources/js/components/App.tsx");
 
 __webpack_require__(/*! ./components/Home */ "./resources/js/components/Home.tsx");
-
-__webpack_require__(/*! ./components/NotFound */ "./resources/js/components/NotFound.tsx");
 
 __webpack_require__(/*! ./components/Navbar */ "./resources/js/components/Navbar.tsx");
 

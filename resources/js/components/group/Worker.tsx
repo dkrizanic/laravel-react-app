@@ -80,14 +80,14 @@ function Worker() {
                 <input type="text" id="number" className="" value={number} title="phone number" required onChange={(event) => {
                 setNumber(event.target.value);}}></input>
                 <div>
-                    <input type="submit" className="fadeIn fifth btn btn-info btn-lg" onClick={update} value=" Update "></input>
+                    <input type="submit" className="fadeIn third btn btn-info btn-lg" onClick={update} value=" Update "></input>
                     <h3>{message}</h3>
                 </div>
                 <div>
-                    <Link to={`/workers/worker/password-reset/${location.state.id}`} className="btn btn-primary fadeIn fifth" >  Password reset  </Link>
+                    <Link to={`/workers/worker/password-reset/${location.state.id}`} className="btn btn-primary fadeIn third" >  Password reset  </Link>
                 </div>
                 <div>
-                    <input className="fadeIn fifth btn btn-danger" onClick={checker} value=" Delete worker "></input>
+                    <button className="fadeIn third btn btn-danger marg-up" onClick={checker}> Delete worker </button>
                 </div>
             </div>
         </div>

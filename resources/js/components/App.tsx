@@ -17,7 +17,6 @@ import GroupOperations from './group/GroupOperations';
 import Navbar from './Navbar';
 import Workers from './group/Workers';
 import Worker from './group/Worker';
-import NotFound from './NotFound';
 import PasswordReset from './group/PasswordReset';
 
 axios.interceptors.request.use(function (config){
@@ -54,7 +53,7 @@ function App() {
             {status ? (
                     <>
                       <Routes>
-                        <Route path='*' element={<NotFound />} />
+                        <Route path='*' element={<Home />} />
                         <Route path='/' element={<Home />} />
                         <Route path='/addWorkers' element={<AddWorkers/>} />
                         <Route path='/projectSettings/:id/:project_name' element={<ProjectSettings/>} />
@@ -74,7 +73,7 @@ function App() {
                   ) : (
                     <>
                       <Routes>
-                        <Route path='*' element={<NotFound />} />
+                        <Route path='*' element={<Home />} />
                         <Route path='/' element={<Home />} />
                         <Route path='/register' element={<Register/>} />
                         <Route path='/login' element={<Login/>} />
