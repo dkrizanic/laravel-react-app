@@ -10,22 +10,27 @@ function PasswordReset() {
     const [message, setMessage] = useState("");
     let navigate = useNavigate();
     const params = useParams()
+
     const updatePassword = () =>{
-        if(validatePassword(password, password2) === true){
-            axios.put(`/api/reset-password/${params.id}`,{
-                new_password: password2
-            })
-            .then((response) =>{
-              if(response.data.status === 200){
-                console.log(response.data.message);
-                navigate('/workers');
-              }else{
-                setMessage(response.data.message);
-              }
-              
-            });
+        if(password2.length < 5){
+            alert("Password too short");
         }else{
-            setMessage("Password missmatch");
+            if(validatePassword(password, password2) === true){
+                axios.put(`/api/reset-password/${params.id}`,{
+                    new_password: password2
+                })
+                .then((response) =>{
+                  if(response.data.status === 200){
+                    console.log(response.data.message);
+                    navigate('/workers');
+                  }else{
+                    setMessage(response.data.message);
+                  }
+                  
+                });
+            }else{
+                setMessage("Password missmatch");
+            }
         }
       }
 

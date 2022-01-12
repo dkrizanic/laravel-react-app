@@ -6,10 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class GroupController extends Controller
 {
     public function createGroup(Request $request){
+        $validator = Validator::make($request->all(), [
+            'group_name' => 'required|max:32',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'group validation failed'
+            ]);
+        }
+
         $group = new Group();
         $group->user_id = $request->user()->id;
         $group->group_name = $request->group_name;
@@ -61,6 +72,14 @@ class GroupController extends Controller
     }
 
     public function updateGroup(Request $request){
+        $validator = Validator::make($request->all(), [
+            'group_name' => 'required|max:32',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'update group validation failed'
+            ]);
+        }
         Group::where("id",  $request->group_id)->update(['group_name' => $request->group_name]); 
         return response()->json([ 
             'status' => 200,
@@ -76,7 +95,17 @@ class GroupController extends Controller
         ]);
     }
 
-    public function resetPassword(Request $request, $id){          
+    public function resetPassword(Request $request, $id){      
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|max:255|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'password error'
+            ]);
+        }   
+
         $user = User::where("id",  $id)->first(); 
         $new_password_hash = Hash::make($request->new_password);
         if($user){

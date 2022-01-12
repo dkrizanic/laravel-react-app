@@ -18,17 +18,21 @@ function Groups() {
       }
 
     const newGroup = () => {
-        axios.post('api/new-group', {
-            group_name: group_name,
+        if(group_name === ''){
 
-        }).then((response) => {
-            if(response.data.status === 200){
-                console.log(response.data.message);
-                window.location.href = '/groups';
-            }else{
-                console.log("create project failed");
-            }
-        });
+        }else{
+            axios.post('api/new-group', {
+                group_name: group_name,
+    
+            }).then((response) => {
+                if(response.data.status === 200){
+                    console.log(response.data.message);
+                    window.location.href = '/groups';
+                }else{
+                    console.log("create project failed");
+                }
+            });
+        }
     }
     
     useEffect(()=>{

@@ -4962,15 +4962,20 @@ function Register() {
   var CryptoJS = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
 
   var register = function register() {
-    if (username === '' || surname === '' || password === '' || company === '') {
+    if (username === '' || surname === '' || password === '' || company === '' || number.length < 5 || email.length < 5) {
       setMessage("Please insert all valid informations");
     } else {
       if (validatePassword(password, password2) === false) {
         setMessage("Password missmatch");
       }
 
-      if (validatePassword(password, password2) === false) {
+      if (validateEmail(email) === false) {
         setMessage("Please insert valid email adress");
+      }
+
+      if (password.length < 5) {
+        setMessage("Too short password");
+        return 0;
       }
 
       if (validateEmail(email) === true && validatePassword(password, password2) === true) {
@@ -5207,7 +5212,7 @@ function AddWorkers() {
       setNumber = _ref14[1];
 
   var add = function add() {
-    if (validateEmail(email) === false || validatePassword(password, password2) === false) {
+    if (validateEmail(email) === false || validatePassword(password, password2) === false || password.length < 5 || number.length < 5) {
       setMessage("Wrong data inside input fields");
     }
 
@@ -5230,7 +5235,7 @@ function AddWorkers() {
   };
 
   var validateEmail = function validateEmail(input) {
-    if (!input.includes("@")) {
+    if (!input.includes("@") || input.length < 5) {
       return false;
     } else {
       return true;
@@ -5448,17 +5453,19 @@ function GroupOperations() {
   };
 
   var updateGroup = function updateGroup() {
-    axios_1["default"].post('/api/group', {
-      group_name: group_name,
-      group_id: params.id
-    }).then(function (response) {
-      if (response.data.status === 200) {
-        console.log(response.data.message);
-        window.location.href = '/groups';
-      } else {
-        console.log("create project failed");
-      }
-    });
+    if (group_name === '') {} else {
+      axios_1["default"].post('/api/group', {
+        group_name: group_name,
+        group_id: params.id
+      }).then(function (response) {
+        if (response.data.status === 200) {
+          console.log(response.data.message);
+          window.location.href = '/groups';
+        } else {
+          console.log("create project failed");
+        }
+      });
+    }
   };
 
   return react_1["default"].createElement("div", {
@@ -5581,16 +5588,18 @@ function Groups() {
       setListOfGroups = _ref4[1];
 
   var newGroup = function newGroup() {
-    axios_1["default"].post('api/new-group', {
-      group_name: group_name
-    }).then(function (response) {
-      if (response.data.status === 200) {
-        console.log(response.data.message);
-        window.location.href = '/groups';
-      } else {
-        console.log("create project failed");
-      }
-    });
+    if (group_name === '') {} else {
+      axios_1["default"].post('api/new-group', {
+        group_name: group_name
+      }).then(function (response) {
+        if (response.data.status === 200) {
+          console.log(response.data.message);
+          window.location.href = '/groups';
+        } else {
+          console.log("create project failed");
+        }
+      });
+    }
   };
 
   (0, react_1.useEffect)(function () {
@@ -5733,19 +5742,23 @@ function PasswordReset() {
   var params = (0, react_router_dom_1.useParams)();
 
   var updatePassword = function updatePassword() {
-    if (validatePassword(password, password2) === true) {
-      axios_1["default"].put("/api/reset-password/".concat(params.id), {
-        new_password: password2
-      }).then(function (response) {
-        if (response.data.status === 200) {
-          console.log(response.data.message);
-          navigate('/workers');
-        } else {
-          setMessage(response.data.message);
-        }
-      });
+    if (password2.length < 5) {
+      alert("Password too short");
     } else {
-      setMessage("Password missmatch");
+      if (validatePassword(password, password2) === true) {
+        axios_1["default"].put("/api/reset-password/".concat(params.id), {
+          new_password: password2
+        }).then(function (response) {
+          if (response.data.status === 200) {
+            console.log(response.data.message);
+            navigate('/workers');
+          } else {
+            setMessage(response.data.message);
+          }
+        });
+      } else {
+        setMessage("Password missmatch");
+      }
     }
   };
 
@@ -5893,25 +5906,29 @@ function Worker() {
   var navigate = (0, react_router_dom_1.useNavigate)();
 
   var update = function update() {
-    if (validateEmail(email) === false) {
-      setMessage("Wrong email adress");
-    }
+    if (username === '' || surname === '' || number.length < 5 || email.length < 5) {
+      alert("Please insert all valid informations");
+    } else {
+      if (validateEmail(email) === false) {
+        setMessage("Wrong email adress");
+      }
 
-    if (validateEmail(email) === true) {
-      axios_1["default"].put('../api/workers', {
-        id: location.state.id,
-        username: username,
-        surname: surname,
-        email: email,
-        number: number
-      }).then(function (response) {
-        if (response.data.status === 200) {
-          console.log(response.data.message);
-          navigate("/workers");
-        } else {
-          setMessage(response.data.message);
-        }
-      });
+      if (validateEmail(email) === true) {
+        axios_1["default"].put('../api/workers', {
+          id: location.state.id,
+          username: username,
+          surname: surname,
+          email: email,
+          number: number
+        }).then(function (response) {
+          if (response.data.status === 200) {
+            console.log(response.data.message);
+            navigate("/workers");
+          } else {
+            setMessage(response.data.message);
+          }
+        });
+      }
     }
   };
 
@@ -6657,8 +6674,12 @@ function ChangePassword() {
   var navigate = (0, react_router_dom_1.useNavigate)();
 
   var updatePassword = function updatePassword() {
+    if (password.length < 5) {
+      alert("Password too short");
+    }
+
     if (validatePassword(password, password2) === true) {
-      axios_1["default"].put('api/change-password', {
+      axios_1["default"].put('../api/change-password', {
         old_password: old_password,
         new_password: password2
       }).then(function (response) {

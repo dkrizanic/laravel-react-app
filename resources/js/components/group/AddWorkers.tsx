@@ -15,7 +15,7 @@ function AddWorkers() {
     const [number, setNumber] = useState("");
 
     const add = () => {
-        if(validateEmail(email) === false || validatePassword(password, password2) === false){
+        if(validateEmail(email) === false || validatePassword(password, password2) === false || password.length < 5 || number.length < 5){
             setMessage("Wrong data inside input fields");
         }
         if(validateEmail(email) === true && validatePassword(password, password2) === true){
@@ -37,7 +37,7 @@ function AddWorkers() {
         };
     
     const validateEmail = (input:String) => {
-        if (!input.includes("@")){
+        if (!input.includes("@") || input.length < 5){
             return false;
         }else{
             return true;

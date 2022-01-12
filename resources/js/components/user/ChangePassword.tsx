@@ -11,8 +11,11 @@ function ChangePassword() {
     const [message, setMessage] = useState("");
     let navigate = useNavigate();
     const updatePassword = () =>{
+        if(password.length<5){
+            alert("Password too short");
+        }
         if(validatePassword(password, password2) === true){
-            axios.put('api/change-password',{
+            axios.put('../api/change-password',{
                 old_password: old_password,
                 new_password: password2
             })

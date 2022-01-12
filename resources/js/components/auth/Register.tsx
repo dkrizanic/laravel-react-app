@@ -16,14 +16,18 @@ function Register() {
     const CryptoJS = require("crypto-js");
 
     const register = () => {
-        if(username === '' || surname === '' || password === '' || company === '' ){
+        if(username === '' || surname === '' || password === '' || company === '' || number.length < 5 ||email.length < 5){
             setMessage("Please insert all valid informations");
         }else{
             if(validatePassword(password, password2) === false){
                 setMessage("Password missmatch");
             }
-            if(validatePassword(password, password2) === false){
+            if(validateEmail(email) === false){
                 setMessage("Please insert valid email adress");
+            }
+            if(password.length < 5){
+                setMessage("Too short password");
+                return 0;
             }
             if(validateEmail(email) === true && validatePassword(password, password2) === true){
                 axios.post('api/createUser', {

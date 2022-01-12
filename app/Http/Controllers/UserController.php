@@ -5,10 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    
     public function store(Request $request){
+        $validator = Validator::make($request->all(), [
+            'username' => 'bail|required|max:32',
+            'surname' => 'bail|required|max:32',
+            'email' => 'bail|required|max:32|min:5',
+            'company' => 'bail|required|max:32',
+            'password' => 'bail|required|max:255|min:5',
+            'number' => 'required|max:255|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'user validator failed'
+            ]);
+        }
         $user_db = User::where("email",  $request->email)->first();
         $company_name = User::where("company",  $request->company)->first();
         if($user_db){
@@ -78,7 +94,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function userProfile(Request $request){          
+    public function userProfile(Request $request){       
         $user = User::where("id",  $request->user()->id)->first(); 
         if($user){
             return response()->json([ 
@@ -100,6 +116,20 @@ class UserController extends Controller
     }
 
     public function updateProfile(Request $request){     
+        $validator = Validator::make($request->all(), [
+            'username' => 'bail|required|max:32',
+            'surname' => 'bail|required|max:32',
+            'email' => 'bail|required|max:32|min:5',
+            'company' => 'required|max:32',
+            'number' => 'required|max:255|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'user validator failed'
+            ]);
+        }   
+
         $id =  $request->user()->id;
         $user_check = User::where("email",  $request->email)->where('id', '!=', $id)->first();
         $company_check = User::where("company",  $request->company)->where('id', '!=', $id)->first(); 
@@ -126,7 +156,17 @@ class UserController extends Controller
         ]);
     }
 
-    public function changePassword(Request $request){          
+    public function changePassword(Request $request){   
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|max:255|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'password error'
+            ]);
+        }   
+        
         $user = User::where("id",  $request->user()->id)->first(); 
         $new_password_hash = Hash::make($request->new_password);
         if($user){
@@ -158,6 +198,20 @@ class UserController extends Controller
     }
 
     public function addWorker(Request $request){
+        $validator = Validator::make($request->all(), [
+            'username' => 'bail|required|max:32',
+            'surname' => 'bail|required|max:32',
+            'email' => 'bail|required|max:32|min:5',
+            'new_password' => 'bail|required|max:255|min:5',
+            'number' => 'required|max:32|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'worker data error'
+            ]);
+        }  
+
         $user_db = User::where("email",  $request->email)->first();
         if($user_db){
             return response()->json([
@@ -198,6 +252,19 @@ class UserController extends Controller
     }
 
     public function updateWorker(Request $request){
+        $validator = Validator::make($request->all(), [
+            'number' => 'bail|required|max:255|min:5',
+            'username' => 'bail|required|max:32',
+            'surname' => 'bail|required|max:32',
+            'email' => 'required|max:32|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'worker update error'
+            ]);
+        } 
+
         $user_check = User::where("email",  $request->email)->where('id', '!=', $request->id)->first();
         if($user_check){
             return response()->json([

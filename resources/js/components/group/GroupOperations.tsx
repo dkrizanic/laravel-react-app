@@ -49,18 +49,22 @@ function GroupOperations() {
     }
 
     const updateGroup = () => {
-        axios.post('/api/group', {
-            group_name: group_name,
-            group_id: params.id
+        if(group_name === ''){
 
-        }).then((response) => {
-            if(response.data.status === 200){
-                console.log(response.data.message);
-                window.location.href = '/groups';
-            }else{
-                console.log("create project failed");
-            }
-        });
+        }else{
+            axios.post('/api/group', {
+                group_name: group_name,
+                group_id: params.id
+    
+            }).then((response) => {
+                if(response.data.status === 200){
+                    console.log(response.data.message);
+                    window.location.href = '/groups';
+                }else{
+                    console.log("create project failed");
+                }
+            });
+        }
     }
 
     return (

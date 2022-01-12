@@ -15,25 +15,29 @@ function Worker() {
     let navigate = useNavigate();
 
     const update = () => {
-    if(validateEmail(email) === false){
-        setMessage("Wrong email adress");
-    }
-    if(validateEmail(email) === true){
-        axios.put('../api/workers', {
-            id: location.state.id,
-            username: username,
-            surname: surname,
-            email: email,
-            number: number,
-            }).then((response) => {
-                if(response.data.status === 200){
-                    console.log(response.data.message);
-                    navigate("/workers")
-                }else{
-                    setMessage(response.data.message);
-                }
-            })
+    if(username === '' || surname === '' || number.length < 5 ||email.length < 5){
+        alert("Please insert all valid informations");
+    }else{
+        if(validateEmail(email) === false){
+            setMessage("Wrong email adress");
         }
+        if(validateEmail(email) === true){
+            axios.put('../api/workers', {
+                id: location.state.id,
+                username: username,
+                surname: surname,
+                email: email,
+                number: number,
+                }).then((response) => {
+                    if(response.data.status === 200){
+                        console.log(response.data.message);
+                        navigate("/workers")
+                    }else{
+                        setMessage(response.data.message);
+                    }
+                })
+            }
+    }
     };
 
     const validateEmail = (input:String) => {
