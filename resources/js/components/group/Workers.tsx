@@ -1,12 +1,13 @@
 import './group.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 
 function Workers() {
 
     const [workers, setListOfWorkers] = useState<IState["workers"]>([]);
+    const [message, setMessage] = useState("");
     interface IState {
         workers: {
           name: string;
@@ -25,6 +26,7 @@ function Workers() {
             setListOfWorkers(response.data.workers);
         }else{
             console.log(response.data.message);
+            setMessage(response.data.message);
         }
         })
         

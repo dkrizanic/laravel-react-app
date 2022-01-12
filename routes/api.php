@@ -24,10 +24,10 @@ Route::post('/loginUser', [UserController::class, 'login']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/project', [ProjectController::class, 'projectList']);
-    Route::put('/project', [ProjectController::class, 'updateProject'])->middleware("status");
-    Route::delete('/project/{id}', [ProjectController::class, 'deleteProject'])->middleware("status");
-    Route::post('/new-project', [ProjectController::class, 'store'])->middleware("status");
+    Route::get('/projects', [ProjectController::class, 'projectList']);
+    Route::put('/projects', [ProjectController::class, 'updateProject'])->middleware("status");
+    Route::delete('/projects/{id}', [ProjectController::class, 'deleteProject'])->middleware("status");
+    Route::post('/projects', [ProjectController::class, 'store'])->middleware("status");
 
     Route::post('/logout', [UserController::class, 'logout']);
     Route::get('/user', [UserController::class, 'userProfile']);
@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/group', [GroupController::class, 'groupList'])->middleware("status");
     Route::put('/reset-password/{id}', [GroupController::class, 'resetPassword'])->middleware("status");
 });
+
 
 
 

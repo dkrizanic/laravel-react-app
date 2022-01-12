@@ -19,7 +19,7 @@ function Home() {
     const [project, setListOfProjects] = useState<IState["project"]>([]);
 
     useEffect(()=>{
-      axios.get("/api/project")
+      axios.get("/api/projects")
       .then((response) =>{
         if(response.data.status === 200){
           setListOfProjects(response.data.project_list);
@@ -35,7 +35,7 @@ function Home() {
       <div className="data">
         <div className="jumbotron jumbotron-fluid con-size">
           <div className="container">
-            <h1 className="display-12">Make new amazing project <Link to="/createProject" className="btn btn-info marg-left" >  +  </Link></h1>
+            <h1 className="display-12">Make new amazing project <Link to="/create-project" className="btn btn-info marg-left" >  +  </Link></h1>
           </div>
         </div>
         {project.map((value, key) => {

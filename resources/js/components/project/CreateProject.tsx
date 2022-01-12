@@ -34,7 +34,7 @@ function CreateProject() {
         if(project_name === ''){
             setMessage("Insert name");
         }else{
-            axios.post('api/new-project', {
+            axios.post('api/projects', {
                 options: options,
             }).then((response) => {
                 if(response.data.status === 200){

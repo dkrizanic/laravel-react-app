@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redirect;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,3 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/{path?}', 'app');
+
+Route::fallback(function () {
+    return Redirect::to('/');
+});

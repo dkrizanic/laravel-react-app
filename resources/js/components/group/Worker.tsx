@@ -80,7 +80,7 @@ function Worker() {
                     <h3>{message}</h3>
                 </div>
                 <div>
-                    <Link to={`/password-reset/${location.state.id}`} className="btn btn-primary fadeIn fifth" >  Password reset  </Link>
+                    <Link to={`/workers/worker/password-reset/${location.state.id}`} className="btn btn-primary fadeIn fifth" >  Password reset  </Link>
                 </div>
                 <div>
                     <input className="fadeIn fifth btn btn-danger" onClick={checker} value=" Delete worker "></input>

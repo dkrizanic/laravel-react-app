@@ -4332,7 +4332,7 @@ function App() {
     path: '/groups',
     element: react_1["default"].createElement(Groups_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/groupOperations/:id/:group_name',
+    path: '/groups/:id/:group_name',
     element: react_1["default"].createElement(GroupOperations_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/workers',
@@ -4341,7 +4341,7 @@ function App() {
     path: '/workers/worker',
     element: react_1["default"].createElement(Worker_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/createProject',
+    path: '/create-project',
     element: react_1["default"].createElement(CreateProject_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/register',
@@ -4350,16 +4350,16 @@ function App() {
     path: '/login',
     element: react_1["default"].createElement(Login_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/userProfile',
+    path: '/user-profile',
     element: react_1["default"].createElement(UserProfile_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/changePassword',
+    path: '/user-profile/change-password',
     element: react_1["default"].createElement(ChangePassword_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/taskList',
     element: react_1["default"].createElement(TaskList_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/password-reset/:id',
+    path: '/workers/worker/password-reset/:id',
     element: react_1["default"].createElement(PasswordReset_1["default"], null)
   }))) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '*',
@@ -4374,10 +4374,10 @@ function App() {
     path: '/login',
     element: react_1["default"].createElement(Login_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/userProfile',
+    path: '/user-profile',
     element: react_1["default"].createElement(UserProfile_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/changePassword',
+    path: '/user-profile/change-password',
     element: react_1["default"].createElement(ChangePassword_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/taskList',
@@ -4473,7 +4473,7 @@ function Home() {
       setListOfProjects = _ref2[1];
 
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/project").then(function (response) {
+    axios_1["default"].get("/api/projects").then(function (response) {
       if (response.data.status === 200) {
         setListOfProjects(response.data.project_list);
         console.log(response.data.message);
@@ -4491,7 +4491,7 @@ function Home() {
   }, react_1["default"].createElement("h1", {
     className: "display-12"
   }, "Make new amazing project ", react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/createProject",
+    to: "/create-project",
     className: "btn btn-info marg-left"
   }, "  +  ")))), project.map(function (value, key) {
     return react_1["default"].createElement("div", {
@@ -4663,7 +4663,7 @@ function Navbar() {
   }, "Register")) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
     className: "marg-welcome"
   }, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/userProfile",
+    to: "/user-profile",
     className: "username"
   }, localStorage.getItem('username'))), react_1["default"].createElement("div", {
     className: "marg-right"
@@ -5626,14 +5626,14 @@ function Groups() {
     value: " Add"
   })))), group.map(function (value, key) {
     return react_1["default"].createElement("div", {
-      className: "jumbotron jumbotron-fluid con-size fadeIn second rounded-circle",
+      className: "jumbotron jumbotron-fluid con-size fadeIn second",
       key: key
     }, react_1["default"].createElement("div", {
       className: "container"
     }, react_1["default"].createElement("h1", {
       className: "display-12"
     }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/groupOperations/".concat(value.id, "/").concat(value.group_name)
+      to: "/groups/".concat(value.id, "/").concat(value.group_name)
     }, value.group_name))));
   }));
 }
@@ -5774,7 +5774,7 @@ function PasswordReset() {
     type: "password",
     id: "password2",
     className: "fadeIn second",
-    placeholder: "Repeted new password",
+    placeholder: "Repeated new password",
     required: true,
     onChange: function onChange(event) {
       setPassword2(event.target.value);
@@ -5992,7 +5992,7 @@ function Worker() {
     onClick: update,
     value: " Update "
   }), react_1["default"].createElement("h3", null, message)), react_1["default"].createElement("div", null, react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/password-reset/".concat(location.state.id),
+    to: "/workers/worker/password-reset/".concat(location.state.id),
     className: "btn btn-primary fadeIn fifth"
   }, "  Password reset  ")), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
     className: "fadeIn fifth btn btn-danger",
@@ -6084,6 +6084,11 @@ function Workers() {
       workers = _ref2[0],
       setListOfWorkers = _ref2[1];
 
+  var _ref3 = (0, react_1.useState)(""),
+      _ref4 = _slicedToArray(_ref3, 2),
+      message = _ref4[0],
+      setMessage = _ref4[1];
+
   (0, react_1.useEffect)(function () {
     axios_1["default"].get("/api/workers").then(function (response) {
       if (response.data.status === 200) {
@@ -6091,6 +6096,7 @@ function Workers() {
         setListOfWorkers(response.data.workers);
       } else {
         console.log(response.data.message);
+        setMessage(response.data.message);
       }
     });
   }, []);
@@ -6232,7 +6238,7 @@ function CreateProject() {
     if (project_name === '') {
       setMessage("Insert name");
     } else {
-      axios_1["default"].post('api/new-project', {
+      axios_1["default"].post('api/projects', {
         options: options
       }).then(function (response) {
         if (response.data.status === 200) {
@@ -6447,7 +6453,7 @@ function ProjectSettings() {
   }, []);
 
   var updateProject = function updateProject() {
-    axios_1["default"].put('/api/project', {
+    axios_1["default"].put('/api/projects', {
       project_name: project_name,
       project_id: params.id,
       start_date: start_date,
@@ -6463,7 +6469,7 @@ function ProjectSettings() {
   };
 
   var deleteProject = function deleteProject() {
-    axios_1["default"]["delete"]("/api/project/".concat(params.id), {}).then(function (response) {
+    axios_1["default"]["delete"]("/api/projects/".concat(params.id), {}).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
         navigate('/');
@@ -6702,7 +6708,7 @@ function ChangePassword() {
     type: "password",
     id: "password2",
     className: "fadeIn second",
-    placeholder: "Repeted new password",
+    placeholder: "Repeated new password",
     required: true,
     onChange: function onChange(event) {
       setPassword2(event.target.value);
@@ -6984,7 +6990,7 @@ function UserProfile() {
   }), react_1["default"].createElement("h3", null, message), react_1["default"].createElement("div", {
     className: "fadeIn fifth"
   }, react_1["default"].createElement("h3", null, "Operations"), react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/changePassword",
+    to: "/user-profile/change-password",
     className: "btn btn-info"
   }, "  Update password  ")), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
     className: "fadeIn fourth marg-up-inp"

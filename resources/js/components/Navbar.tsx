@@ -70,7 +70,7 @@ function Navbar() {
                   ) : (
                     <>
                       <div className="marg-welcome">
-                        <Link to="/userProfile" className="username">{localStorage.getItem('username')}</Link>
+                        <Link to="/user-profile" className="username">{localStorage.getItem('username')}</Link>
                       </div>
                       <div className="marg-right">
                         <button className="btn btn-danger" onClick={logout} >

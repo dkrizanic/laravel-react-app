@@ -117,7 +117,7 @@ function UserProfile() {
                 <h3>{message}</h3>
                 <div className="fadeIn fifth">
                     <h3>Operations</h3>
-                    <Link to="/changePassword" className="btn btn-info" >  Update password  </Link>
+                    <Link to="/user-profile/change-password" className="btn btn-info" >  Update password  </Link>
                 </div>
                 {authState ? (
                     <>

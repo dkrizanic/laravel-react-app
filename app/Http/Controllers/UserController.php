@@ -184,7 +184,7 @@ class UserController extends Controller
 
     public function workersList(Request $request){
         $user_db = User::where("company",  $request->user()->company)->where('status', '!=', 1)->get();
-        if(!$user_db){
+        if(!$user_db || count($user_db) == 0){
             return response()->json([
                 'message' => 'No workers',
             ]);
@@ -205,8 +205,7 @@ class UserController extends Controller
             ]);
         }else{
             User::where("id",  $request->id)
-            ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number,
-             'image' => $request->image]); 
+            ->update(['name' => $request->username, 'surname' => $request->surname, 'email' => $request->email, 'number' => $request->number]); 
             return response()->json([
                 'status' => 200,
                 'message' => 'Worker updated'

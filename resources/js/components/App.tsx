@@ -59,16 +59,16 @@ function App() {
                         <Route path='/addWorkers' element={<AddWorkers/>} />
                         <Route path='/projectSettings/:id/:project_name' element={<ProjectSettings/>} />
                         <Route path='/groups' element={<Groups/>} />
-                        <Route path='/groupOperations/:id/:group_name' element={<GroupOperations/>} />
+                        <Route path='/groups/:id/:group_name' element={<GroupOperations/>} />
                         <Route path='/workers' element={<Workers/>} />
                         <Route path='/workers/worker' element={<Worker/>} />
-                        <Route path='/createProject' element={<CreateProject/>} />
+                        <Route path='/create-project' element={<CreateProject/>} />
                         <Route path='/register' element={<Register/>} />
                         <Route path='/login' element={<Login/>} />
-                        <Route path='/userProfile' element={<UserProfile/>} />
-                        <Route path='/changePassword' element={<ChangePassword/>} />
+                        <Route path='/user-profile' element={<UserProfile/>} />
+                        <Route path='/user-profile/change-password' element={<ChangePassword/>} />
                         <Route path='/taskList' element={<TaskList/>} />
-                        <Route path='/password-reset/:id' element={<PasswordReset/>} />
+                        <Route path='/workers/worker/password-reset/:id' element={<PasswordReset/>} />
                       </Routes>
                     </>
                   ) : (
@@ -78,8 +78,8 @@ function App() {
                         <Route path='/' element={<Home />} />
                         <Route path='/register' element={<Register/>} />
                         <Route path='/login' element={<Login/>} />
-                        <Route path='/userProfile' element={<UserProfile/>} />
-                        <Route path='/changePassword' element={<ChangePassword/>} />
+                        <Route path='/user-profile' element={<UserProfile/>} />
+                        <Route path='/user-profile/change-password' element={<ChangePassword/>} />
                         <Route path='/taskList' element={<TaskList/>} />
                       </Routes>
                     </>

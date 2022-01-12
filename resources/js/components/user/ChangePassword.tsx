@@ -45,7 +45,7 @@ function ChangePassword() {
                 setOldPassword(event.target.value);}}></input>
                 <input type="password" id="password" className="fadeIn second" placeholder="New password" required onChange={(event) => {
                 setPassword(event.target.value);}}></input>
-                <input type="password" id="password2" className="fadeIn second" placeholder="Repeted new password" required onChange={(event) => {
+                <input type="password" id="password2" className="fadeIn second" placeholder="Repeated new password" required onChange={(event) => {
                 setPassword2(event.target.value);}}></input>
                 <button className="fadeIn third btn btn-info" onClick={updatePassword}>Update</button>  
                 <h3>{message}</h3>
