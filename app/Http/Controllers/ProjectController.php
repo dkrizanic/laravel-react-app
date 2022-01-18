@@ -85,4 +85,21 @@ class ProjectController extends Controller
             ]);
         }
     }
+
+    public function deleteTask($id){
+        Task::where("id", $id)->delete(); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Task deleted!'
+        ]);
+    }
+
+    public function updateTask(Request $request){
+        Task::where("id",  $request->id)->update(['task_name' => $request->name, 'work_time' => $request->work_time,
+        'description' => $request->description]); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Task updated!'
+        ]);
+    }
 }

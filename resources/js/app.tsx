@@ -32,3 +32,4 @@ require('./components/group/Worker');
 require('./components/group/PasswordReset');
 require('./components/project/Project');
 require('./components/project/AddTask');
+require('./components/project/Task');

@@ -19,6 +19,7 @@ import Navbar from './Navbar';
 import Workers from './group/Workers';
 import Worker from './group/Worker';
 import PasswordReset from './group/PasswordReset';
+import Task from './project/Task';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
@@ -70,6 +71,7 @@ function App() {
                         <Route path='/project' element={<Project/>} />
                         <Route path='/project/create-task/:id' element={<AddTask/>} />
                         <Route path='/workers/worker/password-reset/:id' element={<PasswordReset/>} />
+                        <Route path='/project/task' element={<Task/>} />
                       </Routes>
                     </>
                   ) : (

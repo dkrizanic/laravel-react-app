@@ -9,6 +9,7 @@ function Project() {
     const location = useLocation()
     interface IState {
         tasks: {
+            id: number;
             task_name: string;
             work_time: number;
             description: string;
@@ -31,13 +32,13 @@ function Project() {
       }, []);
     return (
         <div className="data">
-            <h1>{location.state.project_name} project <Link to={`/project/create-task/${location.state.id}`} className="btn btn-info marg-left" title='Create task'>  +  </Link></h1>
+            <h1>{location.state.project_name} project tasks<Link to={`/project/create-task/${location.state.id}`} className="btn btn-info marg-left" title='Create task'>  +  </Link></h1>
             <hr></hr>
             {tasks.map((value, key) => {
                 return (
                 <div className="jumbotron jumbotron-fluid con-size fadeIn first" key={key}>
                     <div className="container">
-                        <h1 className="display-12"><Link to="/project"  state={tasks[key]}> {value.task_name} </Link></h1>
+                        <h1 className="display-12"><Link to="/project/task"  state={tasks[key]}> {value.task_name} </Link></h1>
                     </div>
                 </div>
                 );
