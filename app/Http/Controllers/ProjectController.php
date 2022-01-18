@@ -28,8 +28,8 @@ class ProjectController extends Controller
         $project_list = Project::where("user_id",  $request->user()->id)->get(); 
         if($project_list){
             return response()->json([ 
-                'project_list' => $project_list,
                 'status' => 200,
+                'project_list' => $project_list,
                 'message' => 'Project list'
             ]);
         }else{

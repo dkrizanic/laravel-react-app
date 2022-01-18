@@ -16,6 +16,7 @@ function UserProfile() {
     const [image, setImage] = useState("");
     const [authState, setAuthState] = useState(false);
     const [message, setMessage] = useState("");
+    const [isLoading, setLoading] = useState(true);
     const CryptoJS = require("crypto-js");
     let navigate = useNavigate();
 
@@ -72,6 +73,7 @@ function UserProfile() {
             setEmail(response.data.email);
             setNumber(response.data.number);
             setCompany(response.data.company);
+            setLoading(false);
             if(response.data.image === null){
                 setImage("");
             }else{
@@ -91,47 +93,52 @@ function UserProfile() {
         }
     }
 
-    return (
-        <div className="wrapper fadeInDown">
-            <div id="formContent">
-                <input type="text" id="username" className="" value={username} title="number" required onChange={(event) => {
-                setUsername(event.target.value);}}></input>
-                <input type="text" id="surname" className="" value={surname} title="surname" required onChange={(event) => {
-                setSurname(event.target.value);}}></input>
-                <input type="email" id="email" className="" value={email} title="email" required onChange={(event) => {
-                setEmail(event.target.value);}}></input>
-                <input type="text" id="number" className="" value={number} title="phone number" required onChange={(event) => {
-                setNumber(event.target.value);}}></input>
-                {authState ? (
-                    <>
-                        <input type="text" id="company" className=""  value={company} title="company" required onChange={(event) => {
-                        setCompany(event.target.value);}}></input>
-                    </>
-                  ) : (
-                    <>
-                        <input type="text" id="image" className="" value={image} title="image" placeholder='Profile image link' required onChange={(event) => {
-                        setImage(event.target.value);}}></input>
-                    </>
-                )}
-                <input type="submit" className="fadeIn fifth btn btn-info btn-lg" onClick={updateProfile} value="Update"></input>
-                <h3>{message}</h3>
-                <div className="fadeIn fifth">
-                    <h3>Operations</h3>
-                    <Link to="/user-profile/change-password" className="btn btn-info" >  Update password  </Link>
+    if (isLoading) {
+        return <div className="App"></div>;
+    }else{
+        return (
+            <div className="wrapper fadeInDown">
+                <div id="formContent">
+                    <input type="text" id="username" className="" value={username} title="number" required onChange={(event) => {
+                    setUsername(event.target.value);}}></input>
+                    <input type="text" id="surname" className="" value={surname} title="surname" required onChange={(event) => {
+                    setSurname(event.target.value);}}></input>
+                    <input type="email" id="email" className="" value={email} title="email" required onChange={(event) => {
+                    setEmail(event.target.value);}}></input>
+                    <input type="text" id="number" className="" value={number} title="phone number" required onChange={(event) => {
+                    setNumber(event.target.value);}}></input>
+                    {authState ? (
+                        <>
+                            <input type="text" id="company" className=""  value={company} title="company" required onChange={(event) => {
+                            setCompany(event.target.value);}}></input>
+                        </>
+                      ) : (
+                        <>
+                            <input type="text" id="image" className="" value={image} title="image" placeholder='Profile image link' required onChange={(event) => {
+                            setImage(event.target.value);}}></input>
+                        </>
+                    )}
+                    <input type="submit" className="fadeIn fifth btn btn-info btn-lg" onClick={updateProfile} value="Update"></input>
+                    <h3>{message}</h3>
+                    <div className="fadeIn fifth">
+                        <h3>Operations</h3>
+                        <Link to="/user-profile/change-password" className="btn btn-info" >  Update password  </Link>
+                    </div>
+                    {authState ? (
+                        <>
+                            <div className="fadeIn fourth marg-up-inp" >
+                                <button className="btn btn-danger" onClick={checker}> Delete everything </button>
+                            </div>
+                        </>
+                      ) : (
+                        <>
+                        </>
+                    )}
                 </div>
-                {authState ? (
-                    <>
-                        <div className="fadeIn fourth marg-up-inp" >
-                            <button className="btn btn-danger" onClick={checker}> Delete everything </button>
-                        </div>
-                    </>
-                  ) : (
-                    <>
-                    </>
-                )}
             </div>
-        </div>
-    );
+        );
+    }
+   
 }
 
 export default UserProfile;

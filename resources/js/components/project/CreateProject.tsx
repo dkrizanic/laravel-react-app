@@ -78,8 +78,7 @@ function CreateProject() {
                     <Select 
                     isMulti
                     options={options}
-                    value={options}
-                    onChange={e => handleAddrTypeChange(e)}
+                    onChange={handleAddrTypeChange}
                     />
                 </div>
 

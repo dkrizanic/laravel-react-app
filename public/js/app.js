@@ -4264,7 +4264,7 @@ var UserProfile_1 = __importDefault(__webpack_require__(/*! ./user/UserProfile *
 
 var ChangePassword_1 = __importDefault(__webpack_require__(/*! ./user/ChangePassword */ "./resources/js/components/user/ChangePassword.tsx"));
 
-var TaskList_1 = __importDefault(__webpack_require__(/*! ./task/TaskList */ "./resources/js/components/task/TaskList.tsx"));
+var Project_1 = __importDefault(__webpack_require__(/*! ./project/Project */ "./resources/js/components/project/Project.tsx"));
 
 var AddWorkers_1 = __importDefault(__webpack_require__(/*! ./group/AddWorkers */ "./resources/js/components/group/AddWorkers.tsx"));
 
@@ -4354,8 +4354,8 @@ function App() {
     path: '/user-profile/change-password',
     element: react_1["default"].createElement(ChangePassword_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/taskList',
-    element: react_1["default"].createElement(TaskList_1["default"], null)
+    path: '/project',
+    element: react_1["default"].createElement(Project_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/workers/worker/password-reset/:id',
     element: react_1["default"].createElement(PasswordReset_1["default"], null)
@@ -4378,8 +4378,8 @@ function App() {
     path: '/user-profile/change-password',
     element: react_1["default"].createElement(ChangePassword_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/taskList',
-    element: react_1["default"].createElement(TaskList_1["default"], null)
+    path: '/project',
+    element: react_1["default"].createElement(Project_1["default"], null)
   }))));
 }
 
@@ -4500,7 +4500,8 @@ function Home() {
     }, react_1["default"].createElement("h1", {
       className: "display-12"
     }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/taskList"
+      to: "/project",
+      state: project[key]
     }, " ", value.project_name, " ")), react_1["default"].createElement("p", {
       className: "lead"
     }, " ", value.start_date, " : ", value.finish_date, " "), react_1["default"].createElement(react_router_dom_1.Link, {
@@ -5437,6 +5438,14 @@ function GroupOperations() {
     }
   };
 
+  var checker = function checker() {
+    var text = "Are you sure you want to delete group?";
+
+    if (confirm(text) == true) {
+      deleteGroup();
+    }
+  };
+
   return react_1["default"].createElement("div", {
     className: "wrapper fadeInDown"
   }, react_1["default"].createElement("div", {
@@ -5464,7 +5473,7 @@ function GroupOperations() {
     className: "marg-up-inp"
   }, react_1["default"].createElement("button", {
     className: "btn btn-danger",
-    onClick: deleteGroup
+    onClick: checker
   }, " Delete group "))));
 }
 
@@ -5599,7 +5608,7 @@ function Groups() {
     }
   }), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
     type: "submit",
-    className: "fadeIn secund btn btn-info btn-lg",
+    className: "fadeIn second btn btn-info btn-lg",
     onClick: newGroup,
     value: " Add"
   })))), group.map(function (value, key) {
@@ -6291,10 +6300,7 @@ function CreateProject() {
   }), react_1["default"].createElement("div", null, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
     options: options,
-    value: options,
-    onChange: function onChange(e) {
-      return handleAddrTypeChange(e);
-    }
+    onChange: handleAddrTypeChange
   })), react_1["default"].createElement("div", {
     className: "marg-up"
   }, react_1["default"].createElement("input", {
@@ -6306,6 +6312,38 @@ function CreateProject() {
 }
 
 exports["default"] = CreateProject;
+
+/***/ }),
+
+/***/ "./resources/js/components/project/Project.tsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/project/Project.tsx ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+
+function Project() {
+  var location = (0, react_router_dom_1.useLocation)();
+  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, location.state.project_name));
+}
+
+exports["default"] = Project;
 
 /***/ }),
 
@@ -6515,35 +6553,6 @@ function ProjectSettings() {
 }
 
 exports["default"] = ProjectSettings;
-
-/***/ }),
-
-/***/ "./resources/js/components/task/TaskList.tsx":
-/*!***************************************************!*\
-  !*** ./resources/js/components/task/TaskList.tsx ***!
-  \***************************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-function TaskList() {
-  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, "tasks"));
-}
-
-exports["default"] = TaskList;
 
 /***/ }),
 
@@ -6828,6 +6837,11 @@ function UserProfile() {
       message = _ref16[0],
       setMessage = _ref16[1];
 
+  var _ref17 = (0, react_1.useState)(true),
+      _ref18 = _slicedToArray(_ref17, 2),
+      isLoading = _ref18[0],
+      setLoading = _ref18[1];
+
   var CryptoJS = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
 
   var navigate = (0, react_router_dom_2.useNavigate)();
@@ -6884,6 +6898,7 @@ function UserProfile() {
         setEmail(response.data.email);
         setNumber(response.data.number);
         setCompany(response.data.company);
+        setLoading(false);
 
         if (response.data.image === null) {
           setImage("");
@@ -6906,87 +6921,93 @@ function UserProfile() {
     }
   };
 
-  return react_1["default"].createElement("div", {
-    className: "wrapper fadeInDown"
-  }, react_1["default"].createElement("div", {
-    id: "formContent"
-  }, react_1["default"].createElement("input", {
-    type: "text",
-    id: "username",
-    className: "",
-    value: username,
-    title: "number",
-    required: true,
-    onChange: function onChange(event) {
-      setUsername(event.target.value);
-    }
-  }), react_1["default"].createElement("input", {
-    type: "text",
-    id: "surname",
-    className: "",
-    value: surname,
-    title: "surname",
-    required: true,
-    onChange: function onChange(event) {
-      setSurname(event.target.value);
-    }
-  }), react_1["default"].createElement("input", {
-    type: "email",
-    id: "email",
-    className: "",
-    value: email,
-    title: "email",
-    required: true,
-    onChange: function onChange(event) {
-      setEmail(event.target.value);
-    }
-  }), react_1["default"].createElement("input", {
-    type: "text",
-    id: "number",
-    className: "",
-    value: number,
-    title: "phone number",
-    required: true,
-    onChange: function onChange(event) {
-      setNumber(event.target.value);
-    }
-  }), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
-    type: "text",
-    id: "company",
-    className: "",
-    value: company,
-    title: "company",
-    required: true,
-    onChange: function onChange(event) {
-      setCompany(event.target.value);
-    }
-  })) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
-    type: "text",
-    id: "image",
-    className: "",
-    value: image,
-    title: "image",
-    placeholder: 'Profile image link',
-    required: true,
-    onChange: function onChange(event) {
-      setImage(event.target.value);
-    }
-  })), react_1["default"].createElement("input", {
-    type: "submit",
-    className: "fadeIn fifth btn btn-info btn-lg",
-    onClick: updateProfile,
-    value: "Update"
-  }), react_1["default"].createElement("h3", null, message), react_1["default"].createElement("div", {
-    className: "fadeIn fifth"
-  }, react_1["default"].createElement("h3", null, "Operations"), react_1["default"].createElement(react_router_dom_1.Link, {
-    to: "/user-profile/change-password",
-    className: "btn btn-info"
-  }, "  Update password  ")), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
-    className: "fadeIn fourth marg-up-inp"
-  }, react_1["default"].createElement("button", {
-    className: "btn btn-danger",
-    onClick: checker
-  }, " Delete everything "))) : react_1["default"].createElement(react_1["default"].Fragment, null)));
+  if (isLoading) {
+    return react_1["default"].createElement("div", {
+      className: "App"
+    });
+  } else {
+    return react_1["default"].createElement("div", {
+      className: "wrapper fadeInDown"
+    }, react_1["default"].createElement("div", {
+      id: "formContent"
+    }, react_1["default"].createElement("input", {
+      type: "text",
+      id: "username",
+      className: "",
+      value: username,
+      title: "number",
+      required: true,
+      onChange: function onChange(event) {
+        setUsername(event.target.value);
+      }
+    }), react_1["default"].createElement("input", {
+      type: "text",
+      id: "surname",
+      className: "",
+      value: surname,
+      title: "surname",
+      required: true,
+      onChange: function onChange(event) {
+        setSurname(event.target.value);
+      }
+    }), react_1["default"].createElement("input", {
+      type: "email",
+      id: "email",
+      className: "",
+      value: email,
+      title: "email",
+      required: true,
+      onChange: function onChange(event) {
+        setEmail(event.target.value);
+      }
+    }), react_1["default"].createElement("input", {
+      type: "text",
+      id: "number",
+      className: "",
+      value: number,
+      title: "phone number",
+      required: true,
+      onChange: function onChange(event) {
+        setNumber(event.target.value);
+      }
+    }), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
+      type: "text",
+      id: "company",
+      className: "",
+      value: company,
+      title: "company",
+      required: true,
+      onChange: function onChange(event) {
+        setCompany(event.target.value);
+      }
+    })) : react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("input", {
+      type: "text",
+      id: "image",
+      className: "",
+      value: image,
+      title: "image",
+      placeholder: 'Profile image link',
+      required: true,
+      onChange: function onChange(event) {
+        setImage(event.target.value);
+      }
+    })), react_1["default"].createElement("input", {
+      type: "submit",
+      className: "fadeIn fifth btn btn-info btn-lg",
+      onClick: updateProfile,
+      value: "Update"
+    }), react_1["default"].createElement("h3", null, message), react_1["default"].createElement("div", {
+      className: "fadeIn fifth"
+    }, react_1["default"].createElement("h3", null, "Operations"), react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/user-profile/change-password",
+      className: "btn btn-info"
+    }, "  Update password  ")), authState ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+      className: "fadeIn fourth marg-up-inp"
+    }, react_1["default"].createElement("button", {
+      className: "btn btn-danger",
+      onClick: checker
+    }, " Delete everything "))) : react_1["default"].createElement(react_1["default"].Fragment, null)));
+  }
 }
 
 exports["default"] = UserProfile;
@@ -88780,7 +88801,7 @@ __webpack_require__(/*! ./components/group/Worker */ "./resources/js/components/
 
 __webpack_require__(/*! ./components/group/PasswordReset */ "./resources/js/components/group/PasswordReset.tsx");
 
-__webpack_require__(/*! ./components/task/TaskList */ "./resources/js/components/task/TaskList.tsx");
+__webpack_require__(/*! ./components/project/Project */ "./resources/js/components/project/Project.tsx");
 })();
 
 /******/ })()

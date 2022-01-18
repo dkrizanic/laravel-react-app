@@ -9,7 +9,7 @@ import Home from './Home';
 import CreateProject from './project/CreateProject';
 import UserProfile from './user/UserProfile';
 import ChangePassword from './user/ChangePassword';
-import TaskList from './task/TaskList';
+import Project from './project/Project';
 import AddWorkers from './group/AddWorkers';
 import ProjectSettings from './project/ProjectSettings';
 import Groups from './group/Groups';
@@ -66,7 +66,7 @@ function App() {
                         <Route path='/login' element={<Login/>} />
                         <Route path='/user-profile' element={<UserProfile/>} />
                         <Route path='/user-profile/change-password' element={<ChangePassword/>} />
-                        <Route path='/taskList' element={<TaskList/>} />
+                        <Route path='/project' element={<Project/>} />
                         <Route path='/workers/worker/password-reset/:id' element={<PasswordReset/>} />
                       </Routes>
                     </>
@@ -79,7 +79,7 @@ function App() {
                         <Route path='/login' element={<Login/>} />
                         <Route path='/user-profile' element={<UserProfile/>} />
                         <Route path='/user-profile/change-password' element={<ChangePassword/>} />
-                        <Route path='/taskList' element={<TaskList/>} />
+                        <Route path='/project' element={<Project/>} />
                       </Routes>
                     </>
                 )}

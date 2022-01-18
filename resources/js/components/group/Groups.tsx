@@ -35,6 +35,7 @@ function Groups() {
         }
     }
     
+    
     useEffect(()=>{
         axios.get("/api/group")
         .then((response) =>{
@@ -57,7 +58,7 @@ function Groups() {
                     <input type="text" id="text" className="fadeIn first" placeholder="Group name" required onChange={(event) => {
                     setGroup(event.target.value);}}></input>
                     <div>
-                        <input type="submit" className="fadeIn secund btn btn-info btn-lg" onClick={newGroup} value=" Add"></input>
+                        <input type="submit" className="fadeIn second btn btn-info btn-lg" onClick={newGroup} value=" Add"></input>
                     </div>
                 </div>
             </div>

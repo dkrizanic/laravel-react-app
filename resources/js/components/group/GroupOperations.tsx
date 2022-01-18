@@ -67,6 +67,13 @@ function GroupOperations() {
         }
     }
 
+    const checker = () =>{
+        let text = "Are you sure you want to delete group?";
+        if (confirm(text) == true) {
+            deleteGroup();
+        }
+    }
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
@@ -82,7 +89,7 @@ function GroupOperations() {
                     <button className=" btn btn-info" onClick={updateGroup}> Save </button>  
                 </div>
                 <div className="marg-up-inp" >
-                    <button className="btn btn-danger" onClick={deleteGroup}> Delete group </button>
+                    <button className="btn btn-danger" onClick={checker}> Delete group </button>
                 </div>
             </div>
         </div>
