@@ -4270,6 +4270,8 @@ var AddWorkers_1 = __importDefault(__webpack_require__(/*! ./group/AddWorkers */
 
 var ProjectSettings_1 = __importDefault(__webpack_require__(/*! ./project/ProjectSettings */ "./resources/js/components/project/ProjectSettings.tsx"));
 
+var AddTask_1 = __importDefault(__webpack_require__(/*! ./project/AddTask */ "./resources/js/components/project/AddTask.tsx"));
+
 var Groups_1 = __importDefault(__webpack_require__(/*! ./group/Groups */ "./resources/js/components/group/Groups.tsx"));
 
 var GroupOperations_1 = __importDefault(__webpack_require__(/*! ./group/GroupOperations */ "./resources/js/components/group/GroupOperations.tsx"));
@@ -4356,6 +4358,9 @@ function App() {
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/project',
     element: react_1["default"].createElement(Project_1["default"], null)
+  }), react_1["default"].createElement(react_router_dom_1.Route, {
+    path: '/project/create-task/:id',
+    element: react_1["default"].createElement(AddTask_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/workers/worker/password-reset/:id',
     element: react_1["default"].createElement(PasswordReset_1["default"], null)
@@ -4504,7 +4509,7 @@ function Home() {
       state: project[key]
     }, " ", value.project_name, " ")), react_1["default"].createElement("p", {
       className: "lead"
-    }, " ", value.start_date, " : ", value.finish_date, " "), react_1["default"].createElement(react_router_dom_1.Link, {
+    }, " ", value.start_date, " : ", value.finish_date), react_1["default"].createElement(react_router_dom_1.Link, {
       to: "/projectSettings/".concat(value.id, "/").concat(value.project_name)
     }, react_1["default"].createElement("i", {
       className: "fas fa-cog"
@@ -5184,6 +5189,7 @@ function AddWorkers() {
   var add = function add() {
     if (validateEmail(email) === false || validatePassword(password, password2) === false || password.length < 5 || number.length < 5) {
       setMessage("Wrong data inside input fields");
+      return 0;
     }
 
     if (validateEmail(email) === true && validatePassword(password, password2) === true) {
@@ -6096,7 +6102,7 @@ function Workers() {
   }, []);
   return react_1["default"].createElement("div", {
     className: "data"
-  }, workers.map(function (value, key) {
+  }, react_1["default"].createElement("h1", null, message), workers.map(function (value, key) {
     return react_1["default"].createElement("div", {
       className: "jumbotron jumbotron-fluid con-size fadeIn first ",
       key: key
@@ -6114,6 +6120,194 @@ function Workers() {
 }
 
 exports["default"] = Workers;
+
+/***/ }),
+
+/***/ "./resources/js/components/project/AddTask.tsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/project/AddTask.tsx ***!
+  \*****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+__webpack_require__(/*! ./project.css */ "./resources/js/components/project/project.css");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+
+function AddTask() {
+  var params = (0, react_router_dom_1.useParams)();
+
+  var _ref = (0, react_1.useState)(""),
+      _ref2 = _slicedToArray(_ref, 2),
+      name = _ref2[0],
+      setName = _ref2[1];
+
+  var _ref3 = (0, react_1.useState)(""),
+      _ref4 = _slicedToArray(_ref3, 2),
+      work_time = _ref4[0],
+      setWorkTime = _ref4[1];
+
+  var _ref5 = (0, react_1.useState)(""),
+      _ref6 = _slicedToArray(_ref5, 2),
+      description = _ref6[0],
+      setDescription = _ref6[1];
+
+  var _ref7 = (0, react_1.useState)(""),
+      _ref8 = _slicedToArray(_ref7, 2),
+      worker = _ref8[0],
+      setWorker = _ref8[1];
+
+  var _ref9 = (0, react_1.useState)(""),
+      _ref10 = _slicedToArray(_ref9, 2),
+      message = _ref10[0],
+      setMessage = _ref10[1];
+
+  var _ref11 = (0, react_1.useState)(false),
+      _ref12 = _slicedToArray(_ref11, 2),
+      success = _ref12[0],
+      setSuccess = _ref12[1];
+
+  var newTask = function newTask() {
+    if (name === '') {} else {
+      axios_1["default"].post('/api/task', {
+        id: params.id,
+        name: name,
+        work_time: work_time,
+        description: description
+      }).then(function (response) {
+        if (response.data.status === 200) {
+          console.log(response.data.message);
+          setName("");
+          setDescription("");
+          setWorkTime("");
+          setSuccess(true);
+        } else {
+          console.log("create task failed");
+        }
+      });
+    }
+  };
+
+  return react_1["default"].createElement("div", {
+    className: "data"
+  }, success ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+    className: "alert alert-warning alert-dismissible fade show",
+    role: "alert"
+  }, react_1["default"].createElement("strong", null, "Task added"), react_1["default"].createElement("button", {
+    type: "button",
+    className: "close",
+    "data-dismiss": "alert",
+    "aria-label": "Close"
+  }, react_1["default"].createElement("span", {
+    "aria-hidden": "true"
+  }, "\xD7")))) : react_1["default"].createElement(react_1["default"].Fragment, null), react_1["default"].createElement("div", {
+    className: "wrapper fadeInDown"
+  }, react_1["default"].createElement("div", {
+    id: "formContent"
+  }, react_1["default"].createElement("input", {
+    type: "text",
+    id: "text",
+    className: "fadeIn first",
+    placeholder: "Task",
+    required: true,
+    onChange: function onChange(event) {
+      setName(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "text",
+    className: "fadeIn second",
+    placeholder: "Work time",
+    required: true,
+    onChange: function onChange(event) {
+      setWorkTime(event.target.value);
+    }
+  }), react_1["default"].createElement("input", {
+    type: "text",
+    id: "text",
+    className: "fadeIn third",
+    placeholder: "Worker",
+    required: true,
+    onChange: function onChange(event) {
+      setWorker(event.target.value);
+    }
+  }), react_1["default"].createElement("textarea", {
+    className: "form-control fadeIn third",
+    title: "Description",
+    onChange: function onChange(event) {
+      setDescription(event.target.value);
+    }
+  }), react_1["default"].createElement("div", null, react_1["default"].createElement("input", {
+    type: "submit",
+    className: "fadeIn fourth btn btn-info btn-lg",
+    onClick: newTask,
+    value: " Add"
+  })))));
+}
+
+exports["default"] = AddTask;
 
 /***/ }),
 
@@ -6324,6 +6518,52 @@ exports["default"] = CreateProject;
 "use strict";
 
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -6334,13 +6574,51 @@ Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
 
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+__webpack_require__(/*! ./project.css */ "./resources/js/components/project/project.css");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
 function Project() {
   var location = (0, react_router_dom_1.useLocation)();
-  return react_1["default"].createElement("div", null, react_1["default"].createElement("h1", null, location.state.project_name));
+
+  var _ref = (0, react_1.useState)([]),
+      _ref2 = _slicedToArray(_ref, 2),
+      tasks = _ref2[0],
+      setListOfTasks = _ref2[1];
+
+  (0, react_1.useEffect)(function () {
+    axios_1["default"].get("/api/tasks/".concat(location.state.id)).then(function (response) {
+      if (response.data.status === 200) {
+        setListOfTasks(response.data.task_list);
+        console.log(response.data.message);
+      } else {
+        console.log(response.data.message);
+      }
+    });
+  }, []);
+  return react_1["default"].createElement("div", {
+    className: "data"
+  }, react_1["default"].createElement("h1", null, location.state.project_name, " project ", react_1["default"].createElement(react_router_dom_1.Link, {
+    to: "/project/create-task/".concat(location.state.id),
+    className: "btn btn-info marg-left",
+    title: 'Create task'
+  }, "  +  ")), react_1["default"].createElement("hr", null), tasks.map(function (value, key) {
+    return react_1["default"].createElement("div", {
+      className: "jumbotron jumbotron-fluid con-size fadeIn first",
+      key: key
+    }, react_1["default"].createElement("div", {
+      className: "container"
+    }, react_1["default"].createElement("h1", {
+      className: "display-12"
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/project",
+      state: tasks[key]
+    }, " ", value.task_name, " "))));
+  }));
 }
 
 exports["default"] = Project;
@@ -18382,7 +18660,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 6%;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 6%;\r\n}\r\n\r\n.form-control{\r\n    margin-right: 0.5%;\r\n    margin-right: 0.5%;\r\n    margin-top: 2%;\r\n    margin-bottom: 2%;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -88802,6 +89080,8 @@ __webpack_require__(/*! ./components/group/Worker */ "./resources/js/components/
 __webpack_require__(/*! ./components/group/PasswordReset */ "./resources/js/components/group/PasswordReset.tsx");
 
 __webpack_require__(/*! ./components/project/Project */ "./resources/js/components/project/Project.tsx");
+
+__webpack_require__(/*! ./components/project/AddTask */ "./resources/js/components/project/AddTask.tsx");
 })();
 
 /******/ })()

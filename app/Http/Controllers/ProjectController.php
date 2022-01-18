@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Group;
 use App\Models\ProjectGroup;
+use App\Models\Task;
 
 class ProjectController extends Controller
 {
@@ -48,11 +49,40 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function deleteproject(Request $request, $id){
+    public function deleteproject($id){
         Project::where("id", $id)->delete(); 
         return response()->json([ 
             'status' => 200,
             'message' => 'Project deleted!'
         ]);
+    }
+
+    public function storeTask(Request $request){
+        $task = new Task();
+        $task->project_id = $request->id;
+        $task->task_name = $request->name;
+        $task->work_time = $request->work_time;
+        $task->description = $request->description;
+        $task->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Task added!'
+        ]);
+    }
+
+    public function taskList($id){
+        $task_list = Task::where("project_id",  $id)->get(); 
+        if($task_list){
+            return response()->json([ 
+                'status' => 200,
+                'task_list' => $task_list,
+                'message' => 'Task list'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'No tasks'
+            ]);
+        }
     }
 }

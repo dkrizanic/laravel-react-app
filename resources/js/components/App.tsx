@@ -12,6 +12,7 @@ import ChangePassword from './user/ChangePassword';
 import Project from './project/Project';
 import AddWorkers from './group/AddWorkers';
 import ProjectSettings from './project/ProjectSettings';
+import AddTask from './project/AddTask';
 import Groups from './group/Groups';
 import GroupOperations from './group/GroupOperations';
 import Navbar from './Navbar';
@@ -67,6 +68,7 @@ function App() {
                         <Route path='/user-profile' element={<UserProfile/>} />
                         <Route path='/user-profile/change-password' element={<ChangePassword/>} />
                         <Route path='/project' element={<Project/>} />
+                        <Route path='/project/create-task/:id' element={<AddTask/>} />
                         <Route path='/workers/worker/password-reset/:id' element={<PasswordReset/>} />
                       </Routes>
                     </>

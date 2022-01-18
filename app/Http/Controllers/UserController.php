@@ -201,8 +201,8 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'bail|required|max:32',
             'surname' => 'bail|required|max:32',
-            'email' => 'bail|required|max:32|min:5',
-            'new_password' => 'bail|required|max:255|min:5',
+            'email' => 'bail|required|max:64|min:5',
+            'password' => 'bail|required|max:255|min:5',
             'number' => 'required|max:32|min:5',
         ]);
 
@@ -240,7 +240,7 @@ class UserController extends Controller
         $user_db = User::where("company",  $request->user()->company)->where('status', '!=', 1)->get();
         if(!$user_db || count($user_db) == 0){
             return response()->json([
-                'message' => 'No workers',
+                'message' => 'No workers yet',
             ]);
         }else{
             return response()->json([

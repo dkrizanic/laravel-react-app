@@ -17,6 +17,7 @@ function AddWorkers() {
     const add = () => {
         if(validateEmail(email) === false || validatePassword(password, password2) === false || password.length < 5 || number.length < 5){
             setMessage("Wrong data inside input fields");
+            return 0;
         }
         if(validateEmail(email) === true && validatePassword(password, password2) === true){
             axios.post('api/new-worker', {

@@ -35,6 +35,7 @@ function Workers() {
 
     return (
         <div className="data">
+          <h1>{message}</h1>
             {workers.map((value, key) => {
             return (
               <div className="jumbotron jumbotron-fluid con-size fadeIn first " key={key}>
