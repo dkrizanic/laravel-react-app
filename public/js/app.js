@@ -5405,18 +5405,25 @@ function GroupOperations() {
       group_name = _ref4[0],
       setGroup = _ref4[1];
 
+  var _ref5 = (0, react_1.useState)([]),
+      _ref6 = _slicedToArray(_ref5, 2),
+      selectedOption = _ref6[0],
+      setSelectedOption = _ref6[1];
+
   var options = workers.map(function (d) {
     return {
       "value": d.name,
-      "label": d.name
+      "label": d.name,
+      "id": d.id
     };
   });
   var navigate = (0, react_router_dom_1.useNavigate)();
   (0, react_1.useEffect)(function () {
     axios_1["default"].get("/api/group-workers").then(function (response) {
       if (response.data.status === 200) {
-        console.log(response.data);
+        var name = params.group_name;
         setListOfWorkers(response.data.workers_list);
+        setGroup(name);
         console.log(response.data.message);
       } else {
         console.log(response.data.message);
@@ -5434,14 +5441,17 @@ function GroupOperations() {
   };
 
   var updateGroup = function updateGroup() {
-    if (group_name === '') {} else {
+    if (group_name === '') {
+      console.log("invalid name input");
+    } else {
       axios_1["default"].post('/api/group', {
         group_name: group_name,
-        group_id: params.id
+        group_id: params.id,
+        workers: selectedOption
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
-          window.location.href = '/groups';
+          navigate(-1);
         } else {
           console.log("create project failed");
         }
@@ -5457,6 +5467,12 @@ function GroupOperations() {
     }
   };
 
+  var changeHandler = function changeHandler(e) {
+    setSelectedOption(e ? e.map(function (x) {
+      return x.id;
+    }) : []);
+  };
+
   return react_1["default"].createElement("div", {
     className: "wrapper fadeInDown"
   }, react_1["default"].createElement("div", {
@@ -5465,7 +5481,7 @@ function GroupOperations() {
     type: "text",
     id: "text",
     className: "fadeIn first",
-    placeholder: params.group_name,
+    value: group_name,
     required: true,
     onChange: function onChange(event) {
       setGroup(event.target.value);
@@ -5474,7 +5490,8 @@ function GroupOperations() {
     className: 'marg-up-inp'
   }, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
-    options: options
+    options: options,
+    onChange: changeHandler
   })), react_1["default"].createElement("div", {
     className: "marg-up "
   }, react_1["default"].createElement("button", {
@@ -5957,7 +5974,7 @@ function Worker() {
     id: "username",
     className: "",
     value: username,
-    title: "number",
+    title: "name",
     required: true,
     onChange: function onChange(event) {
       setUsername(event.target.value);
@@ -6756,13 +6773,27 @@ function ProjectSettings() {
       selectedOption = _ref12[0],
       setSelectedOption = _ref12[1];
 
+  var _ref13 = (0, react_1.useState)([]),
+      _ref14 = _slicedToArray(_ref13, 2),
+      selectedOption1 = _ref14[0],
+      setSelectedOption1 = _ref14[1];
+
+  var selectedOptions = selectedOption.map(function (d) {
+    return {
+      "value": d.group_name,
+      "label": d.group_name
+    };
+  });
   (0, react_1.useEffect)(function () {
     axios_1["default"].get("/api/group-project/".concat(params.id)).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data);
-        setSelectedOption(response.data.group_list);
-        setListOfGroups(response.data.group_list);
-        console.log(response.data.group_list);
+        setSelectedOption(response.data.selected);
+        setSelectedOption1(response.data.available);
+        setListOfGroups(response.data.available);
+        console.log(response.data.selected);
+        console.log("available");
+        console.log(response.data.available);
       } else {
         console.log(response.data.message);
       }
@@ -6795,8 +6826,8 @@ function ProjectSettings() {
   };
 
   var changeHandler = function changeHandler(e) {
-    setSelectedOption(e ? e.map(function (x) {
-      return x.id;
+    setListOfGroups(e ? e.map(function (x) {
+      return x;
     }) : []);
   };
 
@@ -6839,7 +6870,8 @@ function ProjectSettings() {
   }), react_1["default"].createElement("div", null, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
     options: options,
-    onChange: changeHandler
+    onChange: changeHandler,
+    value: selectedOptions
   })), react_1["default"].createElement("div", {
     className: "marg-up"
   }, react_1["default"].createElement("button", {

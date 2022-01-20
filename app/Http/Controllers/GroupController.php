@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Group;
+use App\Models\GroupWorker;
 use App\Models\ProjectGroup;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
@@ -82,6 +84,13 @@ class GroupController extends Controller
             ]);
         }
         Group::where("id",  $request->group_id)->update(['group_name' => $request->group_name]); 
+        $workers_number = count($request->workers);
+        for($i = 0; $i < $workers_number; $i++){
+            $group_worker = new GroupWorker();
+            $group_worker->group_id = $request->group_id;
+            $group_worker->user_id = $request->workers[$i];
+            $group_worker->save();
+        }
         return response()->json([ 
             'status' => 200,
             'message' => 'Group updated!'
@@ -122,20 +131,19 @@ class GroupController extends Controller
         }
     }
 
-    public function projectGroups($id){
-        $project_group = ProjectGroup::where("project_id",  $id)->get(); 
-        $group_list = Group::where("id",  $project_group)->get(); 
-        if($project_group){
-            return response()->json([ 
-                'group_list' => $group_list,
-                'status' => 200,
-                'message' => 'Group list'
-            ]);
-        }else{
-            return response()->json([ 
-                'message' => 'No groups yet'
-            ]);
-        }
+    public function projectGroups(Request $request, $id){
+        $group_list = Group::where("user_id",  $request->user()->id)->get(); 
+        $project_groups = DB::table('project_groups')
+            ->where('project_groups.project_id', $id)
+            ->join('groups', 'groups.id', '=', 'project_groups.group_id')
+            ->get();
+
+        return response()->json([ 
+            'selected' => $project_groups,
+            'available' => $group_list,
+            'status' => 200,
+            'message' => 'Group list'
+        ]);
     }
     
 }

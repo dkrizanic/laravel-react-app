@@ -67,11 +67,12 @@ function Worker() {
             deleteWorker();
         }
     }
+  
 
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
-                <input type="text" id="username" className="" value={username} title="number" required onChange={(event) => {
+                <input type="text" id="username" className="" value={username} title="name" required onChange={(event) => {
                 setUsername(event.target.value);}}></input>
                 <input type="text" id="surname" className="" value={surname} title="surname" required onChange={(event) => {
                 setSurname(event.target.value);}}></input>

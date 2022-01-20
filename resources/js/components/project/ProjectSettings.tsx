@@ -14,9 +14,10 @@ function ProjectSettings() {
             id: number;
         }[]
 
-        selected: {
-            selected1: string;
-            }[]
+        selectedOption: {
+            group_name: string;
+            id: number;
+        }[]
 
     }
 
@@ -24,6 +25,7 @@ function ProjectSettings() {
     const [start_date, setStartDate] = useState("");
     const [finish_date, setFinishDate] = useState("");
     const [group, setListOfGroups] = useState<IState["group"]>([]);
+
     const [message, setMessage] = useState("");
 
     const options = group.map(d => ({
@@ -31,16 +33,25 @@ function ProjectSettings() {
         "label" : d.group_name
     }))
 
-    const [selectedOption, setSelectedOption] = useState([]);
+    const [selectedOption, setSelectedOption] = useState<IState["selectedOption"]>([]);
+    const [selectedOption1, setSelectedOption1] = useState<IState["selectedOption"]>([]);
+
+    const selectedOptions = selectedOption.map(d => ({
+        "value" : d.group_name,
+        "label" : d.group_name
+    }))
     
     useEffect(()=>{
         axios.get(`/api/group-project/${params.id}`)
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);
-            setSelectedOption(response.data.group_list);
-            setListOfGroups(response.data.group_list);
-            console.log(response.data.group_list);
+            setSelectedOption(response.data.selected);
+            setSelectedOption1(response.data.available);
+            setListOfGroups(response.data.available);   
+            console.log(response.data.selected);
+            console.log("available")
+            console.log(response.data.available);
         }else{
             console.log(response.data.message);
         }
@@ -77,7 +88,7 @@ function ProjectSettings() {
     }
 
     const changeHandler = (e:any) => {
-        setSelectedOption(e ? e.map((x:any) => x.id) : []);
+        setListOfGroups(e ? e.map((x:any) => x) : []);
       };
 
     return (
@@ -94,7 +105,7 @@ function ProjectSettings() {
                     isMulti
                     options={options}
                     onChange={changeHandler}
-                    
+                    value={selectedOptions}
                     />
                 </div>
 

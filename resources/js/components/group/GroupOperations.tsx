@@ -10,15 +10,23 @@ function GroupOperations() {
     interface IState {
         workers: {
             name: string;
+            id: number;
+        }[],
+
+        selectedOption: {
+            name: string;
+            id: number;
         }[],
 
     }
     const params = useParams()
     const [workers, setListOfWorkers] = useState<IState["workers"]>([]);    
     const [group_name, setGroup] = useState("");
+    const [selectedOption, setSelectedOption] = useState<string[]>([])
     const options = workers.map(d => ({
-        "value" : d.  name,
-        "label" : d.  name
+        "value" : d.name,
+        "label" : d.name,
+        "id" : d.id
     }))
     
     let navigate = useNavigate();
@@ -27,8 +35,9 @@ function GroupOperations() {
         axios.get("/api/group-workers")
         .then((response) =>{
         if(response.data.status === 200){
-            console.log(response.data);
+            let name:any = params.group_name;
             setListOfWorkers(response.data.workers_list);
+            setGroup(name);
             console.log(response.data.message);
         }else{
             console.log(response.data.message);
@@ -50,16 +59,16 @@ function GroupOperations() {
 
     const updateGroup = () => {
         if(group_name === ''){
-
+            console.log("invalid name input");
         }else{
             axios.post('/api/group', {
                 group_name: group_name,
-                group_id: params.id
-    
+                group_id: params.id,
+                workers: selectedOption
             }).then((response) => {
                 if(response.data.status === 200){
                     console.log(response.data.message);
-                    window.location.href = '/groups';
+                    navigate(-1);
                 }else{
                     console.log("create project failed");
                 }
@@ -74,15 +83,20 @@ function GroupOperations() {
         }
     }
 
+    const changeHandler = (e:any) => {
+        setSelectedOption(e ? e.map((x:any) => x.id) : []);
+      };
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
-                <input type="text" id="text" className="fadeIn first" placeholder={params.group_name} required onChange={(event) => {
+                <input type="text" id="text" className="fadeIn first" value={group_name} required onChange={(event) => {
                 setGroup(event.target.value);}}></input>
                 <div className='marg-up-inp'>
                     <Select 
                     isMulti
                     options={options}
+                    onChange={changeHandler}
                     />
                 </div>
                 <div className="marg-up ">
