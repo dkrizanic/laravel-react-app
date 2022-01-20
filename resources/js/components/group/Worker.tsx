@@ -31,7 +31,7 @@ function Worker() {
                 }).then((response) => {
                     if(response.data.status === 200){
                         console.log(response.data.message);
-                        navigate("/workers")
+                        navigate("/workers");
                     }else{
                         setMessage(response.data.message);
                     }

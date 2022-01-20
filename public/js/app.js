@@ -6275,6 +6275,7 @@ function AddTask() {
     type: "text",
     id: "text",
     className: "fadeIn first",
+    value: name,
     placeholder: "Task",
     required: true,
     onChange: function onChange(event) {
@@ -6284,6 +6285,7 @@ function AddTask() {
     type: "text",
     id: "text",
     className: "fadeIn second",
+    value: work_time,
     placeholder: "Work time",
     required: true,
     onChange: function onChange(event) {
@@ -6293,6 +6295,7 @@ function AddTask() {
     type: "text",
     id: "text",
     className: "fadeIn third",
+    value: worker,
     placeholder: "Worker",
     required: true,
     onChange: function onChange(event) {
@@ -6300,6 +6303,7 @@ function AddTask() {
     }
   }), react_1["default"].createElement("textarea", {
     className: "form-control fadeIn third",
+    value: description,
     title: "Description",
     onChange: function onChange(event) {
       setDescription(event.target.value);
@@ -6389,6 +6393,8 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 
 var react_select_1 = __importDefault(__webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js"));
 
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+
 function CreateProject() {
   var _ref = (0, react_1.useState)(""),
       _ref2 = _slicedToArray(_ref, 2),
@@ -6415,28 +6421,33 @@ function CreateProject() {
       message = _ref10[0],
       setMessage = _ref10[1];
 
-  var options = group.map(function (d) {
-    return {
-      "value": d.group_name,
-      "label": d.group_name
-    };
-  });
-
   var _ref11 = (0, react_1.useState)([]),
       _ref12 = _slicedToArray(_ref11, 2),
       selectedOption = _ref12[0],
       setSelectedOption = _ref12[1];
+
+  var navigate = (0, react_router_dom_1.useNavigate)();
+  var options = group.map(function (d) {
+    return {
+      "value": d.group_name,
+      "label": d.group_name,
+      "id": d.id
+    };
+  });
 
   var newProject = function newProject() {
     if (project_name === '') {
       setMessage("Insert name");
     } else {
       axios_1["default"].post('api/projects', {
-        options: options
+        groups: selectedOption,
+        project_name: project_name,
+        start_date: start_date,
+        finish_date: finish_date
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
-          window.location.href = '/';
+          navigate(-1);
         } else {
           console.log("create project failed");
         }
@@ -6455,12 +6466,11 @@ function CreateProject() {
       }
     });
   }, []);
-  var Add = options.map(function (Add) {
-    return Add;
-  });
 
-  var handleAddrTypeChange = function handleAddrTypeChange(e) {
-    return console.log(options[e.target.value]);
+  var changeHandler = function changeHandler(e) {
+    setSelectedOption(e ? e.map(function (x) {
+      return x.id;
+    }) : []);
   };
 
   return react_1["default"].createElement("div", {
@@ -6499,7 +6509,7 @@ function CreateProject() {
   }), react_1["default"].createElement("div", null, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
     options: options,
-    onChange: handleAddrTypeChange
+    onChange: changeHandler
   })), react_1["default"].createElement("div", {
     className: "marg-up"
   }, react_1["default"].createElement("input", {
@@ -6747,11 +6757,12 @@ function ProjectSettings() {
       setSelectedOption = _ref12[1];
 
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/groupList").then(function (response) {
+    axios_1["default"].get("/api/group-project/".concat(params.id)).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data);
+        setSelectedOption(response.data.group_list);
         setListOfGroups(response.data.group_list);
-        console.log(response.data.message);
+        console.log(response.data.group_list);
       } else {
         console.log(response.data.message);
       }
@@ -6781,6 +6792,12 @@ function ProjectSettings() {
         navigate('/');
       }
     });
+  };
+
+  var changeHandler = function changeHandler(e) {
+    setSelectedOption(e ? e.map(function (x) {
+      return x.id;
+    }) : []);
   };
 
   return react_1["default"].createElement("div", {
@@ -6821,7 +6838,8 @@ function ProjectSettings() {
     }
   }), react_1["default"].createElement("div", null, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
-    options: options
+    options: options,
+    onChange: changeHandler
   })), react_1["default"].createElement("div", {
     className: "marg-up"
   }, react_1["default"].createElement("button", {

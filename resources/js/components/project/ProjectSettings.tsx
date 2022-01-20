@@ -11,6 +11,7 @@ function ProjectSettings() {
     interface IState {
         group: {
             group_name: string;
+            id: number;
         }[]
 
         selected: {
@@ -33,12 +34,13 @@ function ProjectSettings() {
     const [selectedOption, setSelectedOption] = useState([]);
     
     useEffect(()=>{
-        axios.get("/api/groupList")
+        axios.get(`/api/group-project/${params.id}`)
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);
+            setSelectedOption(response.data.group_list);
             setListOfGroups(response.data.group_list);
-            console.log(response.data.message);
+            console.log(response.data.group_list);
         }else{
             console.log(response.data.message);
         }
@@ -74,6 +76,10 @@ function ProjectSettings() {
         })
     }
 
+    const changeHandler = (e:any) => {
+        setSelectedOption(e ? e.map((x:any) => x.id) : []);
+      };
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
@@ -87,6 +93,8 @@ function ProjectSettings() {
                     <Select 
                     isMulti
                     options={options}
+                    onChange={changeHandler}
+                    
                     />
                 </div>
 

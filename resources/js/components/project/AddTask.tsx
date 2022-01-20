@@ -55,13 +55,13 @@ function AddTask() {
                 )}
             <div className="wrapper fadeInDown">
                 <div id="formContent">
-                    <input type="text" id="text" className="fadeIn first" placeholder="Task" required onChange={(event) => {
+                    <input type="text" id="text" className="fadeIn first" value={name} placeholder="Task" required onChange={(event) => {
                     setName(event.target.value);}}></input>
-                    <input type="text" id="text" className="fadeIn second" placeholder="Work time" required onChange={(event) => {
+                    <input type="text" id="text" className="fadeIn second" value={work_time} placeholder="Work time" required onChange={(event) => {
                     setWorkTime(event.target.value);}}></input>
-                    <input type="text" id="text" className="fadeIn third" placeholder="Worker" required onChange={(event) => {
+                    <input type="text" id="text" className="fadeIn third" value={worker} placeholder="Worker" required onChange={(event) => {
                     setWorker(event.target.value);}}></input>
-                    <textarea className="form-control fadeIn third" title="Description" onChange={(event) => {setDescription(event.target.value);}}>                 
+                    <textarea className="form-control fadeIn third" value={description} title="Description" onChange={(event) => {setDescription(event.target.value);}}>                 
                     </textarea>
                     <div>
                         <input type="submit" className="fadeIn fourth btn btn-info btn-lg" onClick={newTask} value=" Add"></input>

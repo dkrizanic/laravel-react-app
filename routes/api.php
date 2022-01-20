@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/group/{id}', [GroupController::class, 'deleteGroup'])->middleware("status");
     Route::post('/group', [GroupController::class, 'updateGroup'])->middleware("status");
     Route::get('/group', [GroupController::class, 'groupList'])->middleware("status");
+    Route::get('/group-project/{id}', [GroupController::class, 'projectGroups'])->middleware("status");
     Route::put('/reset-password/{id}', [GroupController::class, 'resetPassword'])->middleware("status");
 });
 

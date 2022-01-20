@@ -12,13 +12,20 @@ class ProjectController extends Controller
 {
     public function store(Request $request){
         $project = new Project;
-        $project = new ProjectGroup;
         $project->user_id = $request->user()->id;
         $project->project_name = $request->project_name;
         $project->start_date = $request->start_date;
         $project->finish_date = $request->finish_date;
         $project->save();
-
+        $group_number = count($request->groups);
+        for($i = 0; $i < $group_number; $i++){
+            $project_group = new ProjectGroup;
+            $project_group->project_id = $project->id;
+            $project_group->group_id = $request->groups[$i];
+            $project_group->save();
+        }
+        
+       
         return response()->json([
             'status' => 200,
             'message' => 'Project added!'

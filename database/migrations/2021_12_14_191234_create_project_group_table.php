@@ -13,13 +13,12 @@ class CreateProjectGroupTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_group', function (Blueprint $table) {
+        Schema::create('project_groups', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('group_id');
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('group_id')->references('id')->on('groups');
+
         });
     }
 
@@ -30,6 +29,6 @@ class CreateProjectGroupTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_group');
+        Schema::dropIfExists('project_groups');
     }
 }

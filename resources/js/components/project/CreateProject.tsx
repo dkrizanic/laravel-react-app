@@ -1,7 +1,8 @@
 import './project.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Select from 'react-select';
+import Select, { OnChangeValue } from 'react-select';
+import {useNavigate} from 'react-router-dom';
 
 
 function CreateProject() {
@@ -9,6 +10,7 @@ function CreateProject() {
     interface IState {
         group: {
             group_name: string;
+            id: number;
         }[]
 
         selected: {
@@ -22,24 +24,29 @@ function CreateProject() {
     const [finish_date, setFinishDate] = useState("");
     const [group, setListOfGroups] = useState<IState["group"]>([]);
     const [message, setMessage] = useState("");
+    const [selectedOption, setSelectedOption] = useState<string[]>([])
+    let navigate = useNavigate();
 
     const options = group.map(d => ({
         "value" : d.group_name,
-        "label" : d.group_name
+        "label" : d.group_name,
+        "id" : d.id,
     }))
 
-    const [selectedOption, setSelectedOption] = useState([]);
 
     const newProject = () => {
         if(project_name === ''){
             setMessage("Insert name");
         }else{
             axios.post('api/projects', {
-                options: options,
+                groups: selectedOption,
+                project_name: project_name,
+                start_date: start_date,
+                finish_date: finish_date,
             }).then((response) => {
                 if(response.data.status === 200){
                     console.log(response.data.message);
-                    window.location.href = '/';
+                    navigate(-1);
                 }else{
                     console.log("create project failed");
                 }
@@ -61,8 +68,10 @@ function CreateProject() {
         })
         
     }, []);
-    const Add = options.map(Add => Add)
-    const handleAddrTypeChange = (e: any) => console.log((options[e.target.value]))
+
+    const changeHandler = (e:any) => {
+        setSelectedOption(e ? e.map((x:any) => x.id) : []);
+      };
     
     return (
         
@@ -78,7 +87,7 @@ function CreateProject() {
                     <Select 
                     isMulti
                     options={options}
-                    onChange={handleAddrTypeChange}
+                    onChange={changeHandler}
                     />
                 </div>
 

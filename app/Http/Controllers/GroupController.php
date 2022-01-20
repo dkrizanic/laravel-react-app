@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Group;
+use App\Models\ProjectGroup;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -117,6 +118,22 @@ class GroupController extends Controller
         }else{
             return response()->json([ 
                 'message' => 'User data not updated'
+            ]);
+        }
+    }
+
+    public function projectGroups($id){
+        $project_group = ProjectGroup::where("project_id",  $id)->get(); 
+        $group_list = Group::where("id",  $project_group)->get(); 
+        if($project_group){
+            return response()->json([ 
+                'group_list' => $group_list,
+                'status' => 200,
+                'message' => 'Group list'
+            ]);
+        }else{
+            return response()->json([ 
+                'message' => 'No groups yet'
             ]);
         }
     }
