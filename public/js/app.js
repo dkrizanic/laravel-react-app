@@ -6218,6 +6218,8 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 
+var react_select_1 = __importDefault(__webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js"));
+
 function AddTask() {
   var params = (0, react_router_dom_1.useParams)();
 
@@ -6251,13 +6253,42 @@ function AddTask() {
       success = _ref12[0],
       setSuccess = _ref12[1];
 
+  var _ref13 = (0, react_1.useState)([]),
+      _ref14 = _slicedToArray(_ref13, 2),
+      workers = _ref14[0],
+      setListOfWorkers = _ref14[1];
+
+  var _ref15 = (0, react_1.useState)([]),
+      _ref16 = _slicedToArray(_ref15, 2),
+      selectedOption = _ref16[0],
+      setSelectedOption = _ref16[1];
+
+  var options = workers.map(function (d) {
+    return {
+      "value": d.name.concat(" ", d.surname),
+      "label": d.name.concat(" ", d.surname),
+      "id": d.id
+    };
+  });
+  (0, react_1.useEffect)(function () {
+    axios_1["default"].get("/api/workers/".concat(params.id)).then(function (response) {
+      if (response.data.status === 200) {
+        setListOfWorkers(response.data.workers_list);
+        console.log(response.data.workers_list);
+      } else {
+        console.log(response.data.message);
+      }
+    });
+  }, []);
+
   var newTask = function newTask() {
     if (name === '') {} else {
       axios_1["default"].post('/api/task', {
         id: params.id,
         name: name,
         work_time: work_time,
-        description: description
+        description: description,
+        workers: selectedOption
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
@@ -6308,17 +6339,12 @@ function AddTask() {
     onChange: function onChange(event) {
       setWorkTime(event.target.value);
     }
-  }), react_1["default"].createElement("input", {
-    type: "text",
-    id: "text",
-    className: "fadeIn third",
-    value: worker,
-    placeholder: "Worker",
-    required: true,
-    onChange: function onChange(event) {
-      setWorker(event.target.value);
-    }
-  }), react_1["default"].createElement("textarea", {
+  }), react_1["default"].createElement("div", {
+    className: 'marg-up-inp'
+  }, react_1["default"].createElement(react_select_1["default"], {
+    isMulti: true,
+    options: options
+  })), react_1["default"].createElement("textarea", {
     className: "form-control fadeIn third",
     value: description,
     title: "Description",
@@ -18895,7 +18921,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 6%;\r\n}\r\n\r\n.form-control{\r\n    margin-right: 0.5%;\r\n    margin-right: 0.5%;\r\n    margin-top: 2%;\r\n    margin-bottom: 2%;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".marg-up{\r\n    margin-top: 6%;\r\n}\r\n\r\n.form-control{\r\n    margin-right: 0.5%;\r\n    margin-right: 0.5%;\r\n    margin-top: 2%;\r\n    margin-bottom: 2%;\r\n}\r\n\r\n.marg-up-inp{\r\n    margin-top: 1%;\r\n    margin-bottom: 1%;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

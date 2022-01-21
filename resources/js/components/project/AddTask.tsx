@@ -1,11 +1,25 @@
 import './project.css';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
-
+import Select from 'react-select';
 
 
 function AddTask() {
+    interface IState {
+        workers: {
+            name: string;
+            surname: string;
+            id: number;
+        }[],
+
+        selectedOption: {
+            name: string;
+            surname: string;
+            id: number;
+        }[],
+
+    }
     const params = useParams()
     const [name, setName] = useState("");
     const [work_time, setWorkTime] = useState("");
@@ -13,7 +27,29 @@ function AddTask() {
     const [worker, setWorker] = useState("");
     const [message, setMessage] = useState("");
     const [success, setSuccess] = useState(false);
+    const [workers, setListOfWorkers] = useState<IState["workers"]>([]);   
+    const [selectedOption, setSelectedOption] = useState<string[]>([])
 
+    const options = workers.map(d => ({
+
+        "value" : d.name.concat(" ", d.surname),
+        "label" : d.name.concat(" ", d.surname),
+        "id" : d.id
+    }))
+
+    useEffect(()=>{
+        axios.get(`/api/workers/${params.id}`)
+        .then((response) =>{
+        if(response.data.status === 200){
+
+            setListOfWorkers(response.data.workers_list);
+            console.log(response.data.workers_list);
+        }else{
+            console.log(response.data.message);
+        }
+        })
+        
+    }, []);
 
     const newTask = () => {
         if(name === ''){
@@ -24,6 +60,7 @@ function AddTask() {
                 name: name,
                 work_time: work_time,
                 description: description,
+                workers: selectedOption
     
             }).then((response) => {
                 if(response.data.status === 200){
@@ -38,6 +75,7 @@ function AddTask() {
             });
         }
     }
+
     return (
         <div className="data">
             {success ? (
@@ -59,8 +97,13 @@ function AddTask() {
                     setName(event.target.value);}}></input>
                     <input type="text" id="text" className="fadeIn second" value={work_time} placeholder="Work time" required onChange={(event) => {
                     setWorkTime(event.target.value);}}></input>
-                    <input type="text" id="text" className="fadeIn third" value={worker} placeholder="Worker" required onChange={(event) => {
-                    setWorker(event.target.value);}}></input>
+                    <div className='marg-up-inp'>
+                        <Select 
+                        isMulti
+                        options={options}
+                        
+                        />
+                    </div>
                     <textarea className="form-control fadeIn third" value={description} title="Description" onChange={(event) => {setDescription(event.target.value);}}>                 
                     </textarea>
                     <div>

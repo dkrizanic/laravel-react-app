@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Group;
 use App\Models\ProjectGroup;
 use App\Models\Task;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -107,6 +108,25 @@ class ProjectController extends Controller
         return response()->json([ 
             'status' => 200,
             'message' => 'Task updated!'
+        ]);
+    }
+
+    public function taskWorkers(Request $request, $id){
+        $groups = DB::table('project_groups')
+            ->where('project_groups.project_id', $id)
+            ->join('group_workers', 'group_workers.group_id', '=', 'project_groups.group_id')
+            ->select('user_id')
+            ->distinct();
+
+        $users = DB::table('users')
+        ->joinSub($groups, 'groups', function ($join) {
+            $join->on('users.id', '=', 'groups.user_id');
+        })->get(['name', 'surname', 'id']);
+
+        return response()->json([ 
+            'status' => 200,
+            'workers_list' =>  $users,
+            'message' => 'Group list'
         ]);
     }
 }
