@@ -31,9 +31,8 @@ function AddTask() {
     const [selectedOption, setSelectedOption] = useState<string[]>([])
 
     const options = workers.map(d => ({
-
-        "value" : d.name.concat(" ", d.surname),
-        "label" : d.name.concat(" ", d.surname),
+        "value" : d.name,
+        "label" : d.name,
         "id" : d.id
     }))
 
@@ -41,7 +40,6 @@ function AddTask() {
         axios.get(`/api/workers/${params.id}`)
         .then((response) =>{
         if(response.data.status === 200){
-
             setListOfWorkers(response.data.workers_list);
             console.log(response.data.workers_list);
         }else{
@@ -52,7 +50,7 @@ function AddTask() {
     }, []);
 
     const newTask = () => {
-        if(name === ''){
+        if(name === '' || description === ''){
 
         }else{
             axios.post('/api/task', {
@@ -75,6 +73,10 @@ function AddTask() {
             });
         }
     }
+
+    const changeHandler = (e:any) => {
+        setSelectedOption(e ? e.map((x:any) => x.id) : []);
+      };
 
     return (
         <div className="data">
@@ -99,9 +101,9 @@ function AddTask() {
                     setWorkTime(event.target.value);}}></input>
                     <div className='marg-up-inp'>
                         <Select 
-                        isMulti
                         options={options}
-                        
+                        onChange={changeHandler}
+                        isMulti
                         />
                     </div>
                     <textarea className="form-control fadeIn third" value={description} title="Description" onChange={(event) => {setDescription(event.target.value);}}>                 

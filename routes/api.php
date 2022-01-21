@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/task', [ProjectController::class, 'updateTask'])->middleware("status");
     Route::get('/tasks/{id}', [ProjectController::class, 'taskList'])->middleware("status");
     Route::get('/workers/{id}', [ProjectController::class, 'taskWorkers'])->middleware("status");
+    Route::put('/status', [ProjectController::class, 'taskStatus'])->middleware("status");
 
     Route::post('/logout', [UserController::class, 'logout']);
     Route::get('/user', [UserController::class, 'userProfile']);

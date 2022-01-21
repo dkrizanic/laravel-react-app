@@ -12,6 +12,16 @@ function Task() {
     const [name, setName] = useState(location.state.task_name);
     const [work_time, setWorkTime] = useState(location.state.work_time);
     const [description, setDescription] = useState(location.state.description);
+    const [task_status, setStatus] = useState(location.state.task_status);
+    const [flag, setFlag] = useState(false);
+
+    useEffect(()=>{
+        if(task_status === 2){
+            setFlag(true);
+        }
+        
+    }, []);
+
 
     const deleteTask = () =>{
         axios.delete(`/api/task/${location.state.id}`, {
@@ -54,12 +64,29 @@ function Task() {
         }
     }
 
+    const change_status = () =>{
+        if(name === '' || description === ''){
+
+        }else{
+            axios.put('/api/status', {
+                id: location.state.id
+            }).then((response) => {
+                if(response.data.status === 200){
+                    console.log(response.data.message);
+                    navigate(-1);
+                }else{
+                    console.log("status change failed");
+                }
+            });
+        }
+    }
+
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
                 <input type="text" id="text" className="fadeIn first" value={name} title="name" required onChange={(event) => {
                 setName(event.target.value);}}></input>
-                <input type="number" id="text" className="fadeIn first" value={work_time} title="work time" required onChange={(event) => {
+                <input type="number" id="text" className="fadeIn first" value={work_time} placeholder='work time' title="work time" required onChange={(event) => {
                 setWorkTime(event.target.value);}}></input>
                 <input type="text" id="text" className="fadeIn first" value={description} title="description" required onChange={(event) => {
                 setDescription(event.target.value);}}></input>
@@ -69,6 +96,16 @@ function Task() {
                 <div className="marg-up-inp" >
                     <button className="btn btn-danger" onClick={checker}> Delete task </button>
                 </div>
+                {flag ? (
+                    <>
+                    <div>
+                        <button className="btn btn-info" onClick={change_status}> Unfinished </button>  
+                    </div>
+                    </>
+                  ) : (
+                    <>
+                    </>
+                )}
             </div>
         </div>
     );

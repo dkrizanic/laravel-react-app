@@ -11,6 +11,7 @@ class Task extends Model
         'name',
         'work_time',
         'description',
+        'task_status'
 
     ];
 }

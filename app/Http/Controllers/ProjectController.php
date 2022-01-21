@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Group;
 use App\Models\ProjectGroup;
 use App\Models\Task;
+use App\Models\TaskWorkers;
 use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
@@ -71,7 +72,20 @@ class ProjectController extends Controller
         $task->task_name = $request->name;
         $task->work_time = $request->work_time;
         $task->description = $request->description;
+
+        $workers_number = count($request->workers);
+        if($workers_number > 0){
+            $task->task_status = 1;
+        }else{
+            $task->task_status = 0;
+        }
         $task->save();
+        for($i = 0; $i < $workers_number; $i++){
+            $task_worker = new TaskWorkers();
+            $task_worker->task_id = $task->id;
+            $task_worker->user_id = $request->workers[$i];
+            $task_worker->save();
+        }
 
         return response()->json([
             'status' => 200,
@@ -127,6 +141,14 @@ class ProjectController extends Controller
             'status' => 200,
             'workers_list' =>  $users,
             'message' => 'Group list'
+        ]);
+    }
+
+    public function taskStatus(Request $request){
+        Task::where("id",  $request->id)->update(['task_status' => 1]); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Task set to unfinished status'
         ]);
     }
 }

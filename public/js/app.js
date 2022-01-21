@@ -5191,6 +5191,11 @@ function AddWorkers() {
       number = _ref14[0],
       setNumber = _ref14[1];
 
+  var _ref15 = (0, react_1.useState)(false),
+      _ref16 = _slicedToArray(_ref15, 2),
+      success = _ref16[0],
+      setSuccess = _ref16[1];
+
   var add = function add() {
     if (validateEmail(email) === false || validatePassword(password, password2) === false || password.length < 5 || number.length < 5) {
       setMessage("Wrong data inside input fields");
@@ -5207,7 +5212,13 @@ function AddWorkers() {
       }).then(function (response) {
         if (response.data.status === 200) {
           console.log(response.data.message);
-          window.location.href = '/addWorkers';
+          setUsername("");
+          setSurname("");
+          setEmail("");
+          setPassword("");
+          setPassword2("");
+          setNumber("");
+          setSuccess(true);
         } else {
           setMessage(response.data.message);
         }
@@ -5231,17 +5242,26 @@ function AddWorkers() {
     }
   };
 
-  var makeGroup = function makeGroup() {};
-
   return react_1["default"].createElement("div", {
     className: "wrapper fadeInDown"
-  }, react_1["default"].createElement("div", {
+  }, success ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
+    className: "alert alert-warning alert-dismissible fade show",
+    role: "alert"
+  }, react_1["default"].createElement("strong", null, "Worker added"), react_1["default"].createElement("button", {
+    type: "button",
+    className: "close",
+    "data-dismiss": "alert",
+    "aria-label": "Close"
+  }, react_1["default"].createElement("span", {
+    "aria-hidden": "true"
+  }, "\xD7")))) : react_1["default"].createElement(react_1["default"].Fragment, null), react_1["default"].createElement("div", {
     id: "formContent"
   }, react_1["default"].createElement("input", {
     type: "text",
     id: "username",
     className: "fadeIn first",
     name: "login",
+    value: username,
     placeholder: "username",
     required: true,
     onChange: function onChange(event) {
@@ -5252,6 +5272,7 @@ function AddWorkers() {
     id: "surname",
     className: "fadeIn first",
     name: "login",
+    value: surname,
     placeholder: "surname",
     required: true,
     onChange: function onChange(event) {
@@ -5262,6 +5283,7 @@ function AddWorkers() {
     id: "email",
     className: "fadeIn second",
     name: "login",
+    value: email,
     placeholder: "email",
     required: true,
     onChange: function onChange(event) {
@@ -5272,6 +5294,7 @@ function AddWorkers() {
     id: "number",
     className: "fadeIn third",
     name: "login",
+    value: number,
     placeholder: "number",
     required: true,
     onChange: function onChange(event) {
@@ -5282,6 +5305,7 @@ function AddWorkers() {
     id: "password",
     className: "fadeIn third",
     name: "login",
+    value: password,
     placeholder: "password",
     required: true,
     onChange: function onChange(event) {
@@ -5292,6 +5316,7 @@ function AddWorkers() {
     id: "password2",
     className: "fadeIn fourth",
     name: "login",
+    value: password2,
     placeholder: "repeted password",
     required: true,
     onChange: function onChange(event) {
@@ -6265,8 +6290,8 @@ function AddTask() {
 
   var options = workers.map(function (d) {
     return {
-      "value": d.name.concat(" ", d.surname),
-      "label": d.name.concat(" ", d.surname),
+      "value": d.name,
+      "label": d.name,
       "id": d.id
     };
   });
@@ -6282,7 +6307,7 @@ function AddTask() {
   }, []);
 
   var newTask = function newTask() {
-    if (name === '') {} else {
+    if (name === '' || description === '') {} else {
       axios_1["default"].post('/api/task', {
         id: params.id,
         name: name,
@@ -6301,6 +6326,12 @@ function AddTask() {
         }
       });
     }
+  };
+
+  var changeHandler = function changeHandler(e) {
+    setSelectedOption(e ? e.map(function (x) {
+      return x.id;
+    }) : []);
   };
 
   return react_1["default"].createElement("div", {
@@ -6342,8 +6373,9 @@ function AddTask() {
   }), react_1["default"].createElement("div", {
     className: 'marg-up-inp'
   }, react_1["default"].createElement(react_select_1["default"], {
-    isMulti: true,
-    options: options
+    options: options,
+    onChange: changeHandler,
+    isMulti: true
   })), react_1["default"].createElement("textarea", {
     className: "form-control fadeIn third",
     value: description,
@@ -7007,6 +7039,22 @@ function Task() {
       description = _ref6[0],
       setDescription = _ref6[1];
 
+  var _ref7 = (0, react_1.useState)(location.state.task_status),
+      _ref8 = _slicedToArray(_ref7, 2),
+      task_status = _ref8[0],
+      setStatus = _ref8[1];
+
+  var _ref9 = (0, react_1.useState)(false),
+      _ref10 = _slicedToArray(_ref9, 2),
+      flag = _ref10[0],
+      setFlag = _ref10[1];
+
+  (0, react_1.useEffect)(function () {
+    if (task_status === 2) {
+      setFlag(true);
+    }
+  }, []);
+
   var deleteTask = function deleteTask() {
     axios_1["default"]["delete"]("/api/task/".concat(location.state.id), {}).then(function (response) {
       if (response.data.status === 200) {
@@ -7044,6 +7092,21 @@ function Task() {
     }
   };
 
+  var change_status = function change_status() {
+    if (name === '' || description === '') {} else {
+      axios_1["default"].put('/api/status', {
+        id: location.state.id
+      }).then(function (response) {
+        if (response.data.status === 200) {
+          console.log(response.data.message);
+          navigate(-1);
+        } else {
+          console.log("status change failed");
+        }
+      });
+    }
+  };
+
   return react_1["default"].createElement("div", {
     className: "wrapper fadeInDown"
   }, react_1["default"].createElement("div", {
@@ -7063,6 +7126,7 @@ function Task() {
     id: "text",
     className: "fadeIn first",
     value: work_time,
+    placeholder: 'work time',
     title: "work time",
     required: true,
     onChange: function onChange(event) {
@@ -7088,7 +7152,10 @@ function Task() {
   }, react_1["default"].createElement("button", {
     className: "btn btn-danger",
     onClick: checker
-  }, " Delete task "))));
+  }, " Delete task ")), flag ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", null, react_1["default"].createElement("button", {
+    className: "btn btn-info",
+    onClick: change_status
+  }, " Unfinished "))) : react_1["default"].createElement(react_1["default"].Fragment, null)));
 }
 
 exports["default"] = Task;
