@@ -4286,6 +4286,8 @@ var PasswordReset_1 = __importDefault(__webpack_require__(/*! ./group/PasswordRe
 
 var Task_1 = __importDefault(__webpack_require__(/*! ./project/Task */ "./resources/js/components/project/Task.tsx"));
 
+var WorkerTask_1 = __importDefault(__webpack_require__(/*! ./project/WorkerTask */ "./resources/js/components/project/WorkerTask.tsx"));
+
 axios_1["default"].interceptors.request.use(function (config) {
   var token = localStorage.getItem('accessToken');
   config.headers.Authorization = token ? "Bearer ".concat(token) : '';
@@ -4318,7 +4320,7 @@ function App() {
       setStatus(true);
     }
   }, []);
-  return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(Navbar_1["default"], null), status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
+  return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(Navbar_1["default"], null), !status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '*',
     element: react_1["default"].createElement(Home_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
@@ -4388,8 +4390,8 @@ function App() {
     path: '/user-profile/change-password',
     element: react_1["default"].createElement(ChangePassword_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/project',
-    element: react_1["default"].createElement(Project_1["default"], null)
+    path: '/worker-task',
+    element: react_1["default"].createElement(WorkerTask_1["default"], null)
   }))));
 }
 
@@ -4475,6 +4477,8 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_mod
 var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
 
 function Home() {
+  var navigate = (0, react_router_dom_1.useNavigate)();
+
   var _ref = (0, react_1.useState)([]),
       _ref2 = _slicedToArray(_ref, 2),
       project = _ref2[0],
@@ -4518,6 +4522,8 @@ function Home() {
         });
         setStatus(false);
       }
+    } else {
+      navigate('/login');
     }
   }, []);
   return react_1["default"].createElement("div", {
@@ -4558,7 +4564,7 @@ function Home() {
     }, react_1["default"].createElement("h1", {
       className: "display-12"
     }, react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/project",
+      to: "/worker-task",
       state: tasks[key]
     }, " ", value.task_name, " "))));
   })));
@@ -7203,6 +7209,140 @@ function Task() {
 }
 
 exports["default"] = Task;
+
+/***/ }),
+
+/***/ "./resources/js/components/project/WorkerTask.tsx":
+/*!********************************************************!*\
+  !*** ./resources/js/components/project/WorkerTask.tsx ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+
+__webpack_require__(/*! ./project.css */ "./resources/js/components/project/project.css");
+
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+
+function WorkerTask() {
+  var navigate = (0, react_router_dom_1.useNavigate)();
+  var location = (0, react_router_dom_1.useLocation)();
+
+  var _ref = (0, react_1.useState)(location.state.task_name),
+      _ref2 = _slicedToArray(_ref, 1),
+      name = _ref2[0];
+
+  var _ref3 = (0, react_1.useState)(location.state.description),
+      _ref4 = _slicedToArray(_ref3, 1),
+      description = _ref4[0];
+
+  var change_status = function change_status() {
+    axios_1["default"].put('/api/task-done-status', {
+      id: location.state.id
+    }).then(function (response) {
+      if (response.data.status === 200) {
+        console.log(response.data.message);
+        navigate(-1);
+      } else {
+        console.log("status change failed");
+      }
+    });
+  };
+
+  var checker = function checker() {
+    var text = "Confirm that task is done";
+
+    if (confirm(text) == true) {
+      change_status();
+    }
+  };
+
+  return react_1["default"].createElement("div", {
+    className: "wrapper fadeInDown"
+  }, react_1["default"].createElement("div", {
+    id: "formContent"
+  }, react_1["default"].createElement("input", {
+    type: "text",
+    id: "text",
+    className: "fadeIn first",
+    defaultValue: name,
+    title: "name"
+  }), react_1["default"].createElement("textarea", {
+    rows: 10,
+    readOnly: true,
+    className: "form-control",
+    defaultValue: description,
+    title: "description"
+  }), react_1["default"].createElement("div", {
+    className: "marg-up "
+  }, react_1["default"].createElement("button", {
+    className: " btn btn-info",
+    onClick: checker
+  }, " Done "))));
+}
+
+exports["default"] = WorkerTask;
 
 /***/ }),
 
@@ -89456,6 +89596,8 @@ __webpack_require__(/*! ./components/project/Project */ "./resources/js/componen
 __webpack_require__(/*! ./components/project/AddTask */ "./resources/js/components/project/AddTask.tsx");
 
 __webpack_require__(/*! ./components/project/Task */ "./resources/js/components/project/Task.tsx");
+
+__webpack_require__(/*! ./components/project/WorkerTask */ "./resources/js/components/project/WorkerTask.tsx");
 })();
 
 /******/ })()

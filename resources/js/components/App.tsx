@@ -20,6 +20,7 @@ import Workers from './group/Workers';
 import Worker from './group/Worker';
 import PasswordReset from './group/PasswordReset';
 import Task from './project/Task';
+import WorkerTask from './project/WorkerTask';
 
 axios.interceptors.request.use(function (config){
   const token = localStorage.getItem('accessToken');
@@ -52,7 +53,7 @@ function App() {
   return (
           <Router>
             <Navbar/>
-            {status ? (
+            {!status ? (
                     <>
                       <Routes>
                         <Route path='*' element={<Home />} />
@@ -83,7 +84,7 @@ function App() {
                         <Route path='/login' element={<Login/>} />
                         <Route path='/user-profile' element={<UserProfile/>} />
                         <Route path='/user-profile/change-password' element={<ChangePassword/>} />
-                        <Route path='/project' element={<Project/>} />
+                        <Route path='/worker-task' element={<WorkerTask/>} />
                       </Routes>
                     </>
                 )}

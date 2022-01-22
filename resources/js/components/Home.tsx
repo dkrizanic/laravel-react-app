@@ -1,6 +1,6 @@
 import './app.css';
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 
@@ -21,6 +21,7 @@ function Home() {
     }[]
   }
 
+  let navigate = useNavigate();
   const [project, setListOfProjects] = useState<IState["project"]>([]);
   const [tasks, setListOfTasks] = useState<IState["tasks"]>([]);
   const [status, setStatus] = useState(false);
@@ -53,6 +54,8 @@ function Home() {
           })
           setStatus(false);
         }
+      }else{
+        navigate('/login');
       }
 
       
@@ -86,7 +89,7 @@ function Home() {
                   return (
                     <div className="jumbotron jumbotron-fluid con-size fadeIn first" key={key}>
                       <div className="container">
-                        <h1 className="display-12"><Link to="/project"  state={tasks[key]}> {value.task_name} </Link></h1>
+                        <h1 className="display-12"><Link to="/worker-task"  state={tasks[key]}> {value.task_name} </Link></h1>
                       </div>
                     </div>
                   );

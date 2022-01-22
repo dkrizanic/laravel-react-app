@@ -144,7 +144,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function taskStatus(Request $request){
+    public function taskUndoneStatus(Request $request){
         Task::where("id",  $request->id)->update(['task_status' => 1]); 
         return response()->json([ 
             'status' => 200,
@@ -156,11 +156,22 @@ class ProjectController extends Controller
         $task_list = DB::table('task_workers')
             ->rightJoin('tasks', 'tasks.id', '=', 'task_workers.user_id')
             ->distinct()
-            ->get(['task_name', 'tasks.id']);
+            ->where('tasks.task_status', 1)
+            ->get(['task_name', 'tasks.id', 'description']);
         return response()->json([ 
             'status' => 200,
             'task_list' => $task_list,
             'message' => 'Task list'
         ]);
     }
+
+    public function taskDoneStatus(Request $request){
+        Task::where("id",  $request->id)->update(['task_status' => 2]); 
+        return response()->json([ 
+            'status' => 200,
+            'message' => 'Task set to done status'
+        ]);
+    }
+
+
 }
