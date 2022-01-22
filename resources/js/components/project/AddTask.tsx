@@ -1,7 +1,7 @@
 import './project.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams,} from 'react-router-dom';
 import Select from 'react-select';
 
 
@@ -20,6 +20,7 @@ function AddTask() {
         }[],
 
     }
+    let navigate = useNavigate();
     const params = useParams()
     const [name, setName] = useState("");
     const [work_time, setWorkTime] = useState("");
@@ -67,6 +68,7 @@ function AddTask() {
                     setDescription("");
                     setWorkTime("");
                     setSuccess(true);
+                    navigate(-1);
                 }else{
                     console.log("create task failed");
                 }

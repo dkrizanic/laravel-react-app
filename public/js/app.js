@@ -4480,19 +4480,49 @@ function Home() {
       project = _ref2[0],
       setListOfProjects = _ref2[1];
 
+  var _ref3 = (0, react_1.useState)([]),
+      _ref4 = _slicedToArray(_ref3, 2),
+      tasks = _ref4[0],
+      setListOfTasks = _ref4[1];
+
+  var _ref5 = (0, react_1.useState)(false),
+      _ref6 = _slicedToArray(_ref5, 2),
+      status = _ref6[0],
+      setStatus = _ref6[1];
+
+  var CryptoJS = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
+
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/projects").then(function (response) {
-      if (response.data.status === 200) {
-        setListOfProjects(response.data.project_list);
-        console.log(response.data.message);
+    if (localStorage.getItem('status')) {
+      var bytes = CryptoJS.AES.decrypt(localStorage.getItem('status'), 'my-secret-key@123');
+      var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+      if (decryptedData === 1) {
+        setStatus(true);
+        axios_1["default"].get("/api/projects").then(function (response) {
+          if (response.data.status === 200) {
+            setListOfProjects(response.data.project_list);
+            console.log(response.data.message);
+          } else {
+            console.log(response.data.message);
+          }
+        });
       } else {
-        console.log(response.data.message);
+        axios_1["default"].get("/api/tasks").then(function (response) {
+          if (response.data.status === 200) {
+            setListOfTasks(response.data.task_list);
+            console.log(response.data.task_list);
+          } else {
+            console.log(response.data.message);
+          }
+        });
+        setStatus(false);
       }
-    });
+    }
   }, []);
   return react_1["default"].createElement("div", {
     className: "data"
-  }, react_1["default"].createElement("div", {
+  }, status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement("div", {
     className: "jumbotron jumbotron-fluid con-size"
   }, react_1["default"].createElement("div", {
     className: "container"
@@ -4519,7 +4549,19 @@ function Home() {
     }, react_1["default"].createElement("i", {
       className: "fas fa-cog"
     }))));
-  }));
+  })) : react_1["default"].createElement(react_1["default"].Fragment, null, tasks.map(function (value, key) {
+    return react_1["default"].createElement("div", {
+      className: "jumbotron jumbotron-fluid con-size fadeIn first",
+      key: key
+    }, react_1["default"].createElement("div", {
+      className: "container"
+    }, react_1["default"].createElement("h1", {
+      className: "display-12"
+    }, react_1["default"].createElement(react_router_dom_1.Link, {
+      to: "/project",
+      state: tasks[key]
+    }, " ", value.task_name, " "))));
+  })));
 }
 
 exports["default"] = Home;
@@ -4632,7 +4674,7 @@ function Navbar() {
   }, []);
 
   var logout = function logout() {
-    axios_1["default"].post('api/logout').then(function (response) {
+    axios_1["default"].post('/api/logout').then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
         localStorage.removeItem("accessToken");
@@ -6246,6 +6288,7 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_mod
 var react_select_1 = __importDefault(__webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js"));
 
 function AddTask() {
+  var navigate = (0, react_router_dom_1.useNavigate)();
   var params = (0, react_router_dom_1.useParams)();
 
   var _ref = (0, react_1.useState)(""),
@@ -6321,6 +6364,7 @@ function AddTask() {
           setDescription("");
           setWorkTime("");
           setSuccess(true);
+          navigate(-1);
         } else {
           console.log("create task failed");
         }

@@ -30,7 +30,7 @@ function Navbar() {
   }, []);
 
   const logout = () =>{
-    axios.post('api/logout')
+    axios.post('/api/logout')
     .then((response) =>{
       if(response.data.status === 200){
         console.log(response.data.message);

@@ -151,4 +151,16 @@ class ProjectController extends Controller
             'message' => 'Task set to unfinished status'
         ]);
     }
+
+    public function taskListForWorker(Request $request){
+        $task_list = DB::table('task_workers')
+            ->rightJoin('tasks', 'tasks.id', '=', 'task_workers.user_id')
+            ->distinct()
+            ->get(['task_name', 'tasks.id']);
+        return response()->json([ 
+            'status' => 200,
+            'task_list' => $task_list,
+            'message' => 'Task list'
+        ]);
+    }
 }
