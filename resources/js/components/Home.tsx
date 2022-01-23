@@ -32,7 +32,7 @@ function Home() {
         let bytes = CryptoJS.AES.decrypt(localStorage.getItem('status'), 'my-secret-key@123');
         let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
         if(decryptedData === 1){
-          setStatus(true)
+          setStatus(true);
           axios.get("/api/projects")
           .then((response) =>{
             if(response.data.status === 200){
@@ -57,8 +57,6 @@ function Home() {
       }else{
         navigate('/login');
       }
-
-      
     }, []);
 
     return (
@@ -67,7 +65,7 @@ function Home() {
             <>
               <div className="jumbotron jumbotron-fluid con-size">
                 <div className="container">
-                  <h1 className="display-12">Make new amazing project <Link to="/create-project" className="btn btn-info marg-left" >  +  </Link></h1>
+                  <h1 className="display-12">Make new project <Link to="/create-project" className="btn btn-info marg-left" >  +  </Link></h1>
                 </div>
               </div>
               {project.map((value, key) => {
@@ -77,7 +75,7 @@ function Home() {
                         <h1 className="display-12"><Link to="/project"  state={project[key]}> {value.project_name} </Link></h1>
                         <p className="lead"> {value.start_date} : {value.finish_date}</p>
                         
-                        <Link to={`/projectSettings/${value.id}/${value.project_name}`}><i className="fas fa-cog"></i></Link>
+                        <Link to="/project-settings" state={project[key]}><i className="fas fa-cog"></i></Link>
                       </div>
                     </div>
                   );

@@ -4286,8 +4286,6 @@ var PasswordReset_1 = __importDefault(__webpack_require__(/*! ./group/PasswordRe
 
 var Task_1 = __importDefault(__webpack_require__(/*! ./project/Task */ "./resources/js/components/project/Task.tsx"));
 
-var WorkerTask_1 = __importDefault(__webpack_require__(/*! ./project/WorkerTask */ "./resources/js/components/project/WorkerTask.tsx"));
-
 axios_1["default"].interceptors.request.use(function (config) {
   var token = localStorage.getItem('accessToken');
   config.headers.Authorization = token ? "Bearer ".concat(token) : '';
@@ -4320,7 +4318,7 @@ function App() {
       setStatus(true);
     }
   }, []);
-  return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(Navbar_1["default"], null), !status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
+  return react_1["default"].createElement(react_router_dom_1.BrowserRouter, null, react_1["default"].createElement(Navbar_1["default"], null), status ? react_1["default"].createElement(react_1["default"].Fragment, null, react_1["default"].createElement(react_router_dom_1.Routes, null, react_1["default"].createElement(react_router_dom_1.Route, {
     path: '*',
     element: react_1["default"].createElement(Home_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
@@ -4330,7 +4328,7 @@ function App() {
     path: '/addWorkers',
     element: react_1["default"].createElement(AddWorkers_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/projectSettings/:id/:project_name',
+    path: '/project-settings',
     element: react_1["default"].createElement(ProjectSettings_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
     path: '/groups',
@@ -4390,8 +4388,8 @@ function App() {
     path: '/user-profile/change-password',
     element: react_1["default"].createElement(ChangePassword_1["default"], null)
   }), react_1["default"].createElement(react_router_dom_1.Route, {
-    path: '/worker-task',
-    element: react_1["default"].createElement(WorkerTask_1["default"], null)
+    path: '/project',
+    element: react_1["default"].createElement(Project_1["default"], null)
   }))));
 }
 
@@ -4534,7 +4532,7 @@ function Home() {
     className: "container"
   }, react_1["default"].createElement("h1", {
     className: "display-12"
-  }, "Make new amazing project ", react_1["default"].createElement(react_router_dom_1.Link, {
+  }, "Make new project ", react_1["default"].createElement(react_router_dom_1.Link, {
     to: "/create-project",
     className: "btn btn-info marg-left"
   }, "  +  ")))), project.map(function (value, key) {
@@ -4551,7 +4549,8 @@ function Home() {
     }, " ", value.project_name, " ")), react_1["default"].createElement("p", {
       className: "lead"
     }, " ", value.start_date, " : ", value.finish_date), react_1["default"].createElement(react_router_dom_1.Link, {
-      to: "/projectSettings/".concat(value.id, "/").concat(value.project_name)
+      to: "/project-settings",
+      state: project[key]
     }, react_1["default"].createElement("i", {
       className: "fas fa-cog"
     }))));
@@ -5338,7 +5337,7 @@ function AddWorkers() {
       setEmail(event.target.value);
     }
   }), react_1["default"].createElement("input", {
-    type: "text",
+    type: "number",
     id: "number",
     className: "fadeIn third",
     name: "login",
@@ -6031,7 +6030,7 @@ function Worker() {
   };
 
   var checker = function checker() {
-    var text = "Are you sure you want to delete everything?";
+    var text = "Are you sure you want to delete worker?";
 
     if (confirm(text) == true) {
       deleteWorker();
@@ -6842,19 +6841,19 @@ var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_mod
 
 function ProjectSettings() {
   var navigate = (0, react_router_dom_1.useNavigate)();
-  var params = (0, react_router_dom_1.useParams)();
+  var location = (0, react_router_dom_1.useLocation)();
 
-  var _ref = (0, react_1.useState)(params.project_name),
+  var _ref = (0, react_1.useState)(location.state.project_name),
       _ref2 = _slicedToArray(_ref, 2),
       project_name = _ref2[0],
       setName = _ref2[1];
 
-  var _ref3 = (0, react_1.useState)(""),
+  var _ref3 = (0, react_1.useState)(location.state.start_date),
       _ref4 = _slicedToArray(_ref3, 2),
       start_date = _ref4[0],
       setStartDate = _ref4[1];
 
-  var _ref5 = (0, react_1.useState)(""),
+  var _ref5 = (0, react_1.useState)(location.state.finish_date),
       _ref6 = _slicedToArray(_ref5, 2),
       finish_date = _ref6[0],
       setFinishDate = _ref6[1];
@@ -6872,7 +6871,8 @@ function ProjectSettings() {
   var options = group.map(function (d) {
     return {
       "value": d.group_name,
-      "label": d.group_name
+      "label": d.group_name,
+      "id": d.id
     };
   });
 
@@ -6881,23 +6881,17 @@ function ProjectSettings() {
       selectedOption = _ref12[0],
       setSelectedOption = _ref12[1];
 
-  var _ref13 = (0, react_1.useState)([]),
-      _ref14 = _slicedToArray(_ref13, 2),
-      selectedOption1 = _ref14[0],
-      setSelectedOption1 = _ref14[1];
-
   var selectedOptions = selectedOption.map(function (d) {
     return {
       "value": d.group_name,
-      "label": d.group_name
+      "label": d.group_name,
+      "id": d.id
     };
   });
   (0, react_1.useEffect)(function () {
-    axios_1["default"].get("/api/group-project/".concat(params.id)).then(function (response) {
+    axios_1["default"].get("/api/group-project/".concat(location.state.id)).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data);
-        setSelectedOption(response.data.selected);
-        setSelectedOption1(response.data.available);
         setListOfGroups(response.data.available);
         console.log(response.data.selected);
         console.log("available");
@@ -6911,9 +6905,10 @@ function ProjectSettings() {
   var updateProject = function updateProject() {
     axios_1["default"].put('/api/projects', {
       project_name: project_name,
-      project_id: params.id,
+      project_id: location.state.id,
       start_date: start_date,
-      finish_date: finish_date
+      finish_date: finish_date,
+      groups: selectedOption
     }).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
@@ -6925,7 +6920,7 @@ function ProjectSettings() {
   };
 
   var deleteProject = function deleteProject() {
-    axios_1["default"]["delete"]("/api/projects/".concat(params.id), {}).then(function (response) {
+    axios_1["default"]["delete"]("/api/projects/".concat(location.state.id), {}).then(function (response) {
       if (response.data.status === 200) {
         console.log(response.data.message);
         navigate('/');
@@ -6933,9 +6928,17 @@ function ProjectSettings() {
     });
   };
 
+  var checker = function checker() {
+    var text = "Are you sure you want to delete project?";
+
+    if (confirm(text) == true) {
+      deleteProject();
+    }
+  };
+
   var changeHandler = function changeHandler(e) {
-    setListOfGroups(e ? e.map(function (x) {
-      return x;
+    setSelectedOption(e ? e.map(function (x) {
+      return x.id;
     }) : []);
   };
 
@@ -6978,8 +6981,7 @@ function ProjectSettings() {
   }), react_1["default"].createElement("div", null, react_1["default"].createElement(react_select_1["default"], {
     isMulti: true,
     options: options,
-    onChange: changeHandler,
-    value: selectedOptions
+    onChange: changeHandler
   })), react_1["default"].createElement("div", {
     className: "marg-up"
   }, react_1["default"].createElement("button", {
@@ -6989,7 +6991,7 @@ function ProjectSettings() {
     className: "marg-up-inp"
   }, react_1["default"].createElement("button", {
     className: "fadeIn fourth btn btn-danger",
-    onClick: deleteProject
+    onClick: checker
   }, " Delete "))));
 }
 

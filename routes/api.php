@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/new-worker', [UserController::class, 'addWorker'])->middleware("status");
     Route::get('/workers', [UserController::class, 'workersList'])->middleware("status");
     Route::put('/workers', [UserController::class, 'updateWorker'])->middleware("status");
+    Route::get('/route-status', [UserController::class, 'routeStatus']);
 
 
     Route::post('/new-group', [GroupController::class, 'createGroup'])->middleware("status");

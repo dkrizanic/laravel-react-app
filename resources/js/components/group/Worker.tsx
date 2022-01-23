@@ -62,7 +62,7 @@ function Worker() {
     }
 
     const checker = () =>{
-        let text = "Are you sure you want to delete everything?";
+        let text = "Are you sure you want to delete worker?";
         if (confirm(text) == true) {
             deleteWorker();
         }

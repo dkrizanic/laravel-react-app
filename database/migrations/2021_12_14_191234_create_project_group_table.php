@@ -17,7 +17,7 @@ class CreateProjectGroupTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('group_id')->unique();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
 

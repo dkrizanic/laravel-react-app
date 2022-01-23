@@ -3,11 +3,11 @@ import './project.css';
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from 'react-select';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 function ProjectSettings() {
     let navigate = useNavigate();
-    const params = useParams()
+    const location = useLocation()
     interface IState {
         group: {
             group_name: string;
@@ -21,33 +21,32 @@ function ProjectSettings() {
 
     }
 
-    const [project_name, setName] = useState(params.project_name);
-    const [start_date, setStartDate] = useState("");
-    const [finish_date, setFinishDate] = useState("");
+    const [project_name, setName] = useState(location.state.project_name);
+    const [start_date, setStartDate] = useState(location.state.start_date);
+    const [finish_date, setFinishDate] = useState(location.state.finish_date);
     const [group, setListOfGroups] = useState<IState["group"]>([]);
 
     const [message, setMessage] = useState("");
 
     const options = group.map(d => ({
         "value" : d.group_name,
-        "label" : d.group_name
+        "label" : d.group_name,
+        "id" : d.id
     }))
 
     const [selectedOption, setSelectedOption] = useState<IState["selectedOption"]>([]);
-    const [selectedOption1, setSelectedOption1] = useState<IState["selectedOption"]>([]);
 
     const selectedOptions = selectedOption.map(d => ({
         "value" : d.group_name,
-        "label" : d.group_name
+        "label" : d.group_name,
+        "id" : d.id
     }))
     
     useEffect(()=>{
-        axios.get(`/api/group-project/${params.id}`)
+        axios.get(`/api/group-project/${location.state.id}`)
         .then((response) =>{
         if(response.data.status === 200){
             console.log(response.data);
-            setSelectedOption(response.data.selected);
-            setSelectedOption1(response.data.available);
             setListOfGroups(response.data.available);   
             console.log(response.data.selected);
             console.log("available")
@@ -62,9 +61,10 @@ function ProjectSettings() {
     const updateProject = () => {
         axios.put('/api/projects', {
             project_name: project_name,
-            project_id: params.id,
+            project_id: location.state.id,
             start_date: start_date,
             finish_date: finish_date,
+            groups: selectedOption
 
         }).then((response) => {
             if(response.data.status === 200){
@@ -77,7 +77,7 @@ function ProjectSettings() {
     }
 
     const deleteProject = () =>{
-        axios.delete(`/api/projects/${params.id}`, {
+        axios.delete(`/api/projects/${location.state.id}`, {
         })
         .then((response) => {
             if(response.data.status === 200){
@@ -87,8 +87,15 @@ function ProjectSettings() {
         })
     }
 
+    const checker = () =>{
+        let text = "Are you sure you want to delete project?";
+        if (confirm(text) == true) {
+            deleteProject();
+        }
+    }
+
     const changeHandler = (e:any) => {
-        setListOfGroups(e ? e.map((x:any) => x) : []);
+        setSelectedOption(e ? e.map((x:any) => x.id) : []);
       };
 
     return (
@@ -105,7 +112,6 @@ function ProjectSettings() {
                     isMulti
                     options={options}
                     onChange={changeHandler}
-                    value={selectedOptions}
                     />
                 </div>
 
@@ -115,7 +121,7 @@ function ProjectSettings() {
                 </div>
 
                 <div className="marg-up-inp" >
-                    <button className="fadeIn fourth btn btn-danger" onClick={deleteProject}> Delete </button>
+                    <button className="fadeIn fourth btn btn-danger" onClick={checker}> Delete </button>
                 </div>
             </div>
         </div>

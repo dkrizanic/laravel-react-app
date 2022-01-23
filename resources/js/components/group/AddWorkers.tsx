@@ -82,7 +82,7 @@ function AddWorkers() {
                 setSurname(event.target.value);}}></input>
                 <input type="email" id="email" className="fadeIn second" name="login" value={email} placeholder="email" required onChange={(event) => {
                 setEmail(event.target.value);}}></input>
-                <input type="text" id="number" className="fadeIn third" name="login" value={number} placeholder="number" required onChange={(event) => {
+                <input type="number" id="number" className="fadeIn third" name="login" value={number} placeholder="number" required onChange={(event) => {
                 setNumber(event.target.value);}}></input>
                 <input type="password" id="password" className="fadeIn third" name="login" value={password} placeholder="password" required onChange={(event) => {
                 setPassword(event.target.value);}}></input>

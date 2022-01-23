@@ -279,6 +279,21 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function routeStatus(Request $request){          
+        if($request->user()->status == 1){
+            return response()->json([
+                'status' => 200,
+                'user_status' => true,
+                'message' => "admin",
+            ]);
+        }else{
+            return response()->json([
+                'user_status' => false,
+                'message' => "worker",
+            ]);
+        }
+    }
     
 
 }

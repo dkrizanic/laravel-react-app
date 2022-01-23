@@ -52,6 +52,13 @@ class ProjectController extends Controller
     public function updateProject(Request $request){
         Project::where("id",  $request->project_id)->update(['project_name' => $request->project_name, 'start_date' => $request->start_date,
         'finish_date' => $request->finish_date]); 
+        $group_number = count($request->groups);
+        for($i = 0; $i < $group_number; $i++){
+            $project_group = new ProjectGroup;
+            $project_group->project_id = $request->project_id;
+            $project_group->group_id = $request->groups[$i];
+            $project_group->save();
+        }
         return response()->json([ 
             'status' => 200,
             'message' => 'Project updated!'

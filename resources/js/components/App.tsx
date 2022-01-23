@@ -51,44 +51,44 @@ function App() {
   }, []);
 
   return (
-          <Router>
-            <Navbar/>
-            {!status ? (
-                    <>
-                      <Routes>
-                        <Route path='*' element={<Home />} />
-                        <Route path='/' element={<Home />} />
-                        <Route path='/addWorkers' element={<AddWorkers/>} />
-                        <Route path='/projectSettings/:id/:project_name' element={<ProjectSettings/>} />
-                        <Route path='/groups' element={<Groups/>} />
-                        <Route path='/groups/:id/:group_name' element={<GroupOperations/>} />
-                        <Route path='/workers' element={<Workers/>} />
-                        <Route path='/workers/worker' element={<Worker/>} />
-                        <Route path='/create-project' element={<CreateProject/>} />
-                        <Route path='/register' element={<Register/>} />
-                        <Route path='/login' element={<Login/>} />
-                        <Route path='/user-profile' element={<UserProfile/>} />
-                        <Route path='/user-profile/change-password' element={<ChangePassword/>} />
-                        <Route path='/project' element={<Project/>} />
-                        <Route path='/project/create-task/:id' element={<AddTask/>} />
-                        <Route path='/workers/worker/password-reset/:id' element={<PasswordReset/>} />
-                        <Route path='/project/task' element={<Task/>} />
-                      </Routes>
-                    </>
-                  ) : (
-                    <>
-                      <Routes>
-                        <Route path='*' element={<Home />} />
-                        <Route path='/' element={<Home />} />
-                        <Route path='/register' element={<Register/>} />
-                        <Route path='/login' element={<Login/>} />
-                        <Route path='/user-profile' element={<UserProfile/>} />
-                        <Route path='/user-profile/change-password' element={<ChangePassword/>} />
-                        <Route path='/worker-task' element={<WorkerTask/>} />
-                      </Routes>
-                    </>
-                )}
-          </Router>
+    <Router>
+      <Navbar/>
+      {status ? (
+          <>
+            <Routes>
+              <Route path='*' element={<Home />} />
+              <Route path='/' element={<Home />} />
+              <Route path='/addWorkers' element={<AddWorkers/>} />
+              <Route path='/project-settings' element={<ProjectSettings/>} />
+              <Route path='/groups' element={<Groups/>} />
+              <Route path='/groups/:id/:group_name' element={<GroupOperations/>} />
+              <Route path='/workers' element={<Workers/>} />
+              <Route path='/workers/worker' element={<Worker/>} />
+              <Route path='/create-project' element={<CreateProject/>} />
+              <Route path='/register' element={<Register/>} />
+              <Route path='/login' element={<Login/>} />
+              <Route path='/user-profile' element={<UserProfile/>} />
+              <Route path='/user-profile/change-password' element={<ChangePassword/>} />
+              <Route path='/project' element={<Project/>} />
+              <Route path='/project/create-task/:id' element={<AddTask/>} />
+              <Route path='/workers/worker/password-reset/:id' element={<PasswordReset/>} />
+              <Route path='/project/task' element={<Task/>} />
+            </Routes>
+          </>
+        ) : (
+          <>
+            <Routes>
+              <Route path='*' element={<Home />} />
+              <Route path='/' element={<Home />} />
+              <Route path='/register' element={<Register/>} />
+              <Route path='/login' element={<Login/>} />
+              <Route path='/user-profile' element={<UserProfile/>} />
+              <Route path='/user-profile/change-password' element={<ChangePassword/>} />
+              <Route path='/project' element={<Project/>} />
+            </Routes>
+          </>
+      )}
+  </Router>
   );
 }
 
