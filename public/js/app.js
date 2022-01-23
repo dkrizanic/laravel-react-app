@@ -6914,7 +6914,7 @@ function ProjectSettings() {
         console.log(response.data.message);
         window.location.href = '/';
       } else {
-        console.log("update project failed");
+        console.log(response.data.message);
       }
     });
   };

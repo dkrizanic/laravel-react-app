@@ -9,6 +9,7 @@ use App\Models\ProjectGroup;
 use App\Models\Task;
 use App\Models\TaskWorkers;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class ProjectController extends Controller
 {
@@ -57,7 +58,13 @@ class ProjectController extends Controller
             $project_group = new ProjectGroup;
             $project_group->project_id = $request->project_id;
             $project_group->group_id = $request->groups[$i];
-            $project_group->save();
+            try {
+                $project_group->save();
+            } catch (Exception $e) {
+                return response()->json([ 
+                    'message' => 'Group exist!'
+                ]);
+            }
         }
         return response()->json([ 
             'status' => 200,

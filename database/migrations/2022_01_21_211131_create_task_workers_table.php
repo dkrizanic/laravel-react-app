@@ -20,6 +20,7 @@ class CreateTaskWorkersTable extends Migration
             $table->unsignedBigInteger('task_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
+            $table->unique(["user_id", "task_id"], 'user_task_unique');
         });
     }
 
