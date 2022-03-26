@@ -17,6 +17,7 @@ function Project() {
     }
     
     const [tasks, setListOfTasks] = useState<IState["tasks"]>([]);
+    const [message, setMessage] = useState("");
 
     useEffect(()=>{
         axios.get(`/api/tasks/${location.state.id}`)
@@ -26,6 +27,7 @@ function Project() {
             console.log(response.data.message);
           }else{
             console.log(response.data.message);
+            setMessage(response.data.message);
           }
         })
         
@@ -34,6 +36,7 @@ function Project() {
         <div className="data">
             <h1>{location.state.project_name} project tasks<Link to={`/project/create-task/${location.state.id}`} className="btn btn-info marg-left" title='Create task'>  +  </Link></h1>
             <hr></hr>
+            <h1>{message}</h1>
             {tasks.map((value, key) => {
                 return (
                 <div className="jumbotron jumbotron-fluid con-size fadeIn first" key={key}>

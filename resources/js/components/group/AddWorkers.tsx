@@ -16,7 +16,7 @@ function AddWorkers() {
     const [success, setSuccess] = useState(false);
 
     const add = () => {
-        if(validateEmail(email) === false || validatePassword(password, password2) === false || password.length < 5 || number.length < 5){
+        if(validateEmail(email) === false || validatePassword(password, password2) === false || password.length < 5 || number.length < 5|| number.length > 10){
             setMessage("Wrong data inside input fields");
             return 0;
         }
@@ -37,6 +37,7 @@ function AddWorkers() {
                         setPassword2("");
                         setNumber("");
                         setSuccess(true);
+                        setMessage("");
                     }else{
                         setMessage(response.data.message);
                     }

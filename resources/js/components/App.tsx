@@ -30,32 +30,34 @@ axios.interceptors.request.use(function (config){
 
 function App() {
 
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState<boolean>(false);
   const CryptoJS = require("crypto-js");
   useEffect(()=>{
     if(localStorage.getItem('status')){
       let bytes = CryptoJS.AES.decrypt(localStorage.getItem('status'), 'my-secret-key@123');
       let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       if(decryptedData === 1){
-        setStatus(true)
+        setStatus(true);
+        console.log("admin");
+        console.log(status);
       }else{
         setStatus(false);
+        console.log("worker");
+        console.log(status);
       }
     }
-    if(!localStorage.getItem('accessToken')){
-      setStatus(false);
-    }else{
-      setStatus(true);
-    }
+
     
   }, []);
+
+
 
   return (
     <Router>
       <Navbar/>
+      <Routes>
       {status ? (
           <>
-            <Routes>
               <Route path='*' element={<Home />} />
               <Route path='/' element={<Home />} />
               <Route path='/addWorkers' element={<AddWorkers/>} />
@@ -73,11 +75,9 @@ function App() {
               <Route path='/project/create-task/:id' element={<AddTask/>} />
               <Route path='/workers/worker/password-reset/:id' element={<PasswordReset/>} />
               <Route path='/project/task' element={<Task/>} />
-            </Routes>
           </>
         ) : (
           <>
-            <Routes>
               <Route path='*' element={<Home />} />
               <Route path='/' element={<Home />} />
               <Route path='/register' element={<Register/>} />
@@ -85,9 +85,10 @@ function App() {
               <Route path='/user-profile' element={<UserProfile/>} />
               <Route path='/user-profile/change-password' element={<ChangePassword/>} />
               <Route path='/project' element={<Project/>} />
-            </Routes>
+              <Route path='/worker-task' element={<WorkerTask/>} />
           </>
       )}
+      </Routes>
   </Router>
   );
 }
@@ -98,3 +99,4 @@ export default App;
 if (document.getElementById('app')) {
     ReactDOM.render(<App />, document.getElementById('app'));
 }
+

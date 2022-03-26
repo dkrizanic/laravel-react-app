@@ -203,7 +203,7 @@ class UserController extends Controller
             'surname' => 'bail|required|max:32',
             'email' => 'bail|required|max:64|min:5',
             'password' => 'bail|required|max:255|min:5',
-            'number' => 'required|max:32|min:5',
+            'number' => 'required|max:10|min:5',
         ]);
 
         if ($validator->fails()) {

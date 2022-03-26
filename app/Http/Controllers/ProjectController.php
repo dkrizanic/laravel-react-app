@@ -109,15 +109,15 @@ class ProjectController extends Controller
 
     public function taskList($id){
         $task_list = Task::where("project_id",  $id)->get(); 
-        if($task_list){
+        if(!$task_list || count($task_list) == 0){
+            return response()->json([ 
+                'message' => 'No tasks yet'
+            ]);
+        }else{
             return response()->json([ 
                 'status' => 200,
                 'task_list' => $task_list,
                 'message' => 'Task list'
-            ]);
-        }else{
-            return response()->json([ 
-                'message' => 'No tasks'
             ]);
         }
     }

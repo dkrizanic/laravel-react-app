@@ -35,8 +35,8 @@ function Worker() {
                     }else{
                         setMessage(response.data.message);
                     }
-                })
-            }
+            })
+        }
     }
     };
 

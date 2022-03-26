@@ -35,7 +35,7 @@ function WorkerTask() {
     return (
         <div className="wrapper fadeInDown">
             <div id="formContent">
-                <input type="text" id="text" className="fadeIn first" defaultValue={name} title="name"></input>
+                <input type="text" id="text" readOnly className="fadeIn first" defaultValue={name} title="name"></input>
                 <textarea rows={10} readOnly className="form-control" defaultValue={description} title="description"></textarea>
                 <div className="marg-up ">
                     <button className=" btn btn-info" onClick={checker}> Done </button>  

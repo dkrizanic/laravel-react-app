@@ -83,13 +83,18 @@ class GroupController extends Controller
                 'message' => 'update group validation failed'
             ]);
         }
-        Group::where("id",  $request->group_id)->update(['group_name' => $request->group_name]); 
+        Group::where("id", $request->group_id)->update(['group_name' => $request->group_name]); 
         $workers_number = count($request->workers);
         for($i = 0; $i < $workers_number; $i++){
-            $group_worker = new GroupWorker();
-            $group_worker->group_id = $request->group_id;
-            $group_worker->user_id = $request->workers[$i];
-            $group_worker->save();
+            $worker_exist = count(GroupWorker::where("group_id", $request->group_id)->where("user_id", $request->workers[$i])->get()); 
+            if($worker_exist > 0){
+                continue;
+            }else{
+                $group_worker = new GroupWorker();
+                $group_worker->group_id = $request->group_id;
+                $group_worker->user_id = $request->workers[$i];
+                $group_worker->save();
+            }
         }
         return response()->json([ 
             'status' => 200,
